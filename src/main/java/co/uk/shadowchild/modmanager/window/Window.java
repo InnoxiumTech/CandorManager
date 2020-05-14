@@ -3,8 +3,6 @@ package co.uk.shadowchild.modmanager.window;
 import co.uk.shadowchild.modmanager.Resources;
 import co.uk.shadowchild.modmanager.window.handler.KeyHandler;
 import co.uk.shadowchild.modmanager.window.handler.MouseHandler;
-import co.uk.shadowchild.modmanager.window.render.GLContext;
-import co.uk.shadowchild.modmanager.window.render.IRenderContext;
 import co.uk.shadowchild.modmanager.window.render.Texture;
 import lwjgui.scene.Scene;
 import lwjgui.scene.WindowManager;
@@ -13,6 +11,9 @@ import lwjgui.scene.layout.StackPane;
 import org.joml.Vector2i;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.opengl.GL;
+
+import java.util.Objects;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -27,9 +28,6 @@ public class Window {
     // Our GLFW VideoMode
     private GLFWVidMode vidMode;
 
-    // Needed for future renderer support
-    private IRenderContext context;
-
     lwjgui.scene.Window window;
 
     public Window(Vector2i size, String title) {
@@ -41,8 +39,6 @@ public class Window {
 
         // Set up an error callback, will send any native errors to java logger
         GLFWErrorCallback.createPrint(System.err).set();
-
-        decideContext();
 
         // See if we can initialize GLFW
         if (!glfwInit()) {
@@ -76,7 +72,7 @@ public class Window {
         // Start the OpenGL Context
         glfwMakeContextCurrent(handle);
         glfwSwapInterval(1);
-        context.createCapabilities();
+        GL.createCapabilities();
 
         window = WindowManager.generateWindow(handle);
         StackPane pane = new StackPane();
@@ -104,13 +100,7 @@ public class Window {
         glfwFreeCallbacks(handle);
         glfwDestroyWindow(handle);
         glfwTerminate();
-        glfwSetErrorCallback(null).free();
-    }
-
-    private void decideContext() {
-
-        // I plan on adding Vulkan support, for now it will just be OpenGL
-        context = new GLContext();
+        Objects.requireNonNull(glfwSetErrorCallback(null)).free();
     }
 
     private void loadResources() {
