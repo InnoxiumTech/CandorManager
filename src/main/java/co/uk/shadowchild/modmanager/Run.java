@@ -1,8 +1,10 @@
 package co.uk.shadowchild.modmanager;
 
 import co.uk.shadowchild.modmanager.util.config.ConfigManager;
+import co.uk.shadowchild.modmanager.util.config.Configuration;
 import co.uk.shadowchild.modmanager.window.Window;
 import co.uk.shadowchild.modmanager.window.dialog.Dialogs;
+import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import lwjgui.LWJGUIDialog;
 import org.joml.Vector2i;
 
@@ -15,28 +17,45 @@ public class Run {
     public static Window window;
 
     public static ConfigManager configManager;
+    public static CommentedFileConfig config;
 
     public static void main(String... args) {
 
         // Load Configs
+        // Very long winded way of serializing from a class to a file
         configManager = ConfigManager.createConfigManager();
-        configManager.createConfig("./config/defaults.toml", "defaults");
+        configManager.createConfig("./config/defaults.toml", "defaults", new Configuration.DefaultData());
+        config = configManager.getConfigFromKey("defaults");
 
         // Set the game we will be modding
         // Would like to have more control over the dialog
-        game = Dialogs.showSingleFileDialog("exe");
-        modsFolder = Dialogs.openPickFolder();
+        if(Configuration.DefaultData.game.equals("")) {
+
+            game = Dialogs.showSingleFileDialog("exe");
+            Configuration.DefaultData.game = game.getAbsolutePath();
+        }
+        else game = new File(Configuration.DefaultData.game);
+
+        if(Configuration.DefaultData.modsFolder.equals("")) {
+
+            modsFolder = Dialogs.openPickFolder();
+            Configuration.DefaultData.modsFolder = modsFolder.getAbsolutePath();
+        }
+        else modsFolder = new File(Configuration.DefaultData.modsFolder);
 
         if(game != null && modsFolder != null) {
 
             // Handle game identification before loading the gui
 
             // We can now load the gui!
-            window = new Window(new Vector2i(1600, 900), "Universal Mod Manager by ShadowChild");
+            window = new Window(new Vector2i(Configuration.DefaultData.windowWidth, Configuration.DefaultData.windowHeight), "Universal Mod Manager by ShadowChild");
         } else {
 
             LWJGUIDialog.showMessageDialog("Universal Mod Manager", "Game Selection Error.\nPlease run the application again.", LWJGUIDialog.DialogIcon.ERROR);
         }
+        // we need to close the config when we're done
+
+        configManager.saveToFile("defaults");
         configManager.getConfigFromKey("defaults").close();
     }
 
