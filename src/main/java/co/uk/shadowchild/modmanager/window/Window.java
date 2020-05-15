@@ -92,7 +92,8 @@ public class Window {
 
             window.render();
 
-            glfwSwapBuffers(handle);
+            // This couples rendering a logic, need to decouple this at some point
+            window.updateDisplay(60);
         }
 
         // Terminate once finished
