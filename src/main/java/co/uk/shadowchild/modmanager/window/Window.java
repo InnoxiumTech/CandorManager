@@ -1,10 +1,10 @@
 package co.uk.shadowchild.modmanager.window;
 
 import co.uk.shadowchild.modmanager.Resources;
+import co.uk.shadowchild.modmanager.util.config.Configuration;
 import co.uk.shadowchild.modmanager.window.handler.KeyHandler;
 import co.uk.shadowchild.modmanager.window.handler.MouseHandler;
 import co.uk.shadowchild.modmanager.window.render.Texture;
-import lwjgui.LWJGUI;
 import lwjgui.geometry.Orientation;
 import lwjgui.geometry.Pos;
 import lwjgui.scene.Scene;
@@ -18,6 +18,7 @@ import org.joml.Vector2i;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GLCapabilities;
 
 import java.util.Objects;
 
@@ -33,6 +34,8 @@ public class Window {
     private long handle;
     // Our GLFW VideoMode
     private GLFWVidMode vidMode;
+    // Our GLCapabilities
+    private GLCapabilities caps;
 
     lwjgui.scene.Window window;
 
@@ -76,8 +79,12 @@ public class Window {
 
         // Start the OpenGL Context
         glfwMakeContextCurrent(handle);
-        glfwSwapInterval(1);
-        GL.createCapabilities();
+
+        // Do we want vsync?
+        if(Configuration.DefaultData.enableVsync) glfwSwapInterval(1);
+
+        // Create Gl Capabilities
+        caps = GL.createCapabilities();
 
         // Generate a lwjgui.scene.Window from our glfw handle
         window = WindowManager.generateWindow(handle);
@@ -100,8 +107,8 @@ public class Window {
 
             window.render();
 
-            // This couples rendering a logic, need to decouple this at some point
-            window.updateDisplay(60);
+            // This couples rendering and logic, need to decouple this at some point
+            window.updateDisplay(Configuration.DefaultData.targetFrameRate);
         }
 
         // Terminate once finished
@@ -151,20 +158,11 @@ public class Window {
         scrollPane2.setAlignment(Pos.CENTER_RIGHT);
         split.getItems().add(scrollPane2);
 
-
-//        for (int i = 0; i < 2; i++) {
-//            StackPane p = new StackPane();
-//            p.setAlignment(Pos.CENTER);
-//            split.getItems().add(p);
-//
-//            p.getChildren().add(new Button("Hello World"));
-//        }
-
         // After it's all setup, make sizes not rely on window size.
-        LWJGUI.runLater(()->{
+//        LWJGUI.runLater(()->{
 //            SplitPane.setResizableWithParent(split.getItems().get(0), false);
-//            SplitPane.setResizableWithParent(split.getItems().get(2), false);
-        });
+//            SplitPane.setResizableWithParent(split.getItems().get(1), false);
+//        });
 
         // Set the scene
         window.setScene(new Scene(pane, 1600, 900));

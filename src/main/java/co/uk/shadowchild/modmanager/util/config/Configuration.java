@@ -10,5 +10,7 @@ public class Configuration {
         public static String game = "";
         public static String modsFolder = "";
         public static int windowHeight = 900, windowWidth = 1600;
+        public static int targetFrameRate = 60;
+        public static boolean enableVsync = true;
     }
 }
