@@ -21,7 +21,7 @@ public class ConfigManager {
 
     public void createConfig(String location, String key) {
 
-        CommentedFileConfig cfg = CommentedFileConfig.builder(location).autosave().build();
+        CommentedFileConfig cfg = CommentedFileConfig.builder(location).preserveInsertionOrder().autosave().build();
         configs.put(key, cfg);
         cfg.load();
     }
@@ -31,8 +31,8 @@ public class ConfigManager {
         CommentedFileConfig cfg = CommentedFileConfig.builder(location).autosave().build();
         cfg.load();
         ObjectConverter converter = new ObjectConverter();
-        Configuration.DefaultData defaultData = converter.toObject(cfg, Configuration.DefaultData::new);
-        converter.toConfig(defaultData, cfg);
+        Configuration.Core coreData = converter.toObject(cfg, Configuration.Core::new);
+        converter.toConfig(coreData, cfg);
         configs.put(key, cfg);
     }
 
@@ -75,7 +75,7 @@ public class ConfigManager {
     public void saveToFile(String key) {
 
         ObjectConverter converter = new ObjectConverter();
-        Configuration.DefaultData data = new Configuration.DefaultData();
+        Configuration.Core data = new Configuration.Core();
         converter.toConfig(data, getConfigFromKey(key));
         getConfigFromKey(key).save();
     }

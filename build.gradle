@@ -34,11 +34,14 @@ repositories {
     mavenCentral()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url 'https://jitpack.io' }
+    maven { url 'https://raw.github.com/SpinyOwl/repo/releases' }
+    maven { url 'https://raw.github.com/SpinyOwl/repo/snapshots' }
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
+//    implementation 'org.liquidengine:legui:3.0.2-SNAPSHOT'
     implementation 'com.github.orange451:LWJGUI:master-SNAPSHOT'
     implementation 'com.electronwill.night-config:core:3.6.3'
     implementation 'com.electronwill.night-config:toml:3.6.3'

@@ -5,7 +5,7 @@ import com.electronwill.nightconfig.core.conversion.PreserveNotNull;
 public class Configuration {
 
     @PreserveNotNull
-    public static class DefaultData {
+    public static class Core {
 
         public static String game = "";
         public static String modsFolder = "";

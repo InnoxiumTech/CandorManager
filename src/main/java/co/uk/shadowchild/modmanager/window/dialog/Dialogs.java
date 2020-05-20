@@ -2,6 +2,7 @@ package co.uk.shadowchild.modmanager.window.dialog;
 
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.util.nfd.NFDPathSet;
+import org.lwjgl.util.tinyfd.TinyFileDialogs;
 
 import java.io.File;
 import java.nio.ByteBuffer;
@@ -25,6 +26,17 @@ public class Dialogs {
 
            checkResult(NFD_OpenDialog(filterList, null, path), path);
            ret = new File(path.getStringUTF8(0));
+        } catch(NullPointerException e) {
+
+            e.printStackTrace();
+            showInfoDialog(
+                    "Universal Mod Manager",
+                    "Game Selection Error.\nPlease run the application again.",
+                    "ok",
+                    "error",
+                    true);
+            memFree(path);
+            System.exit(1);
         } finally {
 
             memFree(path);
@@ -99,5 +111,10 @@ public class Dialogs {
             // NFD_ERROR
             default -> System.err.format("Error: %s\n", NFD_GetError());
         }
+    }
+
+    public static boolean showInfoDialog(String title, String message, String dialogType, String iconType, boolean defaultOption) {
+
+        return TinyFileDialogs.tinyfd_messageBox(title, message, dialogType, iconType, defaultOption);
     }
 }
