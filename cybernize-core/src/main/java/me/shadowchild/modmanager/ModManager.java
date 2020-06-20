@@ -1,5 +1,7 @@
 package me.shadowchild.modmanager;
 
+import me.shadowchild.modmanager.window.ManagerWindow;
+
 public class ModManager {
 
 	public ManagerWindow window;
@@ -12,6 +14,7 @@ public class ModManager {
 	
 	public static void main(String[] args) {
 
-		new ModManager();
+//		new ModManager();
+		ConfigHandler.handleCore();
 	}
 }

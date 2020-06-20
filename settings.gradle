@@ -1,2 +1,5 @@
-rootProject.name = 'ModManager'
+rootProject.name = 'CybernizeManager'
+
+include 'cybernize-core'
+include 'cybernize-genericmodule'
 

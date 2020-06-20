@@ -4,17 +4,6 @@ plugins {
     id 'com.diffplug.gradle.eclipse.mavencentral' version "3.17.3"
 }
 
-repositories {
-    // Use jcenter for resolving dependencies.
-    // You can declare any Maven/Ivy/file repository here.
-    jcenter()
-    mavenCentral()
-    maven { url 'https://jitpack.io' }
-}
-
-group 'me.shadowchild.modmanager'
-version 'snapshot'
-
 // The following code allows for SWT to be used in any IDE (although the window builder is still eclipse only)
 apply plugin: 'com.diffplug.gradle.eclipse.mavencentral'
 eclipseMavenCentral {
@@ -25,10 +14,29 @@ eclipseMavenCentral {
     }
 }
 
+subprojects {
+
+    group 'me.shadowchild.modmanager'
+    version 'snapshot'
+}
+
+allprojects {
+
+    repositories {
+
+        jcenter()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+
 dependencies {
 
-	// SWT for gradle
-	compile group: 'org.eclipse.platform', name: 'org.eclipse.swt', version: '3.114.0'
+    compile project(":cybernize-core")
+    compile project(":cybernize-genericmodule")
+    // SWT for gradle
+//        compile group: 'org.eclipse.platform', name: 'org.eclipse.swt', version: '3.114.0'
 
     implementation 'com.github.ShadowChild:Cybernize2:master-SNAPSHOT'
 }
