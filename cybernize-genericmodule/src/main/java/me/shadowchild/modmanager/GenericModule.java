@@ -37,4 +37,10 @@ public class GenericModule implements IModule {
         // Return the executable without the file extension
         return game.getName().substring(0, game.getName().lastIndexOf("."));
     }
+
+    @Override
+    public ConfigHandler.IConfig getConfig() {
+
+        return new GenericConfig();
+    }
 }

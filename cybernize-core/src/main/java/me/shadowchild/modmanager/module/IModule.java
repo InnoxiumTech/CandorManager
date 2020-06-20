@@ -1,5 +1,7 @@
 package me.shadowchild.modmanager.module;
 
+import me.shadowchild.modmanager.ConfigHandler;
+
 import java.io.File;
 
 public interface IModule {
@@ -11,4 +13,6 @@ public interface IModule {
     public String getModuleName();
 
     public String getReadableGameName();
+
+    public ConfigHandler.IConfig getConfig();
 }
