@@ -1,5 +1,5 @@
-rootProject.name = 'CybernizeManager'
+rootProject.name = 'CandorManager'
 
-include 'cybernize-core'
-include 'cybernize-genericmodule'
+include 'candor-core'
+include 'candor-genericmodule'
 

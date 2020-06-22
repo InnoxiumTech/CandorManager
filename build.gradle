@@ -33,8 +33,8 @@ allprojects {
 
 dependencies {
 
-    compile project(":cybernize-core")
-    compile project(":cybernize-genericmodule")
+    compile project(":candor-core")
+    compile project(":candor-genericmodule")
     // SWT for gradle
 //        compile group: 'org.eclipse.platform', name: 'org.eclipse.swt', version: '3.114.0'
 
