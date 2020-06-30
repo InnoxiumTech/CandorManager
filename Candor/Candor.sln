@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandorWindow", "CandorWindow\CandorWindow.csproj", "{88B676BC-E62E-4633-B35F-FF164376600E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericModule", "GenericModule\GenericModule.csproj", "{A106A8DB-C808-46FE-BB17-4CC26B9BBE9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandorCore", "CandorCore\CandorCore.csproj", "{F275B83D-50FA-4694-A31B-9D04D01EAFAD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{88B676BC-E62E-4633-B35F-FF164376600E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88B676BC-E62E-4633-B35F-FF164376600E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88B676BC-E62E-4633-B35F-FF164376600E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88B676BC-E62E-4633-B35F-FF164376600E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A106A8DB-C808-46FE-BB17-4CC26B9BBE9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A106A8DB-C808-46FE-BB17-4CC26B9BBE9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A106A8DB-C808-46FE-BB17-4CC26B9BBE9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A106A8DB-C808-46FE-BB17-4CC26B9BBE9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F275B83D-50FA-4694-A31B-9D04D01EAFAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F275B83D-50FA-4694-A31B-9D04D01EAFAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F275B83D-50FA-4694-A31B-9D04D01EAFAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F275B83D-50FA-4694-A31B-9D04D01EAFAD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
