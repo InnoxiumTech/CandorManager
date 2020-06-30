@@ -16,10 +16,11 @@ public class ManagerWindow {
 
 	private void setUpComponents() {
 
-		LayoutManager manager = new BorderLayout(10, 10);
-		frame.setLayout(manager);
+//		LayoutManager manager = new BorderLayout(1, 1);
+//		frame.setLayout(manager);
 		frame.setMinimumSize(new Dimension(600, 480));
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setContentPane(new ModScene());
 	}
 
 	public void open() {

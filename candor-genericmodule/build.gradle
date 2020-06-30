@@ -8,3 +8,7 @@ dependencies {
 
     implementation project(":candor-core")
 }
+
+
+applicationName = 'Candor'
+mainClassName = 'me.shadowchild.modmanager.CandorLauncher'

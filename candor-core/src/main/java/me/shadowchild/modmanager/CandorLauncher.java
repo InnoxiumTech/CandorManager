@@ -2,11 +2,11 @@ package me.shadowchild.modmanager;
 
 import me.shadowchild.modmanager.window.ManagerWindow;
 
-public class ModManager {
+public class CandorLauncher {
 
 	public ManagerWindow window;
 	
-	public ModManager() {
+	public CandorLauncher() {
 		
 		window = new ManagerWindow();
 		window.open();
@@ -14,7 +14,9 @@ public class ModManager {
 	
 	public static void main(String[] args) {
 
-//		new ModManager();
+		System.out.println("Server starting...");
+
+		new CandorLauncher();
 		ConfigHandler.handleCore();
 	}
 }

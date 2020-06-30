@@ -30,13 +30,10 @@ allprojects {
     }
 }
 
-
 dependencies {
 
     compile project(":candor-core")
     compile project(":candor-genericmodule")
     // SWT for gradle
 //        compile group: 'org.eclipse.platform', name: 'org.eclipse.swt', version: '3.114.0'
-
-    implementation 'com.github.ShadowChild:Cybernize2:master-SNAPSHOT'
 }
