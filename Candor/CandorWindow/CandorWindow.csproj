@@ -3,13 +3,18 @@
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <UseWindowsForms>true</UseWindowsForms>
+        <UseWPF>true</UseWPF>
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Update="MainScene.cs">
-        <SubType>Form</SubType>
-      </Compile>
+      <PackageReference Include="Google.Apis" Version="1.47.0" />
+      <PackageReference Include="Google.Apis.Auth" Version="1.47.0" />
+      <PackageReference Include="Google.Apis.Core" Version="1.47.0" />
+      <PackageReference Include="log4net" Version="2.0.8" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CandorCore\CandorCore.csproj" />
     </ItemGroup>
 
 </Project>

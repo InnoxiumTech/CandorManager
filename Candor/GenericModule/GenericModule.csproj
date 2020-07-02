@@ -8,4 +8,11 @@
       <ProjectReference Include="..\CandorCore\CandorCore.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Google.Apis" Version="1.47.0" />
+      <PackageReference Include="Google.Apis.Auth" Version="1.47.0" />
+      <PackageReference Include="Google.Apis.Core" Version="1.47.0" />
+      <PackageReference Include="log4net" Version="2.0.8" />
+    </ItemGroup>
+
 </Project>
