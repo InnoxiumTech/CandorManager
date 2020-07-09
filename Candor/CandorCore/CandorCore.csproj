@@ -5,6 +5,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="log4net.xml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="log4net.xml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+    </ItemGroup>
+
+    <ItemGroup>
       <PackageReference Include="Google.Apis" Version="1.47.0" />
       <PackageReference Include="Google.Apis.Auth" Version="1.47.0" />
       <PackageReference Include="Google.Apis.Core" Version="1.47.0" />
@@ -12,9 +22,18 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="log4net.xml">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+      <Compile Update="Properties\Resources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Resources.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Properties\Resources.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
 </Project>

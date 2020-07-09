@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CandorWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1200" Width="768">
+        Title="MainWindow" Height="768" Width="1200">
     <Grid>
 
     </Grid>
