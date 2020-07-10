@@ -1,5 +1,6 @@
-package me.shadowchild.modmanager;
+package me.shadowchild.candor;
 
+import me.shadowchild.modmanager.ConfigHandler;
 import me.shadowchild.modmanager.window.ManagerWindow;
 
 public class CandorLauncher {

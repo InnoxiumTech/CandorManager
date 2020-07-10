@@ -15,4 +15,6 @@ public interface IModule {
     public String getReadableGameName();
 
     public ConfigHandler.IConfig getConfig();
+
+    public AbstractModInstaller getModInstaller();
 }

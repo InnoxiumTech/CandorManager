@@ -6,7 +6,7 @@ plugins {
 
 dependencies {
 
-    implementation project(":candor-core")
+    implementation project(":core")
 }
 
 

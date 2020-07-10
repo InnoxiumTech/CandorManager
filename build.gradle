@@ -32,8 +32,10 @@ allprojects {
 
 dependencies {
 
-    compile project(":candor-core")
-    compile project(":candor-genericmodule")
+    compile project(":core")
+    compile project(":gui")
+    compile project(":entry")
+    compile project(":genericmodule")
     // SWT for gradle
 //        compile group: 'org.eclipse.platform', name: 'org.eclipse.swt', version: '3.114.0'
 }

@@ -1,0 +1,15 @@
+plugins {
+
+    id 'java'
+    id 'application'
+}
+
+dependencies {
+
+    implementation project(":core")
+    implementation project(":gui")
+
+    implementation 'com.github.ShadowChild:Cybernize2:master-SNAPSHOT'
+    implementation 'com.electronwill.night-config:toml:3.6.3'
+    implementation 'com.miglayout:miglayout:3.7.4'
+}
