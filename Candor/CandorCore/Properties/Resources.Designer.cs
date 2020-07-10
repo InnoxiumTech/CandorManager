@@ -59,26 +59,5 @@ namespace CandorCore.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;log4net&gt;
-        ///    &lt;appender name=&quot;A1&quot; type=&quot;log4net.Appender.ColoredConsoleAppender&quot;&gt;
-        ///        &lt;mapping&gt;
-        ///            &lt;level value=&quot;ERROR&quot; /&gt;
-        ///            &lt;foreColor value=&quot;White&quot; /&gt;
-        ///            &lt;backColor value=&quot;Red, HighIntensity&quot; /&gt;
-        ///        &lt;/mapping&gt;
-        ///        &lt;mapping&gt;
-        ///            &lt;level value=&quot;DEBUG&quot; /&gt;
-        ///            &lt;backColor value=&quot;Green&quot; /&gt;
-        ///        &lt;/mapping&gt;
-        ///        &lt;layout type=&quot;log4net.Layout.PatternLayout&quot;&gt;
-        ///            &lt;conversionPattern value=&quot;%date [%thread] %-5level %logger [%property{NDC} [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string log4net {
-            get {
-                return ResourceManager.GetString("log4net", resourceCulture);
-            }
-        }
     }
 }

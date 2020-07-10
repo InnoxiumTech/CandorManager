@@ -7,6 +7,18 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="768" Width="1200">
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="369*"/>
+        </Grid.RowDefinitions>
+        <Grid VerticalAlignment="Top" MaxHeight="40"/>
+        <Grid VerticalAlignment="Top" Margin="0,738,0,0" Grid.Row="1"/>
+        <Menu HorizontalAlignment="Center" Height="40" Margin="0,5,0,0" VerticalAlignment="Top" Width="1180" Grid.RowSpan="2">
+            <MenuItem x:Name="First_Menu" HorizontalAlignment="Left" Width="100" Height="35">
+                <MenuItem.Effect>
+                    <DropShadowEffect/>
+                </MenuItem.Effect>
+            </MenuItem>
+        </Menu>
     </Grid>
 </Window>
