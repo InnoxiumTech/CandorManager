@@ -1,6 +1,8 @@
 package me.shadowchild.candor;
 
+import com.formdev.flatlaf.FlatDarculaLaf;
 import me.shadowchild.modmanager.ConfigHandler;
+import me.shadowchild.modmanager.window.GameSelectScene;
 import me.shadowchild.modmanager.window.ManagerWindow;
 
 public class CandorLauncher {
@@ -9,14 +11,17 @@ public class CandorLauncher {
 	
 	public CandorLauncher() {
 		
-		window = new ManagerWindow();
-		window.open();
+//		window = new ManagerWindow();
+//		window.open();
 	}
 	
 	public static void main(String[] args) {
 
-		System.out.println("Server starting...");
+		FlatDarculaLaf.install();
 
+		GameSelectScene gameWindow = new GameSelectScene();
+		gameWindow.initComponents();
+		gameWindow.setVisible(true);
 		new CandorLauncher();
 		ConfigHandler.handleCore();
 	}

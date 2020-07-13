@@ -10,7 +10,6 @@ public class ManagerWindow {
 	private final JFrame frame;
 
 	public ManagerWindow() {
-		FlatDarculaLaf.install();
 		frame =  new JFrame("Candor Mod Manager - By ShadowChild");
 		frame.setVisible(false);
 		setUpComponents();

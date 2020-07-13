@@ -1,7 +1,21 @@
+import org.gradle.internal.os.OperatingSystem
+
 plugins {
 
     id 'java'
     id 'application'
+}
+
+switch (OperatingSystem.current()) {
+    case OperatingSystem.LINUX:
+        project.ext.lwjglNatives = "natives-linux"
+        break
+    case OperatingSystem.MAC_OS:
+        project.ext.lwjglNatives = "natives-macos"
+        break
+    case OperatingSystem.WINDOWS:
+        project.ext.lwjglNatives = System.getProperty("os.arch").contains("64") ? "natives-windows" : "natives-windows-x86"
+        break
 }
 
 dependencies {
@@ -12,6 +26,16 @@ dependencies {
 
     // Flat LAF
     implementation 'com.formdev:flatlaf:0.38'
+
+    implementation platform("org.lwjgl:lwjgl-bom:3.2.4-SNAPSHOT")
+
+    // We want native file dialogs, lets use LWJGL for that
+    implementation "org.lwjgl:lwjgl"
+    implementation "org.lwjgl:lwjgl-nfd"
+    implementation "org.lwjgl:lwjgl-tinyfd"
+    runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-nfd::$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-tinyfd::$lwjglNatives"
 
     // Radiance LAF
 //    implementation 'org.pushing-pixels:radiance-substance:3.0.0'
