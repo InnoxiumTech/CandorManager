@@ -25,8 +25,14 @@ public class ModScene extends JPanel {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Zach Piddock
         panel1 = new JPanel();
-        scrollPane1 = new JScrollPane();
+        panel3 = new JPanel();
+        label1 = new JLabel();
+        button1 = new JButton();
+        button2 = new JButton();
+        button3 = new JButton();
         scrollPane2 = new JScrollPane();
+        list1 = new JList();
+        scrollPane1 = new JScrollPane();
         tree1 = new JTree();
         menuBar1 = new JMenuBar();
         menu1 = new JMenu();
@@ -36,11 +42,12 @@ public class ModScene extends JPanel {
         menuItem3 = new JMenuItem();
 
         //======== this ========
-        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder( 0
-        , 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM
-        , new java .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ), java. awt. Color. red) ,
-         getBorder( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
-        ) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border
+        . EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax. swing. border. TitledBorder. CENTER, javax
+        . swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dialo\u0067" ,java .awt .Font .BOLD ,
+        12 ), java. awt. Color. red) , getBorder( )) );  addPropertyChangeListener (new java. beans
+        . PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("borde\u0072" .equals (e .
+        getPropertyName () )) throw new RuntimeException( ); }} );
         setLayout(new BorderLayout());
 
         //======== panel1 ========
@@ -48,22 +55,44 @@ public class ModScene extends JPanel {
             panel1.setLayout(new MigLayout(
                 "fill,insets panel,hidemode 3",
                 // columns
-                "[fill]" +
                 "[fill]",
                 // rows
+                "[]" +
                 "[]"));
 
-            //======== scrollPane1 ========
+            //======== panel3 ========
             {
-                scrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+                panel3.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+                //---- label1 ----
+                label1.setText("$GAME");
+                panel3.add(label1);
+
+                //---- button1 ----
+                button1.setText("Add Mod(s)");
+                panel3.add(button1);
+
+                //---- button2 ----
+                button2.setText("Remove Selected");
+                panel3.add(button2);
+
+                //---- button3 ----
+                button3.setText("Install Mod(s)");
+                panel3.add(button3);
             }
-            panel1.add(scrollPane1, "cell 0 0,dock center");
+            panel1.add(panel3, "cell 0 0");
 
             //======== scrollPane2 ========
             {
-                scrollPane2.setViewportView(tree1);
+                scrollPane2.setViewportView(list1);
             }
-            panel1.add(scrollPane2, "cell 1 0,dock center");
+            panel1.add(scrollPane2, "cell 0 1,dock center");
+
+            //======== scrollPane1 ========
+            {
+                scrollPane1.setViewportView(tree1);
+            }
+            panel1.add(scrollPane1, "cell 0 1,dock center");
         }
         add(panel1, BorderLayout.CENTER);
 
@@ -101,8 +130,14 @@ public class ModScene extends JPanel {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - Zach Piddock
     private JPanel panel1;
-    private JScrollPane scrollPane1;
+    private JPanel panel3;
+    private JLabel label1;
+    private JButton button1;
+    private JButton button2;
+    private JButton button3;
     private JScrollPane scrollPane2;
+    private JList list1;
+    private JScrollPane scrollPane1;
     private JTree tree1;
     private JMenuBar menuBar1;
     private JMenu menu1;

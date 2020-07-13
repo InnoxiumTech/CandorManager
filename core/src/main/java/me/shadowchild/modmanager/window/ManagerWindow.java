@@ -1,8 +1,6 @@
 package me.shadowchild.modmanager.window;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
-import org.pushingpixels.substance.api.SubstanceCortex;
-import org.pushingpixels.substance.api.skin.GraphiteGlassSkin;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +11,7 @@ public class ManagerWindow {
 
 	public ManagerWindow() {
 		FlatDarculaLaf.install();
-		frame =  new JFrame("Cybernize Mod Manager - By ShadowChild");
+		frame =  new JFrame("Candor Mod Manager - By ShadowChild");
 		frame.setVisible(false);
 		setUpComponents();
 	}

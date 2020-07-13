@@ -14,7 +14,7 @@ dependencies {
     implementation 'com.formdev:flatlaf:0.38'
 
     // Radiance LAF
-    implementation 'org.pushing-pixels:radiance-substance:3.0.0'
-    implementation 'org.pushing-pixels:radiance-substance-extras:3.0.0'
-    implementation 'org.pushing-pixels:radiance-flamingo:3.0.0'
+//    implementation 'org.pushing-pixels:radiance-substance:3.0.0'
+//    implementation 'org.pushing-pixels:radiance-substance-extras:3.0.0'
+//    implementation 'org.pushing-pixels:radiance-flamingo:3.0.0'
 }
