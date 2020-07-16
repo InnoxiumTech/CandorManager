@@ -11,4 +11,3 @@ dependencies {
 
 
 applicationName = 'Candor'
-mainClassName = 'me.shadowchild.modmanager.CandorLauncher'

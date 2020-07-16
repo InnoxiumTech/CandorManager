@@ -1,6 +1,4 @@
-package me.shadowchild.modmanager.window;
-
-import com.formdev.flatlaf.FlatDarculaLaf;
+package me.shadowchild.candor.window;
 
 import javax.swing.*;
 import java.awt.*;

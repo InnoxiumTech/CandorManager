@@ -1,10 +1,9 @@
 package me.shadowchild.candor;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
-import me.shadowchild.modmanager.ConfigHandler;
-import me.shadowchild.modmanager.module.ModuleSelector;
-import me.shadowchild.modmanager.window.GameSelectScene;
-import me.shadowchild.modmanager.window.ManagerWindow;
+import me.shadowchild.candor.module.ModuleSelector;
+import me.shadowchild.candor.window.GameSelectScene;
+import me.shadowchild.candor.window.ManagerWindow;
 
 public class CandorLauncher {
 

@@ -1,4 +1,4 @@
-package me.shadowchild.modmanager.mod;
+package me.shadowchild.candor.mod;
 
 import java.io.File;
 

@@ -1,8 +1,8 @@
-package me.shadowchild.modmanager;
+package me.shadowchild.candor;
 
-import me.shadowchild.modmanager.mod.Mod;
-import me.shadowchild.modmanager.module.AbstractModInstaller;
-import me.shadowchild.modmanager.module.AbstractModule;
+import me.shadowchild.candor.mod.Mod;
+import me.shadowchild.candor.module.AbstractModInstaller;
+import me.shadowchild.candor.module.AbstractModule;
 
 public class GenericModInstaller extends AbstractModInstaller {
 

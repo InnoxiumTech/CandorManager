@@ -24,6 +24,7 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "button1"
 						"text": "Add Mod(s)"
+						"icon": new com.jformdesigner.model.SwingIcon( 2, "Tree.leafIcon" )
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "button2"

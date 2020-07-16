@@ -1,7 +1,7 @@
-package me.shadowchild.modmanager;
+package me.shadowchild.candor;
 
-import me.shadowchild.modmanager.module.AbstractModInstaller;
-import me.shadowchild.modmanager.module.AbstractModule;
+import me.shadowchild.candor.module.AbstractModInstaller;
+import me.shadowchild.candor.module.AbstractModule;
 
 import java.io.File;
 

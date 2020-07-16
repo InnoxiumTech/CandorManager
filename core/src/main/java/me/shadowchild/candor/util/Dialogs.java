@@ -1,4 +1,4 @@
-package me.shadowchild.modmanager.util;
+package me.shadowchild.candor.util;
 
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.util.nfd.NFDPathSet;

@@ -1,4 +1,4 @@
-package me.shadowchild.modmanager;
+package me.shadowchild.candor;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 

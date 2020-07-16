@@ -1,8 +1,8 @@
-package me.shadowchild.modmanager.window;
+package me.shadowchild.candor.window;
 
-import me.shadowchild.modmanager.module.AbstractModule;
-import me.shadowchild.modmanager.module.ModuleSelector;
-import me.shadowchild.modmanager.util.Dialogs;
+import me.shadowchild.candor.module.AbstractModule;
+import me.shadowchild.candor.module.ModuleSelector;
+import me.shadowchild.candor.util.Dialogs;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

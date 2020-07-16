@@ -1,8 +1,8 @@
-package me.shadowchild.modmanager.module;
+package me.shadowchild.candor.module;
 
 import com.google.common.collect.Lists;
 import me.shadowchild.cybernize.util.ClassLoadUtil;
-import me.shadowchild.modmanager.util.Dialogs;
+import me.shadowchild.candor.util.Dialogs;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class ModuleSelector {
 
         try {
 
-            Class<? extends AbstractModule> clazz = ClassLoadUtil.loadClass("me.shadowchild.modmanager.GenericModule");
+            Class<? extends AbstractModule> clazz = ClassLoadUtil.loadClass("me.shadowchild.candor.GenericModule");
             return clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
 

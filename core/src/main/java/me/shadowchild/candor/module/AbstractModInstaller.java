@@ -1,6 +1,6 @@
-package me.shadowchild.modmanager.module;
+package me.shadowchild.candor.module;
 
-import me.shadowchild.modmanager.mod.Mod;
+import me.shadowchild.candor.mod.Mod;
 
 public abstract class AbstractModInstaller {
 

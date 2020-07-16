@@ -1,6 +1,6 @@
-package me.shadowchild.modmanager.module;
+package me.shadowchild.candor.module;
 
-import me.shadowchild.modmanager.ConfigHandler;
+import me.shadowchild.candor.ConfigHandler;
 
 import java.io.File;
 
