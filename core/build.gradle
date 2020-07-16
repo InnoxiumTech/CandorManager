@@ -2,7 +2,7 @@ import org.gradle.internal.os.OperatingSystem
 
 plugins {
 
-    id 'java'
+    id 'java-library'
     id 'application'
 }
 

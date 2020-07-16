@@ -24,8 +24,8 @@ public class Dialogs {
 
         try {
 
-            checkResult(NFD_OpenDialog(filterList, null, path), path);
-            ret = new File(path.getStringUTF8(0));
+            int result = checkResult(NFD_OpenDialog(filterList, null, path), path);
+            if(result == NFD_OKAY) ret = new File(path.getStringUTF8(0));
         } catch(Exception e) {
 
             e.printStackTrace();
@@ -45,6 +45,11 @@ public class Dialogs {
         return ret;
     }
 
+    /**
+     *
+     * @param filterList - a list of strings for the file extensions to filter
+     * @return - a list of all files selected by the user, can be null
+     */
     public static Set<File> openMultiFileDialog(String filterList) {
 
         // Initialize the value we will return
@@ -77,6 +82,10 @@ public class Dialogs {
         return ret;
     }
 
+    /**
+     *
+     * @return Returns the folder selected by the user, can be null
+     */
     public static File openPickFolder() {
 
         // Initialize the value we will return
@@ -87,8 +96,11 @@ public class Dialogs {
 
         try {
 
-            checkResult(NFD_PickFolder((ByteBuffer)null, path), path);
-            ret = new File(path.getStringUTF8(0));
+            int result = checkResult(NFD_PickFolder((ByteBuffer)null, path), path);
+            if(result == NFD_OKAY) ret = new File(path.getStringUTF8(0));
+        } catch(NullPointerException e) {
+
+            e.printStackTrace();
         } finally {
 
             memFree(path);
@@ -97,7 +109,7 @@ public class Dialogs {
         return ret;
     }
 
-    private static void checkResult(int result, PointerBuffer path) {
+    private static int checkResult(int result, PointerBuffer path) {
 
         switch (result) {
 
@@ -107,10 +119,20 @@ public class Dialogs {
                 System.out.println(path.getStringUTF8(0));
                 nNFD_Free(path.get(0));
             }
-            case NFD_CANCEL -> System.out.println("User pressed cancel.");
+            case NFD_CANCEL -> {
+
+                System.out.println("User pressed cancel.");
+                showInfoDialog(
+                        "Candor Mod Manager",
+                        "Selection Error.\nPlease select a file/folder.",
+                        "ok",
+                        "error",
+                        true);
+            }
             // NFD_ERROR
             default -> System.err.format("Error: %s\n", NFD_GetError());
         }
+        return result;
     }
 
     public static boolean showInfoDialog(String title, String message, String dialogType, String iconType, boolean defaultOption) {

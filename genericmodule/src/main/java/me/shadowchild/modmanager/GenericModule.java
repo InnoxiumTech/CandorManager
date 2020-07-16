@@ -1,5 +1,6 @@
 package me.shadowchild.modmanager;
 
+import me.shadowchild.modmanager.module.AbstractModInstaller;
 import me.shadowchild.modmanager.module.IModule;
 
 import java.io.File;
@@ -42,5 +43,24 @@ public class GenericModule implements IModule {
     public ConfigHandler.IConfig getConfig() {
 
         return new GenericConfig();
+    }
+
+    @Override
+    public AbstractModInstaller getModInstaller() {
+
+        return null;
+    }
+
+    @Override
+    public boolean requiresModFolderSelection() {
+
+        return true;
+    }
+
+    @Override
+    public String[] acceptedExe() {
+
+        // We dont need this for the generic module
+        return new String[0];
     }
 }

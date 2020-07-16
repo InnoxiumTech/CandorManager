@@ -44,13 +44,15 @@ new FormModel {
 					} )
 					add( new FormComponent( "javax.swing.JTextField" ) {
 						name: "modFolderField"
+						"enabled": false
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridy": 3
 						"vAlign": 0
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "ModFolderBrowse"
+						name: "modFolderBrowse"
 						"text": "..."
+						"enabled": false
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "modsFolderClicked", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridx": 1
@@ -77,6 +79,7 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "cancelButton"
 						"text": "Cancel"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cancelButtonClicked", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridx": 2
 						"gridy": 0

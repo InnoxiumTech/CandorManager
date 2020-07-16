@@ -17,4 +17,8 @@ public interface IModule {
     public ConfigHandler.IConfig getConfig();
 
     public AbstractModInstaller getModInstaller();
+
+    public boolean requiresModFolderSelection();
+
+    public String[] acceptedExe();
 }

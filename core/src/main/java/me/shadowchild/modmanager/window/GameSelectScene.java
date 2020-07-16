@@ -1,5 +1,7 @@
 package me.shadowchild.modmanager.window;
 
+import me.shadowchild.modmanager.module.IModule;
+import me.shadowchild.modmanager.module.ModuleSelector;
 import me.shadowchild.modmanager.util.Dialogs;
 
 import javax.swing.*;
@@ -17,6 +19,12 @@ public class GameSelectScene extends JFrame {
         try {
 
             gameField.setText(gameExe.getCanonicalPath());
+            IModule module = ModuleSelector.getModuleForGame(gameExe);
+            if(module.requiresModFolderSelection()) {
+
+                modFolderField.setEnabled(true);
+                modFolderBrowse.setEnabled(true);
+            }
         } catch (IOException exception) {
 
             exception.printStackTrace();
@@ -35,6 +43,17 @@ public class GameSelectScene extends JFrame {
         }
     }
 
+    private void cancelButtonClicked(ActionEvent e) {
+
+        boolean result = Dialogs.showInfoDialog(
+                "Candor Mod Manager",
+                "Are you sure you wish to exit?",
+                "yesno",
+                "question",
+                false);
+        if(result) System.exit(1);
+    }
+
     public void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Zach Piddock
@@ -45,7 +64,7 @@ public class GameSelectScene extends JFrame {
         gameBrowse = new JButton();
         modFolderLabel = new JLabel();
         modFolderField = new JTextField();
-        ModFolderBrowse = new JButton();
+        modFolderBrowse = new JButton();
         buttonBar = new JPanel();
         okButton = new JButton();
         cancelButton = new JButton();
@@ -59,13 +78,12 @@ public class GameSelectScene extends JFrame {
         //======== dialogPane ========
         {
             dialogPane.setBorder(new EmptyBorder(12, 12, 12, 12));
-            dialogPane.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing
-            .border.EmptyBorder(0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing.border.TitledBorder
-            .CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.
-            awt.Font.BOLD,12),java.awt.Color.red),dialogPane. getBorder()))
-            ;dialogPane. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e
-            ){if("bord\u0065r".equals(e.getPropertyName()))throw new RuntimeException();}})
-            ;
+            dialogPane.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder
+            (0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing.border.TitledBorder.CENTER,javax.swing.border
+            .TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.awt.Font.BOLD,12),java.awt
+            .Color.red),dialogPane. getBorder()));dialogPane. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void
+            propertyChange(java.beans.PropertyChangeEvent e){if("bord\u0065r".equals(e.getPropertyName()))throw new RuntimeException()
+            ;}});
             dialogPane.setLayout(new BorderLayout());
 
             //======== contentPanel ========
@@ -97,14 +115,18 @@ public class GameSelectScene extends JFrame {
                 contentPanel.add(modFolderLabel, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
                     GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                     new Insets(0, 0, 0, 0), 0, 0));
+
+                //---- modFolderField ----
+                modFolderField.setEnabled(false);
                 contentPanel.add(modFolderField, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
                     GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                     new Insets(0, 0, 0, 0), 0, 0));
 
-                //---- ModFolderBrowse ----
-                ModFolderBrowse.setText("...");
-                ModFolderBrowse.addActionListener(e -> modsFolderClicked(e));
-                contentPanel.add(ModFolderBrowse, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
+                //---- modFolderBrowse ----
+                modFolderBrowse.setText("...");
+                modFolderBrowse.setEnabled(false);
+                modFolderBrowse.addActionListener(e -> modsFolderClicked(e));
+                contentPanel.add(modFolderBrowse, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
                     GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                     new Insets(0, 0, 0, 0), 0, 0));
             }
@@ -125,6 +147,7 @@ public class GameSelectScene extends JFrame {
 
                 //---- cancelButton ----
                 cancelButton.setText("Cancel");
+                cancelButton.addActionListener(e -> cancelButtonClicked(e));
                 buttonBar.add(cancelButton, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
                     GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                     new Insets(0, 0, 0, 0), 0, 0));
@@ -146,7 +169,7 @@ public class GameSelectScene extends JFrame {
     private JButton gameBrowse;
     private JLabel modFolderLabel;
     private JTextField modFolderField;
-    private JButton ModFolderBrowse;
+    private JButton modFolderBrowse;
     private JPanel buttonBar;
     private JButton okButton;
     private JButton cancelButton;

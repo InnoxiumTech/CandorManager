@@ -4,6 +4,8 @@ plugins {
     id 'application'
 }
 
+mainClassName = 'me.shadowchild.candor.CandorLauncher'
+
 dependencies {
 
     implementation project(":core")
