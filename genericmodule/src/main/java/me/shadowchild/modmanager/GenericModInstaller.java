@@ -2,11 +2,11 @@ package me.shadowchild.modmanager;
 
 import me.shadowchild.modmanager.mod.Mod;
 import me.shadowchild.modmanager.module.AbstractModInstaller;
-import me.shadowchild.modmanager.module.IModule;
+import me.shadowchild.modmanager.module.AbstractModule;
 
 public class GenericModInstaller extends AbstractModInstaller {
 
-    public GenericModInstaller(IModule module) {
+    public GenericModInstaller(AbstractModule module) {
 
         super(module);
     }

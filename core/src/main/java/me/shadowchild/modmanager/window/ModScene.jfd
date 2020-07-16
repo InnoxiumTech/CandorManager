@@ -17,7 +17,9 @@ new FormModel {
 					name: "panel3"
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "label1"
-						"text": "$GAME"
+						auxiliary() {
+							"JavaCodeGenerator.postInitCode": "label1.setText(ModuleSelector.currentModule.getReadableGameName());"
+						}
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "button1"

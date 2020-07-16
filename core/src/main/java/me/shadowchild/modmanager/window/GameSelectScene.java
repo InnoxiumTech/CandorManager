@@ -1,6 +1,6 @@
 package me.shadowchild.modmanager.window;
 
-import me.shadowchild.modmanager.module.IModule;
+import me.shadowchild.modmanager.module.AbstractModule;
 import me.shadowchild.modmanager.module.ModuleSelector;
 import me.shadowchild.modmanager.util.Dialogs;
 
@@ -19,7 +19,7 @@ public class GameSelectScene extends JFrame {
         try {
 
             gameField.setText(gameExe.getCanonicalPath());
-            IModule module = ModuleSelector.getModuleForGame(gameExe);
+            AbstractModule module = ModuleSelector.getModuleForGame(gameExe);
             if(module.requiresModFolderSelection()) {
 
                 modFolderField.setEnabled(true);
@@ -54,6 +54,42 @@ public class GameSelectScene extends JFrame {
         if(result) System.exit(1);
     }
 
+    private void onButtonClicked(ActionEvent e) {
+        
+        boolean gameEmpty = gameField.getText().isEmpty();
+        boolean folderEmpty = modFolderField.getText().isEmpty();
+        boolean folderCondition = modFolderField.isEnabled() && (folderEmpty);
+
+        if(gameEmpty || folderCondition) {
+
+            StringBuilder builder = new StringBuilder();
+            builder.append("You have not specified a:\n");
+            if(gameEmpty) builder.append("-> Game Executable\n");
+            if (modFolderField.isEnabled() && folderEmpty) builder.append("-> Mods Folder\n");
+            builder.append("Please fill out the fields!");
+
+            Dialogs.showInfoDialog(
+                    "Candor Mod Manager",
+                    builder.toString(),
+                    "ok",
+                    "info",
+                    true);
+        } else {
+
+            AbstractModule module = ModuleSelector.currentModule;
+            module.setGame(new File(gameField.getText()));
+            module.setModsFolder(new File(modFolderField.getText()));
+            this.setVisible(false);
+            this.setResizable(true);
+            this.setContentPane(new ModScene());
+            this.setMinimumSize(new Dimension(1200, 768));
+            // TODO: Allow the window to stay on the same screen it was used on
+            this.setLocationRelativeTo(null);
+            this.pack();
+            this.setVisible(true);
+        }
+    }
+
     public void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Zach Piddock
@@ -72,18 +108,21 @@ public class GameSelectScene extends JFrame {
         //======== this ========
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
+        setTitle("Candor Mod Manager");
+        setResizable(false);
         var contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
         //======== dialogPane ========
         {
             dialogPane.setBorder(new EmptyBorder(12, 12, 12, 12));
-            dialogPane.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder
-            (0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing.border.TitledBorder.CENTER,javax.swing.border
-            .TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.awt.Font.BOLD,12),java.awt
-            .Color.red),dialogPane. getBorder()));dialogPane. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void
-            propertyChange(java.beans.PropertyChangeEvent e){if("bord\u0065r".equals(e.getPropertyName()))throw new RuntimeException()
-            ;}});
+            dialogPane.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing
+            .border.EmptyBorder(0,0,0,0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion",javax.swing.border.TitledBorder
+            .CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("D\u0069alog",java.
+            awt.Font.BOLD,12),java.awt.Color.red),dialogPane. getBorder()))
+            ;dialogPane. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e
+            ){if("\u0062order".equals(e.getPropertyName()))throw new RuntimeException();}})
+            ;
             dialogPane.setLayout(new BorderLayout());
 
             //======== contentPanel ========
@@ -141,6 +180,7 @@ public class GameSelectScene extends JFrame {
 
                 //---- okButton ----
                 okButton.setText("OK");
+                okButton.addActionListener(e -> onButtonClicked(e));
                 buttonBar.add(okButton, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
                     GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                     new Insets(0, 0, 0, 5), 0, 0));

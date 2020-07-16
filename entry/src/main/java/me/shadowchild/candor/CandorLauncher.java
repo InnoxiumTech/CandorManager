@@ -2,6 +2,7 @@ package me.shadowchild.candor;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import me.shadowchild.modmanager.ConfigHandler;
+import me.shadowchild.modmanager.module.ModuleSelector;
 import me.shadowchild.modmanager.window.GameSelectScene;
 import me.shadowchild.modmanager.window.ManagerWindow;
 
@@ -18,6 +19,8 @@ public class CandorLauncher {
 	public static void main(String[] args) {
 
 		FlatDarculaLaf.install();
+
+		ModuleSelector.initModules();
 
 		GameSelectScene gameWindow = new GameSelectScene();
 		gameWindow.initComponents();

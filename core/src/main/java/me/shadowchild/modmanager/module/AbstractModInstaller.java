@@ -2,14 +2,11 @@ package me.shadowchild.modmanager.module;
 
 import me.shadowchild.modmanager.mod.Mod;
 
-import java.io.File;
-import java.nio.file.Paths;
-
 public abstract class AbstractModInstaller {
 
-    private IModule module;
+    private AbstractModule module;
 
-    public AbstractModInstaller(IModule module) {
+    public AbstractModInstaller(AbstractModule module) {
 
         this.module = module;
     }
