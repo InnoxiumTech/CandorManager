@@ -1,5 +1,6 @@
 package me.shadowchild.candor.window;
 
+import me.shadowchild.candor.CoreConfig;
 import me.shadowchild.candor.module.AbstractModule;
 import me.shadowchild.candor.module.ModuleSelector;
 import me.shadowchild.candor.util.Dialogs;
@@ -76,6 +77,11 @@ public class GameSelectScene extends JFrame {
                     true);
         } else {
 
+            CoreConfig.changeValue("game", CoreConfig.game, gameField.getText());
+            CoreConfig.changeValue("modsFolder", CoreConfig.modsFolder, modFolderField.getText());
+//            CoreConfig.game = gameField.getText();
+//            CoreConfig.modsFolder = modFolderField.getText();
+
             AbstractModule module = ModuleSelector.currentModule;
             module.setGame(new File(gameField.getText()));
             module.setModsFolder(new File(modFolderField.getText()));
@@ -90,6 +96,12 @@ public class GameSelectScene extends JFrame {
         }
     }
 
+    private void checkBox(ActionEvent e) {
+
+        CoreConfig.changeValue("showIntro", CoreConfig.showIntro, !CoreConfig.showIntro);
+//        CoreConfig.showIntro = !CoreConfig.showIntro;
+    }
+
     public void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Zach Piddock
@@ -102,6 +114,7 @@ public class GameSelectScene extends JFrame {
         modFolderField = new JTextField();
         modFolderBrowse = new JButton();
         buttonBar = new JPanel();
+        checkBox1 = new JCheckBox();
         okButton = new JButton();
         cancelButton = new JButton();
 
@@ -116,13 +129,12 @@ public class GameSelectScene extends JFrame {
         //======== dialogPane ========
         {
             dialogPane.setBorder(new EmptyBorder(12, 12, 12, 12));
-            dialogPane.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing
-            .border.EmptyBorder(0,0,0,0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion",javax.swing.border.TitledBorder
-            .CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("D\u0069alog",java.
-            awt.Font.BOLD,12),java.awt.Color.red),dialogPane. getBorder()))
-            ;dialogPane. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e
-            ){if("\u0062order".equals(e.getPropertyName()))throw new RuntimeException();}})
-            ;
+            dialogPane.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.
+            border.EmptyBorder(0,0,0,0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion",javax.swing.border.TitledBorder.CENTER
+            ,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("D\u0069alog",java.awt.Font
+            .BOLD,12),java.awt.Color.red),dialogPane. getBorder()));dialogPane. addPropertyChangeListener(
+            new java.beans.PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("\u0062order"
+            .equals(e.getPropertyName()))throw new RuntimeException();}});
             dialogPane.setLayout(new BorderLayout());
 
             //======== contentPanel ========
@@ -178,6 +190,13 @@ public class GameSelectScene extends JFrame {
                 ((GridBagLayout)buttonBar.getLayout()).columnWidths = new int[] {0, 85, 80};
                 ((GridBagLayout)buttonBar.getLayout()).columnWeights = new double[] {1.0, 0.0, 0.0};
 
+                //---- checkBox1 ----
+                checkBox1.setText("Skip Intro?");
+                checkBox1.addActionListener(e -> checkBox(e));
+                buttonBar.add(checkBox1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 5), 0, 0));
+
                 //---- okButton ----
                 okButton.setText("OK");
                 okButton.addActionListener(e -> onButtonClicked(e));
@@ -211,6 +230,7 @@ public class GameSelectScene extends JFrame {
     private JTextField modFolderField;
     private JButton modFolderBrowse;
     private JPanel buttonBar;
+    private JCheckBox checkBox1;
     private JButton okButton;
     private JButton cancelButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables

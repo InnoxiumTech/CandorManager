@@ -69,6 +69,11 @@ new FormModel {
 						name: "menuItem2"
 						"text": "Load New Game"
 					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "menuItem4"
+						"text": "Settings"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "settingsClicked", true ) )
+					} )
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "menu2"

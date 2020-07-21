@@ -5,10 +5,12 @@
 package me.shadowchild.candor.window;
 
 import me.shadowchild.candor.module.ModuleSelector;
+import me.shadowchild.candor.window.setting.SettingsFrame;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 
 public class ModScene extends JPanel {
@@ -20,6 +22,11 @@ public class ModScene extends JPanel {
 
     private void createUIComponents() {
         // TODO: add custom component creation code here
+    }
+
+    private void settingsClicked(ActionEvent e) {
+
+        new SettingsFrame();
     }
 
     private void initComponents() {
@@ -39,16 +46,18 @@ public class ModScene extends JPanel {
         menu1 = new JMenu();
         menuItem1 = new JMenuItem();
         menuItem2 = new JMenuItem();
+        menuItem4 = new JMenuItem();
         menu2 = new JMenu();
         menuItem3 = new JMenuItem();
 
         //======== this ========
-        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border
-        . EmptyBorder( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing. border. TitledBorder. CENTER, javax
-        . swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,
-        12 ), java. awt. Color. red) , getBorder( )) );  addPropertyChangeListener (new java. beans
-        . PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062ord\u0065r" .equals (e .
-        getPropertyName () )) throw new RuntimeException( ); }} );
+        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax
+        . swing. border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn" , javax. swing
+        .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .
+        Font ( "Dia\u006cog", java .awt . Font. BOLD ,12 ) ,java . awt. Color .red
+        ) , getBorder () ) );  addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override
+        public void propertyChange (java . beans. PropertyChangeEvent e) { if( "\u0062ord\u0065r" .equals ( e. getPropertyName (
+        ) ) )throw new RuntimeException( ) ;} } );
         setLayout(new BorderLayout());
 
         //======== panel1 ========
@@ -112,6 +121,11 @@ public class ModScene extends JPanel {
                 //---- menuItem2 ----
                 menuItem2.setText("Load New Game");
                 menu1.add(menuItem2);
+
+                //---- menuItem4 ----
+                menuItem4.setText("Settings");
+                menuItem4.addActionListener(e -> settingsClicked(e));
+                menu1.add(menuItem4);
             }
             menuBar1.add(menu1);
 
@@ -145,6 +159,7 @@ public class ModScene extends JPanel {
     private JMenu menu1;
     private JMenuItem menuItem1;
     private JMenuItem menuItem2;
+    private JMenuItem menuItem4;
     private JMenu menu2;
     private JMenuItem menuItem3;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
