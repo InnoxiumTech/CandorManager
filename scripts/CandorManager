@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+exec "java -javaagent:"CandorManager-snapshot.jar" -jar CandorManager-snapshot.jar
+
+read -rsp $'Press enter to continue...\n'

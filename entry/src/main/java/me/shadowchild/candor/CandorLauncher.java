@@ -12,12 +12,6 @@ import java.io.File;
 
 public class CandorLauncher {
 	
-	public CandorLauncher() {
-		
-//		window = new ManagerWindow();
-//		window.open();
-	}
-	
 	public static void main(String[] args) {
 
 		FlatDarculaLaf.install();
@@ -27,6 +21,7 @@ public class CandorLauncher {
 			ModuleSelector.initModules();
 		} catch (Exception e) {
 
+			// Probably from IDE, ignore for now
 			e.printStackTrace();
 		}
 		ConfigHandler.handleCore();
@@ -54,7 +49,6 @@ public class CandorLauncher {
 			frame.pack();
 			frame.setVisible(true);
 		}
-		new CandorLauncher();
 	}
 
 	private static class RuntimeHook extends Thread {
