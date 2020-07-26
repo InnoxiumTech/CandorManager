@@ -12,6 +12,8 @@ You will also be required to add the following to your modules Manifest file:
 
 `Candor-Module-Class: <path to class extending AbstractModule>`
 
+You can view the `genericmodule` folder for an example
+
 # Loading candor in IDE
 you will need to add the follwoing to your run configuration:
 
