@@ -1,6 +1,12 @@
 # CandorManager
 A new breed of mod manager
 
+# Thanks
+I would like to say thank you right away to the following people:
+
+CGJennings -> https://github.com/CGJennings/jar-loader - Allowing me to load modules from external jars
+
+
 # What is Candor?
 Candor aims to be a mod manager that will remove the need 
 for a new separate manager for every game.

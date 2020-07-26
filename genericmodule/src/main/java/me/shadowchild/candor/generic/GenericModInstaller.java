@@ -1,4 +1,4 @@
-package me.shadowchild.candor;
+package me.shadowchild.candor.generic;
 
 import me.shadowchild.candor.mod.Mod;
 import me.shadowchild.candor.module.AbstractModInstaller;

@@ -2,8 +2,7 @@ import org.gradle.internal.os.OperatingSystem
 
 plugins {
 
-    id 'java-library'
-    id 'application'
+    id 'java'
 }
 
 switch (OperatingSystem.current()) {
@@ -33,9 +32,15 @@ dependencies {
     implementation "org.lwjgl:lwjgl"
     implementation "org.lwjgl:lwjgl-nfd"
     implementation "org.lwjgl:lwjgl-tinyfd"
-    runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-nfd::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-tinyfd::$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl::natives-windows"
+    runtimeOnly "org.lwjgl:lwjgl::natives-macos"
+    runtimeOnly "org.lwjgl:lwjgl::natives-linux"
+    runtimeOnly "org.lwjgl:lwjgl-nfd::natives-windows"
+    runtimeOnly "org.lwjgl:lwjgl-nfd::natives-macos"
+    runtimeOnly "org.lwjgl:lwjgl-nfd::natives-linux"
+    runtimeOnly "org.lwjgl:lwjgl-tinyfd::natives-windows"
+    runtimeOnly "org.lwjgl:lwjgl-tinyfd::natives-macos"
+    runtimeOnly "org.lwjgl:lwjgl-tinyfd::natives-linux"
 
     // Radiance LAF
 //    implementation 'org.pushing-pixels:radiance-substance:3.0.0'

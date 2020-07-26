@@ -1,16 +1,12 @@
-package me.shadowchild.candor;
+package me.shadowchild.candor.generic;
 
+import me.shadowchild.candor.ConfigHandler;
 import me.shadowchild.candor.module.AbstractModInstaller;
 import me.shadowchild.candor.module.AbstractModule;
 
 import java.io.File;
 
-/**
- * this module will be able to handleModules a majority of games that don't have their own module
- *
- * Also serves as an example of how a module should be made
- */
-public class GenericModule extends AbstractModule {
+public class MassEffectModule extends AbstractModule {
 
     public File game, modsFolder;
 
@@ -29,32 +25,31 @@ public class GenericModule extends AbstractModule {
     @Override
     public void setGame(File file) {
 
-        game = file;
+        this.game = file;
     }
 
     @Override
     public void setModsFolder(File file) {
 
-        modsFolder = file;
+        this.modsFolder = new File(game.getParentFile(), "../..");
     }
 
     @Override
     public String getModuleName() {
 
-        return "Generic Module";
+        return "Mess Effect Module";
     }
 
     @Override
     public String getReadableGameName() {
 
-        // Return the executable without the file extension
-        return game.getName().substring(0, game.getName().lastIndexOf("."));
+        return "Mass Effect";
     }
 
     @Override
     public ConfigHandler.IConfig getConfig() {
 
-        return new GenericConfig();
+        return null;
     }
 
     @Override
@@ -66,13 +61,12 @@ public class GenericModule extends AbstractModule {
     @Override
     public boolean requiresModFolderSelection() {
 
-        return true;
+        return false;
     }
 
     @Override
     public String[] acceptedExe() {
 
-        // We dont need this for the generic module
-        return new String[0];
+        return new String[] { "MassEffect", "MassEffect2", "MassEffect3" };
     }
 }

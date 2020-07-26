@@ -7,9 +7,9 @@ import java.nio.charset.StandardCharsets;
 
 public class CoreConfig implements ConfigHandler.IConfig {
 
-    public static boolean showIntro;
-    public static String game;
-    public static String modsFolder;
+    public static boolean showIntro = true;
+    public static String game = "";
+    public static String modsFolder = "";
 
     static CommentedFileConfig cfg;
 
@@ -32,13 +32,13 @@ public class CoreConfig implements ConfigHandler.IConfig {
 
         cfg.load();
 
-        showIntro = cfg.get("showIntro");
+        showIntro = cfg.getOrElse("showIntro", true);
         cfg.set("showIntro", showIntro);
 
-        game = cfg.get("game");
+        game = cfg.getOrElse("game", "");
         cfg.set("game", game);
 
-        modsFolder = cfg.get("modsFolder");
+        modsFolder = cfg.getOrElse("modsFolder", "");
         cfg.set("modsFolder", modsFolder);
 
 //        cfg.save();
@@ -53,8 +53,5 @@ public class CoreConfig implements ConfigHandler.IConfig {
     public void close() {
 
         cfg.close();
-//        cfg.set("showIntro", showIntro);
-//        cfg.set("game", game);
-//        cfg.set("modsFolder", modsFolder);
     }
 }

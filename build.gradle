@@ -1,6 +1,7 @@
 plugins {
 
-    id 'java-library'
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
 }
 
 subprojects {
@@ -11,6 +12,8 @@ subprojects {
 
 allprojects {
 
+//    mainClassName = 'me.shadowchild.candor.CandorLauncher'
+
     repositories {
 
         jcenter()
@@ -20,10 +23,64 @@ allprojects {
     }
 }
 
+//apply plugin: 'com.github.johnrengelman.shadow'
+
 dependencies {
 
     compile project(":core")
     compile project(":gui")
     compile project(":entry")
-    compile project(":genericmodule")
+//    compile project(":genericmodule")
 }
+
+shadowJar {
+
+    baseName = "CandorManager-${subprojects.version[0]}"
+    classifier = ''
+//    exclude 'me/shadowchild/candor/generic/**'
+
+    manifest {
+
+        attributes 'Main-Class': 'me.shadowchild.candor.CandorLauncher'
+        attributes 'Premain-Class': 'ca.cgjennings.jvm.JarLoader'
+    }
+}
+
+task copyGenericModule(type: Copy) {
+
+    dependsOn 'shadowJar'
+
+    File packOutput = new File(project.getBuildDir(), "packaged/module/")
+    if(!packOutput.exists()) packOutput.mkdirs()
+
+    from "$projectDir/genericmodule/build/libs"
+    into "$buildDir/packaged/module/"
+}
+
+task copyJars(type: Copy) {
+
+    dependsOn 'copyGenericModule'
+
+    from "$buildDir/libs"
+    include "*.jar"
+    into "$buildDir/packaged"
+}
+
+task zipCandor(type: Zip) {
+
+    dependsOn 'copyJars'
+
+    from "$buildDir/packaged"
+    include '*'
+    include '*/*'
+    exclude '*.zip'
+    archiveFileName = 'CandorModManager.zip'
+    destinationDirectory = file("$buildDir/packaged")
+}
+
+task packageCandor {
+
+    dependsOn 'clean', 'zipCandor'
+}
+
+

@@ -1,4 +1,6 @@
-package me.shadowchild.candor;
+package me.shadowchild.candor.generic;
+
+import me.shadowchild.candor.ConfigHandler;
 
 import java.io.File;
 

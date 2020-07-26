@@ -1,7 +1,6 @@
 plugins {
 
     id 'java-library'
-    id 'application'
 }
 
 dependencies {
@@ -9,5 +8,12 @@ dependencies {
     implementation project(":core")
 }
 
+jar {
 
-applicationName = 'Candor'
+    manifest {
+
+        // Candor will look for this to find your modules' AbstractModule class
+        // Absolutely required to function correctly
+        attributes 'Candor-Module-Class': 'me.shadowchild.candor.generic.GenericModule'
+    }
+}

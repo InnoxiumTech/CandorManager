@@ -1,19 +1,16 @@
 package me.shadowchild.candor;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
+import me.shadowchild.candor.window.GameSelectScene;
+import me.shadowchild.candor.window.ModScene;
 import me.shadowchild.candor.module.AbstractModule;
 import me.shadowchild.candor.module.ModuleSelector;
-import me.shadowchild.candor.window.GameSelectScene;
-import me.shadowchild.candor.window.ManagerWindow;
-import me.shadowchild.candor.window.ModScene;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
 public class CandorLauncher {
-
-	public ManagerWindow window;
 	
 	public CandorLauncher() {
 		
@@ -25,7 +22,13 @@ public class CandorLauncher {
 
 		FlatDarculaLaf.install();
 
-		ModuleSelector.initModules();
+		try {
+
+			ModuleSelector.initModules();
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
 		ConfigHandler.handleCore();
 		Runtime.getRuntime().addShutdownHook(new RuntimeHook());
 

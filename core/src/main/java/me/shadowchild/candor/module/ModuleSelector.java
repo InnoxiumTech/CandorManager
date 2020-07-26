@@ -1,11 +1,15 @@
 package me.shadowchild.candor.module;
 
 import com.google.common.collect.Lists;
-import me.shadowchild.cybernize.util.ClassLoadUtil;
+import ca.cgjennings.jvm.JarLoader;
 import me.shadowchild.candor.util.Dialogs;
+import me.shadowchild.cybernize.util.ClassLoadUtil;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.jar.Attributes;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
 public class ModuleSelector {
 
@@ -17,9 +21,9 @@ public class ModuleSelector {
     /**
      * Loads all the module from the 'Modules' folder
      */
-    public static void initModules() {
+    public static void initModules() throws Exception {
 
-        instanceGenericModule();
+        loadFromDir(new File("./module"));
 
 //        try {
 //
@@ -33,6 +37,26 @@ public class ModuleSelector {
         // TODO: LOAD MODULE FROM DISK
     }
 
+    private static void loadFromDir(File file) throws Exception {
+
+        for(File jar : file.listFiles()) {
+
+            JarFile jarFile = new JarFile(jar);
+            Manifest mf = jarFile.getManifest();
+            if(mf != null) {
+
+                Attributes attrib = mf.getMainAttributes();
+                String clazz = attrib.getValue("Candor-Module-Class");
+                System.out.println(clazz);
+
+                JarLoader.addToClassPath(jar);
+                Class<? extends AbstractModule> theClazz = ClassLoadUtil.loadClass(clazz);
+                MODULES.add(theClazz.getDeclaredConstructor().newInstance());
+            }
+            // Jar has no manifest, this means we cannot load a module from it
+        }
+    }
+
     /**
      * This method loads the GenericModule in to the array, as this will be a fallback if there is no module for a game
      */
@@ -40,7 +64,7 @@ public class ModuleSelector {
 
         try {
 
-            Class<? extends AbstractModule> clazz = ClassLoadUtil.loadClass("me.shadowchild.candor.GenericModule");
+            Class<? extends AbstractModule> clazz = ClassLoadUtil.loadClass("me.shadowchild.candor.generic.GenericModule");
             return clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
 
