@@ -69,4 +69,9 @@ public class MassEffectModule extends AbstractModule {
 
         return new String[] { "MassEffect", "MassEffect2", "MassEffect3" };
     }
+
+    @Override
+    public String getModFileFilterList() {
+        return null;
+    }
 }

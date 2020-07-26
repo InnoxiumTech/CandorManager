@@ -46,6 +46,12 @@ public class GenericModule extends AbstractModule {
     }
 
     @Override
+    public String getModFileFilterList() {
+
+        return "zip,7zip,7z,rar";
+    }
+
+    @Override
     public String getReadableGameName() {
 
         // Return the executable without the file extension

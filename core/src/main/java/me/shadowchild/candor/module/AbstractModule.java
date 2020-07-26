@@ -21,6 +21,11 @@ public abstract class AbstractModule {
 
     public abstract String getModuleName();
 
+    public String getExeName() {
+
+        return getGame().getName().substring(0, getGame().getName().lastIndexOf("."));
+    }
+
     public abstract String getReadableGameName();
 
     public abstract ConfigHandler.IConfig getConfig();
@@ -30,4 +35,6 @@ public abstract class AbstractModule {
     public abstract boolean requiresModFolderSelection();
 
     public abstract String[] acceptedExe();
+
+    public abstract String getModFileFilterList();
 }

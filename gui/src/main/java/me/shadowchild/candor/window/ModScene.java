@@ -4,20 +4,86 @@
 
 package me.shadowchild.candor.window;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import me.shadowchild.candor.mod.Mod;
+import me.shadowchild.candor.mod.ModsHandler;
 import me.shadowchild.candor.module.ModuleSelector;
+import me.shadowchild.candor.util.Dialogs;
 import me.shadowchild.candor.window.setting.SettingsFrame;
+import me.shadowchild.cybernize.util.JsonUtil;
 import net.miginfocom.swing.MigLayout;
+import org.apache.commons.io.FileUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 public class ModScene extends JPanel {
 
+    File installedModsConfig = new File("config/" + ModuleSelector.currentModule.getExeName() + "/mods.json");
+
     public ModScene() {
 
+        try {
+
+            determineInstalledMods();
+        } catch (IOException e) {
+
+            System.out.println("This shouldn't happen, likely a corrupt mods.json :(");
+            e.printStackTrace();
+            System.exit(-1);
+        }
         initComponents();
+    }
+
+    private void determineInstalledMods() throws IOException {
+
+        // This is an example of how the mods will be stored in data
+        /*
+         mods: [
+            {
+                name: "example",
+                file: "path/to/file.ext", // The original file will be stored somewhere so we can compare loose files when disabling/removing
+                state: "enabled"
+            },
+            {
+                name: "anotherExample",
+                file: "another/path/to/file.ext",
+                state: "disabled"
+            }
+         ]
+         */
+        if(!installedModsConfig.getParentFile().exists()) installedModsConfig.getParentFile().mkdirs();
+        if(!installedModsConfig.exists()) {
+
+            installedModsConfig.createNewFile();
+            Gson gson = new Gson();
+            JsonObject obj = new JsonObject();
+            obj.add("mods", new JsonArray());
+            FileWriter writer = new FileWriter(installedModsConfig);
+            gson.toJson(obj, writer);
+
+            writer.close();
+        }
+
+        JsonObject contents = JsonUtil.getObjectFromUrl(installedModsConfig.toURI().toURL());
+        if(contents.has("mods")) {
+
+            JsonArray array = JsonUtil.getArray(contents, "mods");
+            array.forEach(element -> {
+
+                Mod mod = Mod.of((JsonObject)element);
+                // TODO: check if mods is already in the list
+                ModsHandler.MODS.add(mod);
+            });
+        }
     }
 
     private void createUIComponents() {
@@ -30,6 +96,42 @@ public class ModScene extends JPanel {
         dialog.setAlwaysOnTop(true);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
+    }
+
+    private void addModClicked(ActionEvent e) {
+
+        File modStore = new File("config/" + ModuleSelector.currentModule.getExeName() + "/mods");
+        if(!modStore.exists()) modStore.mkdirs();
+
+        Dialogs.openMultiFileDialog(ModuleSelector.currentModule.getModFileFilterList()).forEach(file -> {
+
+            try {
+
+                FileUtils.copyFileToDirectory(file, modStore);
+            } catch (IOException exception) {
+
+                System.out.println("Could not copy Mod to the mod store, please retry");
+                exception.printStackTrace();
+                return;
+            }
+            File newFile = new File(modStore, file.getName());
+            Mod mod = Mod.of(newFile);
+            ModsHandler.MODS.add(mod);
+            try {
+
+                JsonObject contents = JsonUtil.getObjectFromUrl(installedModsConfig.toURI().toURL());
+                contents.get("mods").getAsJsonArray().add(Mod.from(mod));
+
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                FileWriter writer = new FileWriter(installedModsConfig);
+                gson.toJson(contents, writer);
+
+                writer.close();
+            } catch (IOException exception) {
+
+                exception.printStackTrace();
+            }
+        });
     }
 
     private void initComponents() {
@@ -54,13 +156,11 @@ public class ModScene extends JPanel {
         menuItem3 = new JMenuItem();
 
         //======== this ========
-//        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax
-//        . swing. border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn" , javax. swing
-//        .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .
-//        Font ( "Dia\u006cog", java .awt . Font. BOLD ,12 ) ,java . awt. Color .red
-//        ) , getBorder () ) );  addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override
-//        public void propertyChange (java . beans. PropertyChangeEvent e) { if( "\u0062ord\u0065r" .equals ( e. getPropertyName (
-//        ) ) )throw new RuntimeException( ) ;} } );
+        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border .EmptyBorder (
+        0, 0 ,0 , 0) ,  "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn" , javax. swing .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder
+        . BOTTOM, new java. awt .Font ( "Dia\u006cog", java .awt . Font. BOLD ,12 ) ,java . awt. Color .
+        red ) , getBorder () ) );  addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java .
+        beans. PropertyChangeEvent e) { if( "\u0062ord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
         setLayout(new BorderLayout());
 
         //======== panel1 ========
@@ -78,12 +178,14 @@ public class ModScene extends JPanel {
                 panel3.setLayout(new FlowLayout(FlowLayout.LEFT));
 
                 //---- label1 ----
-                label1.setText(ModuleSelector.currentModule.getReadableGameName());
+                label1.setFont(new Font("Segoe UI", Font.BOLD, 16));
+                label1.setText(ModuleSelector.currentModule.getReadableGameName().toUpperCase());
                 panel3.add(label1);
 
                 //---- button1 ----
                 button1.setText("Add Mod(s)");
                 button1.setIcon(UIManager.getIcon("Tree.leafIcon"));
+                button1.addActionListener(e -> addModClicked(e));
                 panel3.add(button1);
 
                 //---- button2 ----

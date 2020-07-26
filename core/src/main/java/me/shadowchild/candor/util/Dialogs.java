@@ -1,5 +1,6 @@
 package me.shadowchild.candor.util;
 
+import com.google.common.collect.Sets;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.util.nfd.NFDPathSet;
 import org.lwjgl.util.tinyfd.TinyFileDialogs;
@@ -53,7 +54,7 @@ public class Dialogs {
     public static Set<File> openMultiFileDialog(String filterList) {
 
         // Initialize the value we will return
-        Set<File> ret = null;
+        Set<File> ret = Sets.newHashSet();
 
         // Open the file dialog
         try (NFDPathSet pathSet = NFDPathSet.calloc()) {

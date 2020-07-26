@@ -42,6 +42,7 @@ public class CandorLauncher {
 			module.setModsFolder(new File(CoreConfig.modsFolder));
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setResizable(true);
+			frame.setTitle("Candor Mod Manager");
 			frame.setContentPane(new ModScene());
 			frame.setMinimumSize(new Dimension(1200, 768));
 			// TODO: Allow the window to stay on the same screen it was used on

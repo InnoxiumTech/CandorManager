@@ -27,7 +27,7 @@ public class GameSelectScene extends JFrame {
                 modFolderBrowse.setEnabled(true);
             }
         } catch (IOException exception) {
-
+            
             exception.printStackTrace();
         }
     }
