@@ -1,10 +1,11 @@
 package me.shadowchild.candor;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
-import me.shadowchild.candor.window.GameSelectScene;
-import me.shadowchild.candor.window.ModScene;
 import me.shadowchild.candor.module.AbstractModule;
 import me.shadowchild.candor.module.ModuleSelector;
+import me.shadowchild.candor.window.GameSelectScene;
+import me.shadowchild.candor.window.ModScene;
+import me.shadowchild.cybernize.util.ClassLoadUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +14,21 @@ import java.io.File;
 public class CandorLauncher {
 	
 	public static void main(String[] args) {
+
+		SplashScreen splash = SplashScreen.getSplashScreen();
+		if (splash == null) {
+
+			System.out.println("SplashScreen.getSplashScreen() returned null");
+			return;
+		}
+		Graphics2D g = splash.createGraphics();
+		if(g == null) {
+
+			System.out.println("Graphics2d was null :(");
+			return;
+		}
+
+		g.drawString("Loading Candor Resources", splash.getBounds().width / 2, splash.getBounds().height / 2);
 
 		FlatDarculaLaf.install();
 
@@ -26,6 +42,16 @@ public class CandorLauncher {
 		}
 		ConfigHandler.handleCore();
 		Runtime.getRuntime().addShutdownHook(new RuntimeHook());
+
+		try {
+
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+
+			e.printStackTrace();
+		}
+
+		splash.close();
 
 		if(CoreConfig.showIntro) {
 
@@ -43,6 +69,7 @@ public class CandorLauncher {
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setResizable(true);
 			frame.setTitle("Candor Mod Manager");
+			frame.setIconImage(new ImageIcon(ClassLoadUtil.getCL().getResource("logo.png")).getImage());
 			frame.setContentPane(new ModScene());
 			frame.setMinimumSize(new Dimension(1200, 768));
 			// TODO: Allow the window to stay on the same screen it was used on

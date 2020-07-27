@@ -30,9 +30,19 @@ public class Mod {
         return name;
     }
 
+    public void setState(State state) {
+
+        this.state = state;
+    }
+
     public State getState() {
 
         return state;
+    }
+
+    public void setReadableName(String readableName) {
+
+        this.readableName = readableName;
     }
 
     public String getReadableName() {

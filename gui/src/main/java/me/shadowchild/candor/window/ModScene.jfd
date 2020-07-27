@@ -43,6 +43,9 @@ new FormModel {
 					name: "scrollPane2"
 					add( new FormComponent( "javax.swing.JList" ) {
 						name: "list1"
+						auxiliary() {
+							"JavaCodeGenerator.customCreate": true
+						}
 					} )
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 0 1,dock center"

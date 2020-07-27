@@ -13,11 +13,15 @@ public class GenericModInstaller extends AbstractModInstaller {
 
     @Override
     public boolean canInstall(Mod mod) {
-        return false;
+        return true;
     }
 
+    // Returns whether the mod was installed or not
     @Override
     public boolean install(Mod mod) {
+
+
+
         return false;
     }
 }

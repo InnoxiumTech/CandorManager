@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import me.shadowchild.candor.mod.Mod;
 import me.shadowchild.candor.mod.ModsHandler;
 import me.shadowchild.candor.module.ModuleSelector;
+import me.shadowchild.candor.thread.ThreadModInstaller;
 import me.shadowchild.candor.util.Dialogs;
 import me.shadowchild.candor.window.setting.SettingsFrame;
 import me.shadowchild.cybernize.util.JsonUtil;
@@ -20,6 +21,8 @@ import org.apache.commons.io.FileUtils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -87,7 +90,29 @@ public class ModScene extends JPanel {
     }
 
     private void createUIComponents() {
-        // TODO: add custom component creation code here
+
+
+        list1 = new JList(ModsHandler.MODS.toArray());
+        list1.setCellRenderer(new ListRenderer());
+        list1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        list1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                if(e.getButton() == MouseEvent.BUTTON1) {
+
+                    JList list = (JList) e.getSource();
+                    int index = list.locationToIndex(e.getPoint());
+                    Mod mod = (Mod) list.getModel().getElementAt(index);
+                    switch (mod.getState()) {
+
+                        case ENABLED -> mod.setState(Mod.State.DISABLED);
+                        case DISABLED -> mod.setState(Mod.State.ENABLED);
+                    }
+                    list.repaint(list.getCellBounds(index, index));
+                }
+            }
+        });
     }
 
     private void settingsClicked(ActionEvent e) {
@@ -116,7 +141,6 @@ public class ModScene extends JPanel {
             }
             File newFile = new File(modStore, file.getName());
             Mod mod = Mod.of(newFile);
-            ModsHandler.MODS.add(mod);
             try {
 
                 JsonObject contents = JsonUtil.getObjectFromUrl(installedModsConfig.toURI().toURL());
@@ -131,12 +155,16 @@ public class ModScene extends JPanel {
 
                 exception.printStackTrace();
             }
+            ModsHandler.MODS.add(mod);
+            new ThreadModInstaller(mod).start();
         });
     }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Zach Piddock
+        createUIComponents();
+
         panel1 = new JPanel();
         panel3 = new JPanel();
         label1 = new JLabel();
@@ -144,7 +172,6 @@ public class ModScene extends JPanel {
         button2 = new JButton();
         button3 = new JButton();
         scrollPane2 = new JScrollPane();
-        list1 = new JList();
         scrollPane1 = new JScrollPane();
         tree1 = new JTree();
         menuBar1 = new JMenuBar();
@@ -156,11 +183,12 @@ public class ModScene extends JPanel {
         menuItem3 = new JMenuItem();
 
         //======== this ========
-        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border .EmptyBorder (
-        0, 0 ,0 , 0) ,  "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn" , javax. swing .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder
-        . BOTTOM, new java. awt .Font ( "Dia\u006cog", java .awt . Font. BOLD ,12 ) ,java . awt. Color .
-        red ) , getBorder () ) );  addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java .
-        beans. PropertyChangeEvent e) { if( "\u0062ord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border.
+        EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax. swing. border. TitledBorder. CENTER, javax. swing
+        . border. TitledBorder. BOTTOM, new java .awt .Font ("Dialo\u0067" ,java .awt .Font .BOLD ,12 ),
+        java. awt. Color. red) , getBorder( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( )
+        { @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("borde\u0072" .equals (e .getPropertyName () ))
+        throw new RuntimeException( ); }} );
         setLayout(new BorderLayout());
 
         //======== panel1 ========
@@ -268,4 +296,24 @@ public class ModScene extends JPanel {
     private JMenu menu2;
     private JMenuItem menuItem3;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
+
+    class ListRenderer extends JCheckBox implements ListCellRenderer<Mod> {
+
+        @Override
+        public Component getListCellRendererComponent(JList<? extends Mod> list, Mod value, int index, boolean isSelected, boolean cellHasFocus) {
+
+            this.setEnabled(value.getState() == Mod.State.ENABLED);
+            switch(value.getState()) {
+
+                case ENABLED -> this.setSelected(true);
+                case DISABLED -> this.setSelected(false);
+            }
+            this.setFont(list.getFont());
+            this.setBackground(list.getBackground());
+            this.setForeground(list.getForeground());
+            this.setText(value.getReadableName());
+
+            return this;
+        }
+    }
 }

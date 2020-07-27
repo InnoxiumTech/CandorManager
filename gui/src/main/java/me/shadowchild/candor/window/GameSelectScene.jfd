@@ -11,6 +11,7 @@ new FormModel {
 			"locationByPlatform": true
 			"title": "Candor Mod Manager"
 			"resizable": false
+			"iconImage": new com.jformdesigner.model.SwingIcon( 0, "/logo.png" )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 				name: "dialogPane"
 				"border": new javax.swing.border.EmptyBorder( 12, 12, 12, 12 )

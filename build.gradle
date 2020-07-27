@@ -43,6 +43,7 @@ shadowJar {
 
         attributes 'Main-Class': 'me.shadowchild.candor.CandorLauncher'
         attributes 'Premain-Class': 'ca.cgjennings.jvm.JarLoader'
+        attributes 'SplashScreen-Image': 'splash.png'
     }
 }
 

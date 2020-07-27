@@ -67,7 +67,7 @@ public class GenericModule extends AbstractModule {
     @Override
     public AbstractModInstaller getModInstaller() {
 
-        return null;
+        return new GenericModInstaller(this);
     }
 
     @Override
