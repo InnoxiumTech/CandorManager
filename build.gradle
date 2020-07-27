@@ -35,9 +35,11 @@ dependencies {
 
 shadowJar {
 
-    baseName = "CandorManager-${subprojects.version[0]}"
-    classifier = ''
-//    exclude 'me/shadowchild/candor/generic/**'
+    archiveBaseName = 'CandorManager'
+    archiveClassifier = ''
+    archiveVersion = "${subprojects.version[0]}"
+//    classifier = ''
+    exclude 'me/shadowchild/candor/generic/**'
 
     manifest {
 

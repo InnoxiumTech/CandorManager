@@ -42,7 +42,7 @@ public class GenericModule extends AbstractModule {
     @Override
     public String getModuleName() {
 
-        return "Generic Module";
+        return "generic";
     }
 
     @Override

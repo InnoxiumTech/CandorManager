@@ -14,7 +14,7 @@ import java.util.jar.Manifest;
 public class ModuleSelector {
 
     public static final ArrayList<AbstractModule> MODULES = Lists.newArrayList();
-    public static final AbstractModule GENERIC_MODULE = instanceGenericModule();
+    public static AbstractModule GENERIC_MODULE;
 
     public static AbstractModule currentModule = null;
 
@@ -24,6 +24,7 @@ public class ModuleSelector {
     public static void initModules() throws Exception {
 
         loadFromDir(new File("./module"));
+        instanceGenericModule();
 
 //        try {
 //
@@ -38,6 +39,8 @@ public class ModuleSelector {
     }
 
     private static void loadFromDir(File file) throws Exception {
+
+        if(!file.exists()) file.mkdirs();
 
         for(File jar : file.listFiles()) {
 
@@ -60,12 +63,12 @@ public class ModuleSelector {
     /**
      * This method loads the GenericModule in to the array, as this will be a fallback if there is no module for a game
      */
-    private static AbstractModule instanceGenericModule() {
+    private static void instanceGenericModule() {
 
         try {
 
             Class<? extends AbstractModule> clazz = ClassLoadUtil.loadClass("me.shadowchild.candor.generic.GenericModule");
-            return clazz.getDeclaredConstructor().newInstance();
+            GENERIC_MODULE = clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
 
             Dialogs.showInfoDialog(
@@ -77,12 +80,18 @@ public class ModuleSelector {
             e.printStackTrace();
             System.exit(2);
         }
-        return null;
     }
 
     public static AbstractModule getModuleForGame(File gameExe) {
 
         for (AbstractModule module : MODULES) {
+
+            if(module.getModuleName().equals("generic")) {
+
+                System.out.println("I'm the generic module");
+                currentModule = GENERIC_MODULE;
+                return GENERIC_MODULE;
+            }
 
             for(String s : module.acceptedExe()) {
 
