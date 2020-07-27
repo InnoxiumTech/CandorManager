@@ -30,8 +30,13 @@ jobs:
             - v1-dependencies-{{ checksum "build.gradle" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
+            
+      # Fix gradlew have permission issues
+      - run:
+          name: chmod permissions
+          command: chmod +x ./gradlew
 
-      - run: gradle dependencies
+      - run: gradlew dependencies
 
       - save_cache:
           paths:
@@ -42,12 +47,6 @@ jobs:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
-          
-          
-      # Fix gradlew have permission issues
-      - run:
-          name: chmod permissions
-          command: chmod +x ./gradlew
       
       - run:
           name: Assemble JAR
@@ -62,4 +61,4 @@ jobs:
           path: build/packaged
 
       # run tests!
-      - run: gradle test
+      - run: gradlew test
