@@ -69,9 +69,17 @@ task copyJars(type: Copy) {
     into "$buildDir/packaged"
 }
 
-task zipCandor(type: Zip) {
+task copyScripts(type: Copy) {
 
     dependsOn 'copyJars'
+
+    from "$projectDir/scripts"
+    into "$buildDir/packaged"
+}
+
+task zipCandor(type: Zip) {
+
+    dependsOn 'copyScripts'
 
     from "$buildDir/packaged"
     include '*'

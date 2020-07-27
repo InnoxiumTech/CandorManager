@@ -24,6 +24,8 @@ public class ModuleSelector {
     public static void initModules() throws Exception {
 
         loadFromDir(new File("./module"));
+        System.out.println("Modules Found: " + MODULES.size());
+        for(AbstractModule module : MODULES) System.out.println(module.getModuleName());
         instanceGenericModule();
 
 //        try {

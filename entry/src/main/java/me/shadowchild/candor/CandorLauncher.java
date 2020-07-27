@@ -15,21 +15,16 @@ public class CandorLauncher {
 	
 	public static void main(String[] args) {
 
-//		SplashScreen splash = SplashScreen.getSplashScreen();
-//		if (splash == null) {
-//
-//			System.out.println("SplashScreen.getSplashScreen() returned null");
-//			return;
-//		}
-//		Graphics2D g = splash.createGraphics();
-//		if(g == null) {
-//
-//			System.out.println("Graphics2d was null :(");
-//			return;
-//		}
-//
-//		g.drawString("Loading Candor Resources", splash.getBounds().width / 2, splash.getBounds().height / 2);
+		SplashScreen splash = SplashScreen.getSplashScreen();
+		if(splash != null) {
 
+			Graphics2D g = splash.createGraphics();
+
+			g.setPaintMode();
+			g.drawString("Loading Candor Resources", splash.getBounds().width / 2, splash.getBounds().height / 2);
+
+			splash.update();
+		}
 		FlatDarculaLaf.install();
 
 		try {
@@ -43,15 +38,7 @@ public class CandorLauncher {
 		ConfigHandler.handleCore();
 		Runtime.getRuntime().addShutdownHook(new RuntimeHook());
 
-//		try {
-//
-//			Thread.sleep(1000);
-//		} catch (InterruptedException e) {
-//
-//			e.printStackTrace();
-//		}
-//
-//		splash.close();
+		if(splash != null) splash.close();
 
 		if(CoreConfig.showIntro) {
 
