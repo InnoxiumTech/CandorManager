@@ -2,7 +2,7 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
@@ -22,7 +22,6 @@ jobs:
       TERM: dumb
 
     steps:
-
       - checkout
 
       # Download and cache dependencies
@@ -31,13 +30,8 @@ jobs:
             - v1-dependencies-{{ checksum "build.gradle" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-            
-      # Fix gradlew have permission issues
-      - run:
-          name: chmod permissions
-          command: chmod +x ./gradlew
 
-      - run: gradlew dependencies
+      - run: gradle dependencies
 
       - save_cache:
           paths:
@@ -48,6 +42,12 @@ jobs:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
+          
+          
+      # Fix gradlew have permission issues
+      - run:
+          name: chmod permissions
+          command: chmod +x ./gradlew
       
       - run:
           name: Assemble JAR
@@ -57,7 +57,9 @@ jobs:
               ./gradlew packageCandor
             fi
           
-      # As the JAR was only assembled in the first build container, build/packaged will be empty in all the other build containers.
+      # As the JAR was only assembled in the first build container, build/libs will be empty in all the other build containers.
       - store_artifacts:
           path: build/packaged
 
+      # run tests!
+      - run: gradle test
