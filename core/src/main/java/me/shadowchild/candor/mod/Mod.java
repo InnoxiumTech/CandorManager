@@ -1,9 +1,15 @@
 package me.shadowchild.candor.mod;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import me.shadowchild.cybernize.zip.ZipUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class Mod {
 
@@ -11,13 +17,15 @@ public class Mod {
     private String name;
     private State state;
     private String readableName;
+    private JsonArray associatedFiles;
 
-    private Mod(File file, String name, State state, String readableName) {
+    private Mod(File file, String name, State state, String readableName, JsonArray associatedFiles) {
 
         this.file = file;
         this.name = name;
         this.state = state;
         this.readableName = readableName;
+        this.associatedFiles = associatedFiles;
     }
 
     public File getFile() {
@@ -50,11 +58,42 @@ public class Mod {
         return readableName;
     }
 
+    public JsonArray getAssociatedFiles() {
+
+        return associatedFiles;
+    }
+
     public static Mod of(File file) {
 
         String name = file.getName().substring(0, file.getName().lastIndexOf("."));
         State state = State.DISABLED;
-        return new Mod(file, name, state, name);
+
+        JsonArray array = new JsonArray();
+        if(ZipUtils.isZip(file)) {
+
+            try {
+
+                ZipInputStream stream = new ZipInputStream(new FileInputStream(file));
+                ZipEntry entry = stream.getNextEntry();
+
+                while(entry != null) {
+
+                    String entryName = entry.getName();
+                    System.out.println(entryName);
+
+                    array.add(entryName);
+
+                    entry = stream.getNextEntry();
+                }
+                stream.closeEntry();
+                stream.close();
+            } catch (IOException e) {
+
+                e.printStackTrace();
+            }
+        }
+
+        return new Mod(file, name, state, name, array);
     }
 
     public static Mod of(JsonObject obj) {
@@ -65,7 +104,8 @@ public class Mod {
         String readableName;
         if(obj.has("readableName")) readableName = obj.get("readableName").getAsString();
         else readableName = file.getName().substring(0, file.getName().lastIndexOf("."));
-        return new Mod(file, name, state, readableName);
+        JsonArray array = obj.getAsJsonArray("associatedFiles");
+        return new Mod(file, name, state, readableName, array);
     }
 
     public static JsonObject from(Mod mod) throws IOException {
@@ -75,6 +115,7 @@ public class Mod {
         obj.addProperty("name", mod.getName());
         obj.addProperty("state", mod.getState().name());
         obj.addProperty("readableName", mod.getReadableName());
+        obj.add("associatedFiles", mod.getAssociatedFiles());
         return obj;
     }
 
