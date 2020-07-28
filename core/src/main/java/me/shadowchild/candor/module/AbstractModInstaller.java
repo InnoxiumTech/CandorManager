@@ -4,7 +4,7 @@ import me.shadowchild.candor.mod.Mod;
 
 public abstract class AbstractModInstaller {
 
-    private AbstractModule module;
+    protected AbstractModule module;
 
     public AbstractModInstaller(AbstractModule module) {
 

@@ -4,6 +4,7 @@ import me.shadowchild.candor.CoreConfig;
 import me.shadowchild.candor.module.AbstractModule;
 import me.shadowchild.candor.module.ModuleSelector;
 import me.shadowchild.candor.util.Dialogs;
+import me.shadowchild.candor.util.Resources;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -87,7 +88,9 @@ public class GameSelectScene extends JFrame {
             module.setModsFolder(new File(modFolderField.getText()));
             this.setVisible(false);
             this.setResizable(true);
-            this.setContentPane(new ModScene());
+            ModScene modScene = new ModScene();
+            Resources.currentScene = modScene;
+            this.setContentPane(modScene);
             this.setMinimumSize(new Dimension(1200, 768));
             // TODO: Allow the window to stay on the same screen it was used on
             this.setLocationRelativeTo(null);

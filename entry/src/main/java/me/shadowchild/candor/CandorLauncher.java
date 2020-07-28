@@ -3,6 +3,7 @@ package me.shadowchild.candor;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import me.shadowchild.candor.module.AbstractModule;
 import me.shadowchild.candor.module.ModuleSelector;
+import me.shadowchild.candor.util.Resources;
 import me.shadowchild.candor.window.GameSelectScene;
 import me.shadowchild.candor.window.ModScene;
 import me.shadowchild.cybernize.util.ClassLoadUtil;
@@ -21,6 +22,7 @@ public class CandorLauncher {
 			Graphics2D g = splash.createGraphics();
 
 			g.setPaintMode();
+			g.setFont(new Font("Calibri", Font.PLAIN, 25));
 			g.drawString("Loading Candor Resources", splash.getBounds().width / 2, splash.getBounds().height / 2);
 
 			splash.update();
@@ -57,7 +59,9 @@ public class CandorLauncher {
 			frame.setResizable(true);
 			frame.setTitle("Candor Mod Manager");
 			frame.setIconImage(new ImageIcon(ClassLoadUtil.getCL().getResource("logo.png")).getImage());
-			frame.setContentPane(new ModScene());
+			ModScene modScene = new ModScene();
+			Resources.currentScene = modScene;
+			frame.setContentPane(modScene);
 			frame.setMinimumSize(new Dimension(1200, 768));
 			// TODO: Allow the window to stay on the same screen it was used on
 			frame.setLocationRelativeTo(null);

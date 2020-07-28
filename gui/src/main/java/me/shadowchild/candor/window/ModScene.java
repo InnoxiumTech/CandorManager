@@ -26,6 +26,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collection;
 
 
 public class ModScene extends JPanel {
@@ -44,6 +45,20 @@ public class ModScene extends JPanel {
             System.exit(-1);
         }
         initComponents();
+        ModsHandler.MODS.addListener(new ModsHandler.ListChangeListener<Mod>() {
+
+            @Override
+            public void handleChange(String identifier, Mod mod, boolean result) {
+
+                list1.setListData(ModsHandler.MODS.toArray());
+            }
+
+            @Override
+            public void handleChange(String identifier, Collection<? extends Mod> c, boolean result) {
+
+                list1.setListData(ModsHandler.MODS.toArray());
+            }
+        });
     }
 
     private void determineInstalledMods() throws IOException {
@@ -99,7 +114,7 @@ public class ModScene extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                if(e.getButton() == MouseEvent.BUTTON1) {
+                if(e.getButton() == MouseEvent.BUTTON1 && ((JList)e.getSource()).getModel().getSize() != 0) {
 
                     JList list = (JList) e.getSource();
                     int index = list.locationToIndex(e.getPoint());
@@ -121,6 +136,12 @@ public class ModScene extends JPanel {
         dialog.setAlwaysOnTop(true);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
+    }
+
+    public void updateModList() {
+
+        list1.setListData(ModsHandler.MODS.toArray());
+        list1.updateUI();
     }
 
     private void addModClicked(ActionEvent e) {

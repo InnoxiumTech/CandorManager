@@ -6,6 +6,9 @@ plugins {
 dependencies {
 
     implementation project(":core")
+
+    implementation 'com.github.ShadowChild:Cybernize2:master-SNAPSHOT'
+    implementation 'com.electronwill.night-config:toml:3.6.3'
 }
 
 jar {
