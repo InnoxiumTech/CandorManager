@@ -37,4 +37,9 @@ public abstract class AbstractModule {
     public abstract String[] acceptedExe();
 
     public abstract String getModFileFilterList();
+
+    public boolean getEnableExtractOption() {
+
+        return false;
+    }
 }

@@ -10,6 +10,7 @@ public class CoreConfig implements ConfigHandler.IConfig {
     public static boolean showIntro = true;
     public static String game = "";
     public static String modsFolder = "";
+    public static boolean modExtract = false;
 
     static CommentedFileConfig cfg;
 
@@ -40,6 +41,9 @@ public class CoreConfig implements ConfigHandler.IConfig {
 
         modsFolder = cfg.getOrElse("modsFolder", "");
         cfg.set("modsFolder", modsFolder);
+
+        modExtract = cfg.getOrElse("modExtract", false);
+        cfg.set("modExtract", modExtract);
 
 //        cfg.save();
     }

@@ -138,12 +138,6 @@ public class ModScene extends JPanel {
         dialog.setVisible(true);
     }
 
-    public void updateModList() {
-
-        list1.setListData(ModsHandler.MODS.toArray());
-        list1.updateUI();
-    }
-
     private void addModClicked(ActionEvent e) {
 
         File modStore = new File("config/" + ModuleSelector.currentModule.getExeName() + "/mods");

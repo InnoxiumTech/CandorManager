@@ -1,8 +1,10 @@
 package me.shadowchild.candor.generic;
 
+import me.shadowchild.candor.CoreConfig;
 import me.shadowchild.candor.mod.Mod;
 import me.shadowchild.candor.module.AbstractModInstaller;
 import me.shadowchild.candor.module.AbstractModule;
+import me.shadowchild.cybernize.zip.ZipUtils;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -27,16 +29,30 @@ public class GenericModInstaller extends AbstractModInstaller {
         File modDir = this.module.getModsFolder();
         if(!modDir.exists()) modDir.mkdirs();
 
-        try {
+        if (CoreConfig.modExtract) {
 
-            if(!FileUtils.directoryContains(modDir, mod.getFile())) {
+            try {
 
-                FileUtils.copyFileToDirectory(mod.getFile(), modDir);
+                ZipUtils.unZipIt(mod.getFile().getCanonicalPath(), modDir.getCanonicalPath());
+            } catch (IOException exception) {
+
+                exception.printStackTrace();
+                return false;
             }
-        } catch (IOException exception) {
+        } else {
 
-            exception.printStackTrace();
-            return false;
+            try {
+
+                if (!FileUtils.directoryContains(modDir, mod.getFile())) {
+
+                    FileUtils.copyFileToDirectory(mod.getFile(), modDir);
+                    return true;
+                }
+            } catch (IOException exception) {
+
+                exception.printStackTrace();
+                return false;
+            }
         }
 
         return false;

@@ -10,6 +10,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -26,6 +28,10 @@ public class GameSelectScene extends JFrame {
 
                 modFolderField.setEnabled(true);
                 modFolderBrowse.setEnabled(true);
+            }
+            if(module.getEnableExtractOption()) {
+
+                checkBox2.setEnabled(true);
             }
         } catch (IOException exception) {
             
@@ -105,6 +111,22 @@ public class GameSelectScene extends JFrame {
 //        CoreConfig.showIntro = !CoreConfig.showIntro;
     }
 
+    private void extractorClicked(ActionEvent e) {
+        
+        CoreConfig.changeValue("modExtract", CoreConfig.modExtract, !CoreConfig.modExtract);
+    }
+
+    private void thisWindowClosing(WindowEvent e) {
+
+        boolean result = Dialogs.showInfoDialog(
+                "Candor Mod Manager",
+                "Are you sure you wish to exit?",
+                "yesno",
+                "question",
+                false);
+        if(result) System.exit(1);
+    }
+
     public void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Zach Piddock
@@ -118,27 +140,35 @@ public class GameSelectScene extends JFrame {
         modFolderBrowse = new JButton();
         buttonBar = new JPanel();
         checkBox1 = new JCheckBox();
+        checkBox2 = new JCheckBox();
         okButton = new JButton();
         cancelButton = new JButton();
 
         //======== this ========
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setLocationByPlatform(true);
         setTitle("Candor Mod Manager");
         setResizable(false);
         setIconImage(new ImageIcon(getClass().getResource("/logo.png")).getImage());
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                thisWindowClosing(e);
+            }
+        });
         var contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
         //======== dialogPane ========
         {
             dialogPane.setBorder(new EmptyBorder(12, 12, 12, 12));
-            dialogPane.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing.
-            border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDes\u0069gner \u0045valua\u0074ion" , javax. swing .border . TitledBorder. CENTER
-            ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "D\u0069alog", java .awt . Font
-            . BOLD ,12 ) ,java . awt. Color .red ) ,dialogPane. getBorder () ) ); dialogPane. addPropertyChangeListener(
-            new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "\u0062order"
-            .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
+            dialogPane.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing
+            . border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax. swing. border. TitledBorder
+            . CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("D\u0069alog" ,java .
+            awt .Font .BOLD ,12 ), java. awt. Color. red) ,dialogPane. getBorder( )) )
+            ; dialogPane. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
+            ) {if ("\u0062order" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} )
+            ;
             dialogPane.setLayout(new BorderLayout());
 
             //======== contentPanel ========
@@ -190,35 +220,33 @@ public class GameSelectScene extends JFrame {
             //======== buttonBar ========
             {
                 buttonBar.setBorder(new EmptyBorder(12, 0, 0, 0));
-                buttonBar.setLayout(new GridBagLayout());
-                ((GridBagLayout)buttonBar.getLayout()).columnWidths = new int[] {0, 85, 80};
-                ((GridBagLayout)buttonBar.getLayout()).columnWeights = new double[] {1.0, 0.0, 0.0};
+                buttonBar.setLayout(new BoxLayout(buttonBar, BoxLayout.X_AXIS));
 
                 //---- checkBox1 ----
                 checkBox1.setText("Skip Intro?");
                 checkBox1.addActionListener(e -> checkBox(e));
-                buttonBar.add(checkBox1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 5), 0, 0));
+                buttonBar.add(checkBox1);
+
+                //---- checkBox2 ----
+                checkBox2.setText("Mod Requires Extracting?");
+                checkBox2.setEnabled(false);
+                checkBox2.addActionListener(e -> extractorClicked(e));
+                buttonBar.add(checkBox2);
 
                 //---- okButton ----
                 okButton.setText("OK");
                 okButton.addActionListener(e -> onButtonClicked(e));
-                buttonBar.add(okButton, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 5), 0, 0));
+                buttonBar.add(okButton);
 
                 //---- cancelButton ----
                 cancelButton.setText("Cancel");
                 cancelButton.addActionListener(e -> cancelButtonClicked(e));
-                buttonBar.add(cancelButton, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+                buttonBar.add(cancelButton);
             }
             dialogPane.add(buttonBar, BorderLayout.SOUTH);
         }
         contentPane.add(dialogPane, BorderLayout.CENTER);
-        setSize(400, 300);
+        setSize(435, 300);
         setLocationRelativeTo(null);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
@@ -235,6 +263,7 @@ public class GameSelectScene extends JFrame {
     private JButton modFolderBrowse;
     private JPanel buttonBar;
     private JCheckBox checkBox1;
+    private JCheckBox checkBox2;
     private JButton okButton;
     private JButton cancelButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables

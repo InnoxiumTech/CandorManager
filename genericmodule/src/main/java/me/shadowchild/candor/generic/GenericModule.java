@@ -82,4 +82,10 @@ public class GenericModule extends AbstractModule {
         // We dont need this for the generic module
         return new String[0];
     }
+
+    @Override
+    public boolean getEnableExtractOption() {
+
+        return true;
+    }
 }

@@ -3,6 +3,7 @@ package me.shadowchild.candor;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import me.shadowchild.candor.module.AbstractModule;
 import me.shadowchild.candor.module.ModuleSelector;
+import me.shadowchild.candor.util.Dialogs;
 import me.shadowchild.candor.util.Resources;
 import me.shadowchild.candor.window.GameSelectScene;
 import me.shadowchild.candor.window.ModScene;
@@ -10,6 +11,8 @@ import me.shadowchild.cybernize.util.ClassLoadUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 
 public class CandorLauncher {
@@ -55,7 +58,21 @@ public class CandorLauncher {
 			AbstractModule module = ModuleSelector.getModuleForGame(game);
 			module.setGame(game);
 			module.setModsFolder(new File(CoreConfig.modsFolder));
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+			frame.addWindowListener(new WindowAdapter() {
+
+				@Override
+				public void windowClosing(WindowEvent e) {
+
+					boolean result = Dialogs.showInfoDialog(
+							"Candor Mod Manager",
+							"Are you sure you wish to exit?",
+							"yesno",
+							"question",
+							false);
+					if(result) System.exit(1);
+				}
+			});
 			frame.setResizable(true);
 			frame.setTitle("Candor Mod Manager");
 			frame.setIconImage(new ImageIcon(ClassLoadUtil.getCL().getResource("logo.png")).getImage());
