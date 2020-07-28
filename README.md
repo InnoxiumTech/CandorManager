@@ -1,4 +1,4 @@
-# CandorManager
+# CandorManager [![CandorManager](https://circleci.com/gh/ShadowChild/CandorManager.svg?style=shield)]()
 A new breed of mod manager
 
 # Thanks
