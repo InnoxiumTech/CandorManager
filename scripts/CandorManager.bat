@@ -1,5 +1,5 @@
 @ECHO OFF
 
-java -javaagent:"CandorManager-snapshot.jar" -jar CandorManager-snapshot.jar
+java --enable-preview -javaagent:"CandorManager-snapshot.jar" -jar CandorManager-snapshot.jar
 
 pause

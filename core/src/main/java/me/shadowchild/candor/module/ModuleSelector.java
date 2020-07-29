@@ -88,18 +88,14 @@ public class ModuleSelector {
 
         for (AbstractModule module : MODULES) {
 
-            if(module.getModuleName().equals("generic")) {
-
-                System.out.println("I'm the generic module");
-                currentModule = GENERIC_MODULE;
-                return GENERIC_MODULE;
-            }
-
             for(String s : module.acceptedExe()) {
 
                 String gameString = gameExe.getName().substring(0, gameExe.getName().indexOf("."));
+                System.out.println(s);
+                System.out.println(gameString);
                 if(s.equalsIgnoreCase(gameString)) {
 
+                    System.out.println("Module is " + module.getModuleName());
                     currentModule = module;
                     return module;
                 }

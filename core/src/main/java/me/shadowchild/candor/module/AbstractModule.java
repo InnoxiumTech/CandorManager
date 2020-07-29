@@ -8,7 +8,7 @@ public abstract class AbstractModule {
 
     public AbstractModule() {
 
-        ModuleSelector.MODULES.add(this);
+//        ModuleSelector.MODULES.add(this);
     }
 
     public abstract File getGame();
@@ -23,7 +23,11 @@ public abstract class AbstractModule {
 
     public String getExeName() {
 
-        return getGame().getName().substring(0, getGame().getName().lastIndexOf("."));
+        File game = getGame();
+
+        String exeName = game.getName().substring(0, game.getName().lastIndexOf("."));
+
+        return exeName;
     }
 
     public abstract String getReadableGameName();
