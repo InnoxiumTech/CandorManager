@@ -12,6 +12,8 @@ subprojects {
 
 allprojects {
 
+    sourceCompatibility = 14
+
 //    mainClassName = 'me.shadowchild.candor.CandorLauncher'
 
     repositories {
@@ -20,6 +22,13 @@ allprojects {
         mavenCentral()
         maven { url 'https://jitpack.io' }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    }
+
+    tasks.withType(JavaCompile) {
+        options.compilerArgs += '--enable-preview'
+    }
+    tasks.withType(Test) {
+        jvmArgs += "--enable-preview"
     }
 }
 

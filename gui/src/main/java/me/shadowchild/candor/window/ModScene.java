@@ -4,6 +4,7 @@
 
 package me.shadowchild.candor.window;
 
+import com.formdev.flatlaf.FlatIconColors;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -110,6 +111,52 @@ public class ModScene extends JPanel {
         list1 = new JList(ModsHandler.MODS.toArray());
         list1.setCellRenderer(new ListRenderer());
         list1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        list1.setSelectionModel(new DefaultListSelectionModel() {
+
+            private static final long serialVersionUID = 1L;
+
+            boolean gestureStarted = false;
+
+            @Override
+            public void setSelectionInterval(int index0, int index1) {
+
+                if(!gestureStarted) {
+
+                    if (index0 == index1) {
+
+                        if (isSelectedIndex(index0)) {
+
+                            removeSelectionInterval(index0, index0);
+                            return;
+                        }
+                    }
+                    super.setSelectionInterval(index0, index1);
+                }
+                gestureStarted = true;
+            }
+
+            @Override
+            public void addSelectionInterval(int index0, int index1) {
+
+                if (index0==index1) {
+
+                    if (isSelectedIndex(index0)) {
+
+                        removeSelectionInterval(index0, index0);
+                        return;
+                    }
+                    super.addSelectionInterval(index0, index1);
+                }
+            }
+
+            @Override
+            public void setValueIsAdjusting(boolean isAdjusting) {
+
+                if (!isAdjusting) {
+                    gestureStarted = false;
+                }
+            }
+        });
         list1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -119,11 +166,7 @@ public class ModScene extends JPanel {
                     JList list = (JList) e.getSource();
                     int index = list.locationToIndex(e.getPoint());
                     Mod mod = (Mod) list.getModel().getElementAt(index);
-                    switch (mod.getState()) {
-
-                        case ENABLED -> mod.setState(Mod.State.DISABLED);
-                        case DISABLED -> mod.setState(Mod.State.ENABLED);
-                    }
+                    ((ListRenderer) list.getCellRenderer()).selected = !((ListRenderer) list.getCellRenderer()).selected;
                     list.repaint(list.getCellBounds(index, index));
                 }
             }
@@ -175,6 +218,54 @@ public class ModScene extends JPanel {
         });
     }
 
+    private void removeModsSelected(ActionEvent e) {
+        
+        list1.getSelectedValuesList().forEach(o -> {
+            
+            File modsFolder = ModuleSelector.currentModule.getModsFolder();
+            File modStore = new File("/config" + ModuleSelector.currentModule.getExeName() + "/mods");
+            Mod mod = (Mod)o;
+
+            mod.getAssociatedFiles().forEach(element -> {
+
+                try {
+
+                    File toDelete = new File(modsFolder, element.getAsString());
+                    System.out.println("Deleting: " + toDelete.getAbsolutePath());
+                    FileUtils.deleteQuietly(new File(modsFolder, element.getAsString()));
+
+                    JsonObject contents = JsonUtil.getObjectFromUrl(installedModsConfig.toURI().toURL());
+                    JsonArray array = contents.get("mods").getAsJsonArray();
+                    JsonArray newArray = array.deepCopy();
+
+                    array.forEach(object -> {
+
+                        JsonObject obj = (JsonObject)object;
+                        if(mod.getName().equals(obj.get("name").getAsString())) {
+
+                            newArray.remove(obj);
+                        }
+                    });
+
+                    contents.remove("mods");
+                    contents.add("mods", newArray);
+
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    FileWriter writer = new FileWriter(installedModsConfig);
+                    gson.toJson(contents, writer);
+
+                    writer.close();
+
+                    FileUtils.deleteQuietly(mod.getFile());
+                    ModsHandler.MODS.remove(mod);
+                } catch (IOException exception) {
+
+                    exception.printStackTrace();
+                }
+            });
+        });
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Zach Piddock
@@ -198,12 +289,13 @@ public class ModScene extends JPanel {
         menuItem3 = new JMenuItem();
 
         //======== this ========
-        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border.
-        EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax. swing. border. TitledBorder. CENTER, javax. swing
-        . border. TitledBorder. BOTTOM, new java .awt .Font ("Dialo\u0067" ,java .awt .Font .BOLD ,12 ),
-        java. awt. Color. red) , getBorder( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( )
-        { @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("borde\u0072" .equals (e .getPropertyName () ))
-        throw new RuntimeException( ); }} );
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax.
+        swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax. swing. border
+        . TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dialo\u0067"
+        ,java .awt .Font .BOLD ,12 ), java. awt. Color. red) , getBorder
+        ( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java
+        .beans .PropertyChangeEvent e) {if ("borde\u0072" .equals (e .getPropertyName () )) throw new RuntimeException
+        ( ); }} );
         setLayout(new BorderLayout());
 
         //======== panel1 ========
@@ -233,10 +325,13 @@ public class ModScene extends JPanel {
 
                 //---- button2 ----
                 button2.setText("Remove Selected");
+                button2.setIcon(null);
+                button2.addActionListener(e -> removeModsSelected(e));
                 panel3.add(button2);
 
                 //---- button3 ----
-                button3.setText("Install Mod(s)");
+                button3.setText("Install Selected Mod(s)");
+                button3.setIcon(UIManager.getIcon("FileView.floppyDriveIcon"));
                 panel3.add(button3);
             }
             panel1.add(panel3, "cell 0 0");
@@ -314,18 +409,21 @@ public class ModScene extends JPanel {
 
     class ListRenderer extends JCheckBox implements ListCellRenderer<Mod> {
 
+        public boolean selected = false;
+
         @Override
         public Component getListCellRendererComponent(JList<? extends Mod> list, Mod value, int index, boolean isSelected, boolean cellHasFocus) {
 
             this.setEnabled(value.getState() == Mod.State.ENABLED);
-            switch(value.getState()) {
-
-                case ENABLED -> this.setSelected(true);
-                case DISABLED -> this.setSelected(false);
-            }
+            this.setSelected(selected);
             this.setFont(list.getFont());
             this.setBackground(list.getBackground());
             this.setForeground(list.getForeground());
+
+            if(selected) {
+
+                this.setBackground(Color.decode(String.valueOf(FlatIconColors.OBJECTS_GREY.rgb)));
+            }
             this.setText(value.getReadableName());
 
             return this;
