@@ -1,4 +1,4 @@
-# CandorManager [![CandorManager](https://circleci.com/gh/ShadowChild/CandorManager.svg?style=shield)]()
+# CandorManager [![CandorManager](https://circleci.com/gh/ShadowChild/CandorManager.svg?style=shield)]() [ ![Download](https://api.bintray.com/packages/candor/candor-alpha/candor-full/images/download.svg) ](https://bintray.com/candor/candor-alpha/candor-full/_latestVersion)
 A new breed of mod manager
 
 # Thanks
