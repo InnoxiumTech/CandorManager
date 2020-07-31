@@ -10,3 +10,4 @@ build
 bin/
 config/
 res/
+bintray.properties

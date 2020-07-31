@@ -15,7 +15,7 @@ import java.util.jar.JarFile;
  * with Java 9+, your app must be started with
  * {@code -javaagent:path/to/jar-loader.jar}.
  *
- * @author Chris Jennings <https://cgjennings.ca/contact.html>
+ * @author Chris Jennings https://cgjennings.ca/contact.html
  */
 public class JarLoader {
 

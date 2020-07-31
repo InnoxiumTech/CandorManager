@@ -2,7 +2,11 @@ plugins {
 
     id 'java'
     id 'com.github.johnrengelman.shadow' version '6.0.0'
+    id "com.jfrog.bintray" version '1.8.5'
 }
+
+def props = new Properties()
+file("bintray.properties").withInputStream { props.load(it) }
 
 subprojects {
 
@@ -11,6 +15,10 @@ subprojects {
 }
 
 allprojects {
+
+    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
+    apply plugin: 'java'
 
     sourceCompatibility = 14
 
@@ -32,6 +40,8 @@ allprojects {
     }
 }
 
+//jar.enabled = false
+
 //apply plugin: 'com.github.johnrengelman.shadow'
 
 dependencies {
@@ -46,7 +56,7 @@ shadowJar {
 
     archiveBaseName = 'CandorManager'
     archiveClassifier = ''
-    archiveVersion = "${subprojects.version[0]}"
+//    archiveVersion = "${subprojects.version[0]}"
 //    classifier = ''
     exclude 'me/shadowchild/candor/generic/**'
 
@@ -102,5 +112,78 @@ task packageCandor {
 
     dependsOn 'clean', 'zipCandor'
 }
+
+// Must be BELOW subprojects{}
+task alljavadoc(type: Javadoc) {
+    options {
+        addBooleanOption('-enable-preview', true)
+        addStringOption('-release', '14')
+    }
+    source subprojects.collect { it.sourceSets.main.allJava }
+    classpath = files(subprojects.collect { it.sourceSets.main.compileClasspath })
+    destinationDir = file("${buildDir}/docs/javadoc")
+}
+
+task javadocJar(type: Jar, dependsOn: alljavadoc) {
+
+    classifier = 'javadoc'
+    from alljavadoc.destinationDir
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from subprojects.collect { it.sourceSets.main.allSource }
+}
+
+shadowJar.finalizedBy javadocJar
+shadowJar.finalizedBy sourcesJar
+
+
+
+publishing {
+
+    publications {
+
+        CandorPublication(MavenPublication) {
+            from components.java
+//            artifact shadowJar
+            artifact sourcesJar
+            artifact javadocJar
+            groupId 'me.shadowchild.candor'
+            artifactId 'candor-full'
+            version 'snapshot-0.1'
+        }
+    }
+}
+
+bintray {
+
+//    dryRun = true
+    user = props.get("username")
+    key = props.get("apiKey")
+    publications = ['CandorPublication']
+    filesSpec {
+
+        from 'build/libs'
+//        exclude 'CandorManager.jar'
+        into '.'
+    }
+    pkg {
+
+        repo = 'candor-alpha'
+        name = 'candor-full'
+        userOrg = 'candor'
+        vcsUrl = 'https://github.com/ShadowChild/CandorManager.git'
+        licenses = ['MIT']
+        version {
+
+            name = 'snapshot-0.1'
+            desc = ' Initial Test Release For Candor'
+            released = new Date()
+        }
+    }
+}
+
+tasks.build.dependsOn tasks.shadowJar
 
 
