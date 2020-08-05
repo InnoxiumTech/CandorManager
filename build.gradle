@@ -6,7 +6,7 @@ plugins {
 }
 
 def props = new Properties()
-file("bintray.properties").withInputStream { props.load(it) }
+//file("bintray.properties").withInputStream { props.load(it) }
 
 subprojects {
 
@@ -159,8 +159,8 @@ publishing {
 bintray {
 
 //    dryRun = true
-    user = props.get("username")
-    key = props.get("apiKey")
+    user = System.getenv("BINTRAY_USER")
+    key = System.getenv("BINTRAY_KEY")
     publications = ['CandorPublication']
     filesSpec {
 
