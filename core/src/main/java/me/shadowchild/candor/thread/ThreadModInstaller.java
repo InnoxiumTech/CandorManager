@@ -1,6 +1,7 @@
 package me.shadowchild.candor.thread;
 
 import me.shadowchild.candor.mod.Mod;
+import me.shadowchild.candor.mod.ModsHandler;
 import me.shadowchild.candor.module.AbstractModInstaller;
 import me.shadowchild.candor.module.ModuleSelector;
 
@@ -16,10 +17,17 @@ public class ThreadModInstaller extends Thread {
     @Override
     public void run() {
 
+        boolean installed = false;
+
         AbstractModInstaller module = ModuleSelector.currentModule.getModInstaller();
         if(module.canInstall(mod)) {
 
-            module.install(mod);
+            installed = module.install(mod);
+        }
+        if(installed) {
+
+            mod.setState(Mod.State.ENABLED);
+            ModsHandler.MODS.fireChangeToListeners("install", mod, true);
         }
     }
 }

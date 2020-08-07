@@ -38,6 +38,7 @@ new FormModel {
 						name: "button3"
 						"text": "Install Selected Mod(s)"
 						"icon": new com.jformdesigner.model.SwingIcon( 2, "FileView.floppyDriveIcon" )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "installModsClicked", true ) )
 					} )
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 0 0"

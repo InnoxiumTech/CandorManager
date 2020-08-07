@@ -5,6 +5,7 @@
 package me.shadowchild.candor.window;
 
 import com.formdev.flatlaf.FlatIconColors;
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -28,6 +29,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 
@@ -218,13 +220,15 @@ public class ModScene extends JPanel {
                     exception.printStackTrace();
                 }
                 ModsHandler.MODS.add(mod);
-                new ThreadModInstaller(mod).start();
+//                new ThreadModInstaller(mod).start();
             }
         });
     }
 
     private void removeModsSelected(ActionEvent e) {
-        
+
+        ArrayList<Mod> removedMods = Lists.newArrayList();
+
         list1.getSelectedValuesList().forEach(o -> {
             
             File modsFolder = ModuleSelector.currentModule.getModsFolder();
@@ -262,15 +266,26 @@ public class ModScene extends JPanel {
                     writer.close();
 
                     FileUtils.deleteQuietly(mod.getFile());
-                    ModsHandler.MODS.remove(mod);
+                    removedMods.add(mod);
                 } catch (IOException exception) {
 
                     exception.printStackTrace();
                 }
             });
         });
+
+        removedMods.forEach(ModsHandler.MODS::remove);
     }
 
+    private void installModsClicked(ActionEvent e) {
+        
+        list1.getSelectedValuesList().forEach(o -> {
+
+            Mod mod = (Mod)o;
+            new ThreadModInstaller(mod).start();
+        });
+    }
+    
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Zach Piddock
@@ -294,13 +309,12 @@ public class ModScene extends JPanel {
         menuItem3 = new JMenuItem();
 
         //======== this ========
-        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax.
-        swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax. swing. border
-        . TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dialo\u0067"
-        ,java .awt .Font .BOLD ,12 ), java. awt. Color. red) , getBorder
-        ( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java
-        .beans .PropertyChangeEvent e) {if ("borde\u0072" .equals (e .getPropertyName () )) throw new RuntimeException
-        ( ); }} );
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border
+        .EmptyBorder(0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing.border.TitledBorder.CENTER,javax
+        .swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.awt.Font.BOLD,
+        12),java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans
+        .PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("bord\u0065r".equals(e.
+        getPropertyName()))throw new RuntimeException();}});
         setLayout(new BorderLayout());
 
         //======== panel1 ========
@@ -337,6 +351,7 @@ public class ModScene extends JPanel {
                 //---- button3 ----
                 button3.setText("Install Selected Mod(s)");
                 button3.setIcon(UIManager.getIcon("FileView.floppyDriveIcon"));
+                button3.addActionListener(e -> installModsClicked(e));
                 panel3.add(button3);
             }
             panel1.add(panel3, "cell 0 0");
@@ -429,7 +444,7 @@ public class ModScene extends JPanel {
 
                 this.setBackground(Color.decode(String.valueOf(FlatIconColors.OBJECTS_GREY.rgb)));
             }
-            this.setText(value.getReadableName());
+            this.setText(value.getReadableName() + " [" + value.getState().name() + "]");
 
             return this;
         }

@@ -34,6 +34,7 @@ public class GenericModInstaller extends AbstractModInstaller {
             try {
 
                 ZipUtils.unZipIt(mod.getFile().getCanonicalPath(), modDir.getCanonicalPath());
+                return true;
             } catch (IOException exception) {
 
                 exception.printStackTrace();
