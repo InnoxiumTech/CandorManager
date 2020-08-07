@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import me.shadowchild.candor.mod.Mod;
+import me.shadowchild.candor.mod.ModUtils;
 import me.shadowchild.candor.mod.ModsHandler;
 import me.shadowchild.candor.module.ModuleSelector;
 import me.shadowchild.candor.thread.ThreadModInstaller;
@@ -188,33 +189,37 @@ public class ModScene extends JPanel {
 
         Dialogs.openMultiFileDialog(ModuleSelector.currentModule.getModFileFilterList()).forEach(file -> {
 
-            try {
+            if(!ModUtils.checkAlreadyInstalled(file)) {
 
-                FileUtils.copyFileToDirectory(file, modStore);
-            } catch (IOException exception) {
+                try {
 
-                System.out.println("Could not copy Mod to the mod store, please retry");
-                exception.printStackTrace();
-                return;
+                    FileUtils.copyFileToDirectory(file, modStore);
+                } catch (IOException exception) {
+
+                    System.out.println("Could not copy Mod to the mod store, please retry");
+                    exception.printStackTrace();
+                    return;
+                }
+                File newFile = new File(modStore, file.getName());
+                Mod mod = Mod.of(newFile);
+                mod.setReadableName(JOptionPane.showInputDialog("Please Enter a name for this mod: ", mod.getName()));
+                try {
+
+                    JsonObject contents = JsonUtil.getObjectFromUrl(installedModsConfig.toURI().toURL());
+                    contents.get("mods").getAsJsonArray().add(Mod.from(mod));
+
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    FileWriter writer = new FileWriter(installedModsConfig);
+                    gson.toJson(contents, writer);
+
+                    writer.close();
+                } catch (IOException exception) {
+
+                    exception.printStackTrace();
+                }
+                ModsHandler.MODS.add(mod);
+                new ThreadModInstaller(mod).start();
             }
-            File newFile = new File(modStore, file.getName());
-            Mod mod = Mod.of(newFile);
-            try {
-
-                JsonObject contents = JsonUtil.getObjectFromUrl(installedModsConfig.toURI().toURL());
-                contents.get("mods").getAsJsonArray().add(Mod.from(mod));
-
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                FileWriter writer = new FileWriter(installedModsConfig);
-                gson.toJson(contents, writer);
-
-                writer.close();
-            } catch (IOException exception) {
-
-                exception.printStackTrace();
-            }
-            ModsHandler.MODS.add(mod);
-            new ThreadModInstaller(mod).start();
         });
     }
 

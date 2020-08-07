@@ -6,7 +6,6 @@ import me.shadowchild.cybernize.zip.ZipUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -117,6 +116,19 @@ public class Mod {
         obj.addProperty("readableName", mod.getReadableName());
         obj.add("associatedFiles", mod.getAssociatedFiles());
         return obj;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return this.name.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        assert obj instanceof Mod;
+        return this.name.equals(((Mod) obj).name);
     }
 
     public enum State {

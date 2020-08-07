@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.Consumer;
 
 public class ModsHandler {
 
@@ -59,6 +60,11 @@ public class ModsHandler {
         public void addListener(ListChangeListener<Mod> listener) {
 
             if(!listeners.contains(listener)) listeners.add(listener);
+        }
+
+        public void forEach(Consumer action) {
+
+            MODS_LIST.forEach(action);
         }
     }
 
