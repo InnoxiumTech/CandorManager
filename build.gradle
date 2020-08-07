@@ -32,12 +32,12 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
 
-    tasks.withType(JavaCompile) {
-        options.compilerArgs += '--enable-preview'
-    }
-    tasks.withType(Test) {
-        jvmArgs += "--enable-preview"
-    }
+//    tasks.withType(JavaCompile) {
+//        options.compilerArgs += '--enable-preview'
+//    }
+//    tasks.withType(Test) {
+//        jvmArgs += "--enable-preview"
+//    }
 }
 
 //jar.enabled = false
@@ -116,8 +116,8 @@ task packageCandor {
 // Must be BELOW subprojects{}
 task alljavadoc(type: Javadoc) {
     options {
-        addBooleanOption('-enable-preview', true)
-        addStringOption('-release', '14')
+//        addBooleanOption('-enable-preview', true)
+//        addStringOption('-release', '14')
     }
     source subprojects.collect { it.sourceSets.main.allJava }
     classpath = files(subprojects.collect { it.sourceSets.main.compileClasspath })
