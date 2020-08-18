@@ -1,64 +1,89 @@
 plugins {
 
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '6.0.0'
+//    id 'com.github.johnrengelman.shadow' version '6.0.0'
     id "com.jfrog.bintray" version '1.8.5'
 }
 
 def props = new Properties()
-//file("bintray.properties").withInputStream { props.load(it) }
+file("bintray.properties").withInputStream { props.load(it) }
 
-subprojects {
-
-    group 'me.shadowchild.candor'
-    version 'snapshot'
+switch (org.gradle.internal.os.OperatingSystem.current()) {
+    case org.gradle.internal.os.OperatingSystem.LINUX:
+        project.ext.lwjglNatives = "natives-linux"
+        break
+    case org.gradle.internal.os.OperatingSystem.MAC_OS:
+        project.ext.lwjglNatives = "natives-macos"
+        break
+    case org.gradle.internal.os.OperatingSystem.WINDOWS:
+        project.ext.lwjglNatives = System.getProperty("os.arch").contains("64") ? "natives-windows" : "natives-windows-x86"
+        break
 }
 
-allprojects {
+group 'me.shadowchild.candor'
+version 'snapshot'
 
-    apply plugin: 'maven'
-    apply plugin: 'maven-publish'
-    apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'java'
 
-    sourceCompatibility = 14
+sourceCompatibility = 14
 
-//    mainClassName = 'me.shadowchild.candor.CandorLauncher'
+//mainClassName = 'me.shadowchild.candor.CandorLauncher'
 
-    repositories {
+repositories {
 
-        jcenter()
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    jcenter()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven {
+
+        name 'Cybernize Bintray Repo'
+        url 'https://dl.bintray.com/candor/cybernize'
     }
-
-//    tasks.withType(JavaCompile) {
-//        options.compilerArgs += '--enable-preview'
-//    }
-//    tasks.withType(Test) {
-//        jvmArgs += "--enable-preview"
-//    }
 }
-
-//jar.enabled = false
-
-//apply plugin: 'com.github.johnrengelman.shadow'
 
 dependencies {
 
-    compile project(":core")
-    compile project(":gui")
-    compile project(":entry")
+    implementation 'me.shadowchild.cybernize:cybernize:1.0' changing true
+    implementation 'com.electronwill.night-config:toml:3.6.3'
+    implementation 'com.miglayout:miglayout:3.7.4'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.guava:guava:29.0-jre'
+    implementation "org.apache.commons:commons-lang3:3.10"
+    implementation "commons-io:commons-io:2.7"
+    implementation "org.apache.commons:commons-math3:3.6.1"
+
+    // Flat LAF
+    implementation 'com.formdev:flatlaf:0.38'
+
+    implementation platform("org.lwjgl:lwjgl-bom:3.2.4-SNAPSHOT")
+
+    // We want native file dialogs, lets use LWJGL for that
+    implementation "org.lwjgl:lwjgl"
+    implementation "org.lwjgl:lwjgl-nfd"
+    implementation "org.lwjgl:lwjgl-tinyfd"
+    runtimeOnly "org.lwjgl:lwjgl::natives-windows"
+    runtimeOnly "org.lwjgl:lwjgl::natives-macos"
+    runtimeOnly "org.lwjgl:lwjgl::natives-linux"
+    runtimeOnly "org.lwjgl:lwjgl-nfd::natives-windows"
+    runtimeOnly "org.lwjgl:lwjgl-nfd::natives-macos"
+    runtimeOnly "org.lwjgl:lwjgl-nfd::natives-linux"
+    runtimeOnly "org.lwjgl:lwjgl-tinyfd::natives-windows"
+    runtimeOnly "org.lwjgl:lwjgl-tinyfd::natives-macos"
+    runtimeOnly "org.lwjgl:lwjgl-tinyfd::natives-linux"
+
+//    compile project(":core")
+//    compile project(":gui")
+//    compile project(":entry")
 //    compile project(":genericmodule")
 }
 
-shadowJar {
+jar {
 
     archiveBaseName = 'CandorManager'
-    archiveClassifier = ''
-//    archiveVersion = "${subprojects.version[0]}"
-//    classifier = ''
-    exclude 'me/shadowchild/candor/generic/**'
+    archiveClassifier = 'core'
 
     manifest {
 
@@ -67,6 +92,19 @@ shadowJar {
         attributes 'SplashScreen-Image': 'splash.png'
     }
 }
+
+//shadowJar {
+//
+//    archiveBaseName = 'CandorManager'
+//    archiveClassifier = ''
+//
+//    manifest {
+//
+//        attributes 'Main-Class': 'me.shadowchild.candor.CandorLauncher'
+//        attributes 'Premain-Class': 'ca.cgjennings.jvm.JarLoader'
+//        attributes 'SplashScreen-Image': 'splash.png'
+//    }
+//}
 
 task copyGenericModule(type: Copy) {
 
@@ -113,30 +151,29 @@ task packageCandor {
     dependsOn 'clean', 'zipCandor'
 }
 
-// Must be BELOW subprojects{}
-task alljavadoc(type: Javadoc) {
-    options {
-//        addBooleanOption('-enable-preview', true)
-//        addStringOption('-release', '14')
-    }
-    source subprojects.collect { it.sourceSets.main.allJava }
-    classpath = files(subprojects.collect { it.sourceSets.main.compileClasspath })
-    destinationDir = file("${buildDir}/docs/javadoc")
-}
-
-task javadocJar(type: Jar, dependsOn: alljavadoc) {
-
-    classifier = 'javadoc'
-    from alljavadoc.destinationDir
-}
-
-task sourcesJar(type: Jar) {
+task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
-    from subprojects.collect { it.sourceSets.main.allSource }
+    from sourceSets.main.allSource
 }
 
-shadowJar.finalizedBy javadocJar
-shadowJar.finalizedBy sourcesJar
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+tasks.withType(Javadoc) {
+
+    failOnError false
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    options.addStringOption('charSet', 'UTF-8')
+}
+
+jar.finalizedBy javadocJar
+jar.finalizedBy sourcesJar
+
+//shadowJar.finalizedBy javadocJar
+//shadowJar.finalizedBy sourcesJar
 
 
 
@@ -146,7 +183,6 @@ publishing {
 
         CandorPublication(MavenPublication) {
             from components.java
-//            artifact shadowJar
             artifact sourcesJar
             artifact javadocJar
             groupId 'me.shadowchild.candor'
@@ -159,15 +195,15 @@ publishing {
 bintray {
 
 //    dryRun = true
-    user = System.getenv("BINTRAY_USER")
-    key = System.getenv("BINTRAY_KEY")
+    user = props.get("username")
+    key = props.get("apiKey")
     publications = ['CandorPublication']
-    filesSpec {
-
-        from 'build/libs'
-//        exclude 'CandorManager.jar'
-        into '.'
-    }
+//    filesSpec {
+//
+//        from 'build/libs'
+//        exclude 'CandorManager-snapshot.jar'
+//        into '.'
+//    }
     pkg {
 
         repo = 'candor-alpha'
@@ -183,7 +219,5 @@ bintray {
         }
     }
 }
-
-tasks.build.dependsOn tasks.shadowJar
 
 

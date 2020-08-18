@@ -1,13 +1,46 @@
 plugins {
 
     id 'java-library'
+    id 'java'
+    id "com.jfrog.bintray" version '1.8.5'
+}
+
+group 'me.shadowchild.candor'
+version 'snapshot'
+
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'java'
+
+def props = new Properties()
+file("bintray.properties").withInputStream { props.load(it) }
+
+repositories {
+
+    jcenter()
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+
+    maven {
+
+        name "Candor Bintray"
+        url "https://dl.bintray.com/candor/candor-alpha"
+    }
+
+    maven {
+
+        name "Cybernize Bintray"
+        url "https://dl.bintray.com/candor/cybernize"
+    }
 }
 
 dependencies {
 
-    implementation project(":core")
+//    implementation project(":core")
 
-    implementation 'com.github.ShadowChild:Cybernize2:master-SNAPSHOT'
+    implementation 'me.shadowchild.candor:candor-full:snapshot-0.1'
+
+    implementation 'me.shadowchild.cybernize:cybernize:1.0'
     implementation 'com.electronwill.night-config:toml:3.6.3'
 }
 
@@ -18,5 +51,70 @@ jar {
         // Candor will look for this to find your modules' AbstractModule class
         // Absolutely required to function correctly
         attributes 'Candor-Module-Class': 'me.shadowchild.candor.generic.GenericModule'
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+tasks.withType(Javadoc) {
+
+    failOnError false
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    options.addStringOption('charSet', 'UTF-8')
+}
+
+jar.finalizedBy javadocJar
+jar.finalizedBy sourcesJar
+
+
+publishing {
+
+    publications {
+
+        CandorPublication(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            groupId 'me.shadowchild.candor'
+            artifactId 'candor-genericmodule'
+            version 'snapshot-0.1'
+        }
+    }
+}
+
+bintray {
+
+//    dryRun = true
+    user = props.get("username")
+    key = props.get("apiKey")
+    publications = ['CandorPublication']
+//    filesSpec {
+//
+//        from 'build/libs'
+//        exclude 'CandorManager-snapshot.jar'
+//        into '.'
+//    }
+    pkg {
+
+        repo = 'candor-alpha'
+        name = 'candor-genericmodule'
+        userOrg = 'candor'
+        vcsUrl = 'https://github.com/ShadowChild/CandorManager.git'
+        licenses = ['MIT']
+        version {
+
+            name = 'snapshot-0.1'
+            desc = ' Initial Test Release For Candor'
+            released = new Date()
+        }
     }
 }

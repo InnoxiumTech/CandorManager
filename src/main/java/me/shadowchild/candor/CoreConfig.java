@@ -1,6 +1,8 @@
 package me.shadowchild.candor;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
+import me.shadowchild.candor.settings.Setting;
+import me.shadowchild.candor.settings.Settings;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -33,17 +35,27 @@ public class CoreConfig implements ConfigHandler.IConfig {
 
         cfg.load();
 
-        showIntro = cfg.getOrElse("showIntro", true);
-        cfg.set("showIntro", showIntro);
+        for(Setting setting : Settings.getSettingsFor("core")) {
 
-        game = cfg.getOrElse("game", "");
-        cfg.set("game", game);
+            cfg.set(setting.getName(), setting.get());
+            if(setting.getComment() != null)
+                cfg.setComment(setting.getName(), setting.getComment());
+            System.out.println(setting);
+        }
 
-        modsFolder = cfg.getOrElse("modsFolder", "");
-        cfg.set("modsFolder", modsFolder);
+        cfg.save();
 
-        modExtract = cfg.getOrElse("modExtract", false);
-        cfg.set("modExtract", modExtract);
+//        showIntro = cfg.getOrElse("showIntro", true);
+//        cfg.set("showIntro", showIntro);
+//
+//        game = cfg.getOrElse("game", "");
+//        cfg.set("game", game);
+//
+//        modsFolder = cfg.getOrElse("modsFolder", "");
+//        cfg.set("modsFolder", modsFolder);
+//
+//        modExtract = cfg.getOrElse("modExtract", false);
+//        cfg.set("modExtract", modExtract);
 
 //        cfg.save();
     }

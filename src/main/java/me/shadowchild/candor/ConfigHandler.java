@@ -1,7 +1,7 @@
 package me.shadowchild.candor;
 
-import com.electronwill.nightconfig.core.file.FileConfig;
 import com.electronwill.nightconfig.core.file.FileNotFoundAction;
+import me.shadowchild.candor.util.CoreSettings;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -13,16 +13,11 @@ public class ConfigHandler {
 
     public static void handleCore() {
 
+        CoreSettings.init();
         coreConfig.loadConfig(configFolder);
     }
 
     public interface IConfig {
-
-        FileConfig config = buildConfig();
-
-        static FileConfig buildConfig() {
-            return null;
-        }
 
         FileNotFoundAction CREATE_EMPTY = (file, cfgFormat) -> {
 

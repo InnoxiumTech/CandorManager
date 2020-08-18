@@ -1,7 +1,4 @@
 rootProject.name = 'CandorManager'
 
-include 'core'
-include 'entry'
-include 'gui'
-include 'genericmodule'
+//include 'genericmodule'
 

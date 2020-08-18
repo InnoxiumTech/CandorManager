@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class ThreadModInstaller extends Thread {
 
-    private Mod mod;
+    private final Mod mod;
 
     public ThreadModInstaller(Mod mod) {
 
