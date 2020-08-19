@@ -11,3 +11,4 @@ bin/
 config/
 res/
 bintray.properties
+module/

@@ -1,12 +1,20 @@
 package me.shadowchild.candor.module;
 
-import com.google.common.collect.Lists;
 import ca.cgjennings.jvm.JarLoader;
+import com.google.common.collect.Lists;
 import me.shadowchild.candor.util.Dialogs;
 import me.shadowchild.cybernize.util.ClassLoadUtil;
+import me.shadowchild.cybernize.util.Download;
+import me.shadowchild.cybernize.util.MathUtils;
+import me.shadowchild.cybernize.util.Utils;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -103,5 +111,56 @@ public class ModuleSelector {
         }
         currentModule = GENERIC_MODULE;
         return GENERIC_MODULE;
+    }
+
+    public static void checkGenericModule() throws IOException {
+
+        File moduleJar = new File("./module/GenericModule.jar");
+        String url = "https://dl.bintray.com/candor/candor-alpha/me/shadowchild/candor/candor-genericmodule/0.1/candor-genericmodule-0.1.jar";
+        String fileName = Utils.getFileName(new URL(url));
+        if(!moduleJar.exists()) {
+
+            // If the module jar doesnt exist, download the newest version available
+            // TODO: Add maven repo resolving, for now just use a jar
+
+            Utils.downloadFile(url, new DownloadObserver(), new File("./module"));
+        }
+        while(!moduleJar.exists()) {
+
+            try {
+
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+
+                e.printStackTrace();
+            }
+        }
+        FileUtils.deleteQuietly(new File("./module", fileName));
+    }
+
+    private static class DownloadObserver implements Observer {
+
+        @Override
+        public void update(Observable o, Object arg) {
+
+            Download dl = (Download)o;
+
+            switch (dl.getStatus()) {
+
+                case Download.DOWNLOADING -> System.out.println("Progress = " + dl.getProgress() + ", " +
+                        MathUtils.humanReadableByteCount(dl.getDownloaded(), false) + " / " +
+                        MathUtils.humanReadableByteCount(dl.getSize(), false));
+                case Download.COMPLETE -> {
+
+                    try {
+
+                        FileUtils.copyFile(new File("./module", dl.getUrl().substring(dl.getUrl().lastIndexOf("/"))), new File("./module", "GenericModule.jar"));
+                    } catch (IOException e) {
+
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 }

@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'me.shadowchild.candor'
-version 'snapshot'
+version '1.0'
 
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
@@ -38,10 +38,16 @@ dependencies {
 
 //    implementation project(":core")
 
-    implementation 'me.shadowchild.candor:candor-full:snapshot-0.1'
+    implementation 'me.shadowchild.candor:candor-full:0.1'
 
     implementation 'me.shadowchild.cybernize:cybernize:1.0'
     implementation 'com.electronwill.night-config:toml:3.6.3'
+
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.guava:guava:29.0-jre'
+    implementation "org.apache.commons:commons-lang3:3.10"
+    implementation "commons-io:commons-io:2.7"
+    implementation "org.apache.commons:commons-math3:3.6.1"
 }
 
 jar {
@@ -86,7 +92,7 @@ publishing {
             artifact javadocJar
             groupId 'me.shadowchild.candor'
             artifactId 'candor-genericmodule'
-            version 'snapshot-0.1'
+            version '0.1'
         }
     }
 }
@@ -112,7 +118,7 @@ bintray {
         licenses = ['MIT']
         version {
 
-            name = 'snapshot-0.1'
+            name = '0.1'
             desc = ' Initial Test Release For Candor'
             released = new Date()
         }

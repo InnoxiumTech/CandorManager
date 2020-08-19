@@ -35,6 +35,7 @@ public class CandorLauncher {
 
 		try {
 
+			ModuleSelector.checkGenericModule();
 			ModuleSelector.initModules();
 		} catch (Exception e) {
 
