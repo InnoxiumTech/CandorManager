@@ -71,7 +71,7 @@ public class CandorLauncher {
 							"yesno",
 							"question",
 							false);
-					if(result) System.exit(1);
+					if(result) System.exit(0);
 				}
 			});
 			frame.setResizable(true);

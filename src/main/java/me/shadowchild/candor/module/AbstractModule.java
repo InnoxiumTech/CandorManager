@@ -46,4 +46,6 @@ public abstract class AbstractModule {
 
         return false;
     }
+
+    public abstract RunConfig getDefaultRunConfig();
 }

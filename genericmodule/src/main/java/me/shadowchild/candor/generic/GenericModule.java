@@ -1,8 +1,10 @@
 package me.shadowchild.candor.generic;
 
 import me.shadowchild.candor.ConfigHandler;
+import me.shadowchild.candor.Settings;
 import me.shadowchild.candor.module.AbstractModInstaller;
 import me.shadowchild.candor.module.AbstractModule;
+import me.shadowchild.candor.module.RunConfig;
 
 import java.io.File;
 
@@ -87,5 +89,32 @@ public class GenericModule extends AbstractModule {
     public boolean getEnableExtractOption() {
 
         return true;
+    }
+
+    @Override
+    public RunConfig getDefaultRunConfig() {
+
+        return new DefaultRunConfig();
+    }
+
+    public class DefaultRunConfig extends RunConfig {
+
+        @Override
+        public String getStartCommand() {
+
+            return Settings.gameExe;
+        }
+
+        @Override
+        public String getProgramArgs() {
+
+            return "";
+        }
+
+        @Override
+        public String getWorkingDir() {
+
+            return null;
+        }
     }
 }

@@ -59,7 +59,7 @@ public class GameSelectScene extends JFrame {
                 "yesno",
                 "question",
                 false);
-        if(result) System.exit(1);
+        if(result) System.exit(0);
     }
 
     private void onButtonClicked(ActionEvent e) {
@@ -121,7 +121,7 @@ public class GameSelectScene extends JFrame {
                 "yesno",
                 "question",
                 false);
-        if(result) System.exit(1);
+        if(result) System.exit(0);
     }
 
     public void initComponents() {

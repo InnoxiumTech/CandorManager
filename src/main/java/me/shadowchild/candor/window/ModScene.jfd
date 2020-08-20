@@ -90,6 +90,7 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "menuItem3"
 						"text": "Launch Game"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "runGameClicked", true ) )
 					} )
 				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {

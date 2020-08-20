@@ -1,7 +1,7 @@
 plugins {
 
     id 'java'
-//    id 'com.github.johnrengelman.shadow' version '6.0.0'
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
     id "com.jfrog.bintray" version '1.8.5'
 }
 
@@ -93,33 +93,22 @@ jar {
     }
 }
 
-//shadowJar {
-//
-//    archiveBaseName = 'CandorManager'
-//    archiveClassifier = ''
-//
-//    manifest {
-//
-//        attributes 'Main-Class': 'me.shadowchild.candor.CandorLauncher'
-//        attributes 'Premain-Class': 'ca.cgjennings.jvm.JarLoader'
-//        attributes 'SplashScreen-Image': 'splash.png'
-//    }
-//}
+shadowJar {
 
-task copyGenericModule(type: Copy) {
+    archiveBaseName = 'CandorManager'
+    archiveClassifier = ''
 
-    dependsOn 'shadowJar'
+    manifest {
 
-    File packOutput = new File(project.getBuildDir(), "packaged/module/")
-    if(!packOutput.exists()) packOutput.mkdirs()
-
-    from "$projectDir/genericmodule/build/libs"
-    into "$buildDir/packaged/module/"
+        attributes 'Main-Class': 'me.shadowchild.candor.CandorLauncher'
+        attributes 'Premain-Class': 'ca.cgjennings.jvm.JarLoader'
+        attributes 'SplashScreen-Image': 'splash.png'
+    }
 }
 
 task copyJars(type: Copy) {
 
-    dependsOn 'copyGenericModule'
+    dependsOn 'shadowJar'
 
     from "$buildDir/libs"
     include "*.jar"
@@ -187,7 +176,7 @@ publishing {
             artifact javadocJar
             groupId 'me.shadowchild.candor'
             artifactId 'candor-full'
-            version '0.1.1'
+            version '0.1.2'
         }
     }
 }
@@ -213,7 +202,7 @@ bintray {
         licenses = ['MIT']
         version {
 
-            name = '0.1.1'
+            name = '0.1.2'
             desc = ' Initial Test Release For Candor'
             released = new Date()
         }

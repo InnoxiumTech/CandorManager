@@ -14,6 +14,7 @@ import me.shadowchild.candor.mod.Mod;
 import me.shadowchild.candor.mod.ModUtils;
 import me.shadowchild.candor.mod.ModsHandler;
 import me.shadowchild.candor.module.ModuleSelector;
+import me.shadowchild.candor.module.RunConfig;
 import me.shadowchild.candor.thread.ThreadModInstaller;
 import me.shadowchild.candor.util.Dialogs;
 import me.shadowchild.candor.window.setting.SettingsFrame;
@@ -169,7 +170,7 @@ public class ModScene extends JPanel {
                     JList list = (JList) e.getSource();
                     int index = list.locationToIndex(e.getPoint());
                     Mod mod = (Mod) list.getModel().getElementAt(index);
-                    ((ListRenderer) list.getCellRenderer()).selected = !((ListRenderer) list.getCellRenderer()).selected;
+//                    ((ListRenderer) list.getCellRenderer()).selected = !((ListRenderer) list.getCellRenderer()).selected;
                     list.repaint(list.getCellBounds(index, index));
                 }
             }
@@ -285,6 +286,27 @@ public class ModScene extends JPanel {
             new ThreadModInstaller(mod).start();
         });
     }
+
+    private void runGameClicked(ActionEvent e) {
+        
+        RunConfig runConfig = ModuleSelector.currentModule.getDefaultRunConfig();
+        
+        ProcessBuilder builder = new ProcessBuilder();
+        builder.command(runConfig.getStartCommand() + " " + runConfig.getProgramArgs().toString());
+        String workingDir = runConfig.getWorkingDir();
+        if(workingDir != null && !workingDir.isEmpty()) {
+
+            builder.directory(new File(workingDir));
+        }
+        try {
+
+            System.out.println(builder.command().toString());
+            Process process = builder.start();
+        } catch (IOException ioException) {
+
+            ioException.printStackTrace();
+        }
+    }
     
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -309,12 +331,13 @@ public class ModScene extends JPanel {
         menuItem3 = new JMenuItem();
 
         //======== this ========
-        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border
-        .EmptyBorder(0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing.border.TitledBorder.CENTER,javax
-        .swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.awt.Font.BOLD,
-        12),java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans
-        .PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("bord\u0065r".equals(e.
-        getPropertyName()))throw new RuntimeException();}});
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax.
+        swing. border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border
+        . TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog"
+        ,java .awt .Font .BOLD ,12 ), java. awt. Color. red) , getBorder
+        ( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java
+        .beans .PropertyChangeEvent e) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException
+        ( ); }} );
         setLayout(new BorderLayout());
 
         //======== panel1 ========
@@ -398,6 +421,7 @@ public class ModScene extends JPanel {
 
                 //---- menuItem3 ----
                 menuItem3.setText("Launch Game");
+                menuItem3.addActionListener(e -> runGameClicked(e));
                 menu2.add(menuItem3);
             }
             menuBar1.add(menu2);
@@ -429,18 +453,18 @@ public class ModScene extends JPanel {
 
     class ListRenderer extends JCheckBox implements ListCellRenderer<Mod> {
 
-        public boolean selected = false;
+//        public boolean selected = false;
 
         @Override
         public Component getListCellRendererComponent(JList<? extends Mod> list, Mod value, int index, boolean isSelected, boolean cellHasFocus) {
 
             this.setEnabled(value.getState() == Mod.State.ENABLED);
-            this.setSelected(selected);
+            this.setSelected(value.getState() == Mod.State.ENABLED);
             this.setFont(list.getFont());
             this.setBackground(list.getBackground());
             this.setForeground(list.getForeground());
 
-            if(selected) {
+            if(isSelected) {
 
                 this.setBackground(Color.decode(String.valueOf(FlatIconColors.OBJECTS_GREY.rgb)));
             }
