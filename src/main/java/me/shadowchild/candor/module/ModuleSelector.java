@@ -33,19 +33,8 @@ public class ModuleSelector {
 
         loadFromDir(new File("./module"));
         System.out.println("Modules Found: " + MODULES.size());
-        for(AbstractModule module : MODULES) System.out.println(module.getModuleName());
+        for(AbstractModule module : MODULES) System.out.println("Loaded Module: " + module.getModuleName());
         instanceGenericModule();
-
-//        try {
-//
-        // We happen to be testing with mass effect, no idea why, first game i clicked on
-//            Class<? extends AbstractModule> clazz = ClassLoadUtil.loadClass("me.shadowchild.modmanager.MassEffectModule");
-//            clazz.getDeclaredConstructor().newInstance();
-//        } catch (Exception e) {
-//
-//            e.printStackTrace();
-//        }
-        // TODO: LOAD MODULE FROM DISK
     }
 
     private static void loadFromDir(File file) throws Exception {
@@ -81,14 +70,8 @@ public class ModuleSelector {
             GENERIC_MODULE = clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
 
-            Dialogs.showInfoDialog(
-                    "Candor Mod Manager",
-                    "Candor did not load correctly.\nPlease restart or contact us at:\nhttps://discord.gg/CMG9ZtS",
-                    "ok",
-                    "error",
-                    true);
             e.printStackTrace();
-            System.exit(2);
+            Dialogs.showCandorGenericFailure();
         }
     }
 
@@ -116,7 +99,7 @@ public class ModuleSelector {
     public static void checkGenericModule() throws IOException {
 
         File moduleJar = new File("./module/GenericModule.jar");
-        String url = "https://dl.bintray.com/candor/candor-alpha/me/shadowchild/candor/candor-genericmodule/0.1/candor-genericmodule-0.1.jar";
+        String url = "https://dl.bintray.com/candor/candor-alpha/me/shadowchild/candor/candor-genericmodule/0.1.1/candor-genericmodule-0.1.1.jar";
         String fileName = Utils.getFileName(new URL(url));
         if(!moduleJar.exists()) {
 

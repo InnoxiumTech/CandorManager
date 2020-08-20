@@ -38,9 +38,9 @@ dependencies {
 
 //    implementation project(":core")
 
-    implementation 'me.shadowchild.candor:candor-full:0.1'
+    implementation 'me.shadowchild.candor:candor-full:0.1.1'
 
-    implementation 'me.shadowchild.cybernize:cybernize:1.0'
+    implementation 'me.shadowchild.cybernize:cybernize:1.0.2'
     implementation 'com.electronwill.night-config:toml:3.6.3'
 
     implementation 'com.google.code.gson:gson:2.8.6'
@@ -92,7 +92,7 @@ publishing {
             artifact javadocJar
             groupId 'me.shadowchild.candor'
             artifactId 'candor-genericmodule'
-            version '0.1'
+            version '0.1.1'
         }
     }
 }
@@ -118,7 +118,7 @@ bintray {
         licenses = ['MIT']
         version {
 
-            name = '0.1'
+            name = '0.1.1'
             desc = ' Initial Test Release For Candor'
             released = new Date()
         }

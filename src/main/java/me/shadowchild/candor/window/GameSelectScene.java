@@ -1,6 +1,6 @@
 package me.shadowchild.candor.window;
 
-import me.shadowchild.candor.CoreConfig;
+import me.shadowchild.candor.Settings;
 import me.shadowchild.candor.module.AbstractModule;
 import me.shadowchild.candor.module.ModuleSelector;
 import me.shadowchild.candor.util.Dialogs;
@@ -84,10 +84,8 @@ public class GameSelectScene extends JFrame {
                     true);
         } else {
 
-            CoreConfig.changeValue("game", CoreConfig.game, gameField.getText());
-            CoreConfig.changeValue("modsFolder", CoreConfig.modsFolder, modFolderField.getText());
-//            CoreConfig.game = gameField.getText();
-//            CoreConfig.modsFolder = modFolderField.getText();
+            Settings.gameExe = gameField.getText();
+            Settings.modsFolder = modFolderField.getText();
 
             AbstractModule module = ModuleSelector.currentModule;
             module.setGame(new File(gameField.getText()));
@@ -107,13 +105,12 @@ public class GameSelectScene extends JFrame {
 
     private void checkBox(ActionEvent e) {
 
-        CoreConfig.changeValue("showIntro", CoreConfig.showIntro, !CoreConfig.showIntro);
-//        CoreConfig.showIntro = !CoreConfig.showIntro;
+        Settings.showIntro = !Settings.showIntro;
     }
 
     private void extractorClicked(ActionEvent e) {
-        
-        CoreConfig.changeValue("modExtract", CoreConfig.modExtract, !CoreConfig.modExtract);
+
+        Settings.modExtract = !Settings.modExtract;
     }
 
     private void thisWindowClosing(WindowEvent e) {

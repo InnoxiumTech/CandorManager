@@ -1,9 +1,9 @@
 package me.shadowchild.candor.generic;
 
-import me.shadowchild.candor.CoreConfig;
 import me.shadowchild.candor.mod.Mod;
 import me.shadowchild.candor.module.AbstractModInstaller;
 import me.shadowchild.candor.module.AbstractModule;
+import me.shadowchild.candor.Settings;
 import me.shadowchild.cybernize.zip.ZipUtils;
 import org.apache.commons.io.FileUtils;
 
@@ -29,7 +29,7 @@ public class GenericModInstaller extends AbstractModInstaller {
         File modDir = this.module.getModsFolder();
         if(!modDir.exists()) modDir.mkdirs();
 
-        if (CoreConfig.modExtract) {
+        if (Settings.modExtract) {
 
             try {
 

@@ -140,4 +140,15 @@ public class Dialogs {
 
         return TinyFileDialogs.tinyfd_messageBox(title, message, dialogType, iconType, defaultOption);
     }
+
+    public static void showCandorGenericFailure() {
+
+        showInfoDialog(
+                "Candor Mod Manager",
+                "Candor experienced an error.\nPlease restart or contact us at:\nhttps://discord.gg/CMG9ZtS",
+                "ok",
+                "error",
+                true);
+        System.exit(2);
+    }
 }

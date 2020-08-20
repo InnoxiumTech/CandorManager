@@ -3,7 +3,6 @@ package me.shadowchild.candor;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import me.shadowchild.candor.module.AbstractModule;
 import me.shadowchild.candor.module.ModuleSelector;
-import me.shadowchild.candor.util.CoreSettings;
 import me.shadowchild.candor.util.Dialogs;
 import me.shadowchild.candor.util.Resources;
 import me.shadowchild.candor.window.GameSelectScene;
@@ -47,7 +46,7 @@ public class CandorLauncher {
 
 		if(splash != null) splash.close();
 
-		if(CoreSettings.showIntro) {
+		if(Settings.showIntro) {
 
 			GameSelectScene gameWindow = new GameSelectScene();
 			gameWindow.initComponents();
@@ -56,10 +55,10 @@ public class CandorLauncher {
 
 			JFrame frame = new JFrame();
 
-			File game = new File(CoreSettings.game);
+			File game = new File(Settings.gameExe);
 			AbstractModule module = ModuleSelector.getModuleForGame(game);
 			module.setGame(game);
-			module.setModsFolder(new File(CoreSettings.mods));
+			module.setModsFolder(new File(Settings.modsFolder));
 			frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			frame.addWindowListener(new WindowAdapter() {
 
@@ -94,8 +93,8 @@ public class CandorLauncher {
 		@Override
 		public void run() {
 
-			CoreConfig config = (CoreConfig)ConfigHandler.getCoreConfig();
-			config.close();
+//			CoreConfig config = (CoreConfig)ConfigHandler.getCoreConfig();
+//			config.close();
 		}
 	}
 }
