@@ -8,6 +8,7 @@ import me.shadowchild.candor.util.Resources;
 import me.shadowchild.candor.window.GameSelectScene;
 import me.shadowchild.candor.window.ModScene;
 import me.shadowchild.cybernize.util.ClassLoadUtil;
+import org.lwjgl.system.Platform;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +19,12 @@ import java.io.File;
 public class CandorLauncher {
 	
 	public static void main(String[] args) {
+
+		if(Platform.get() == Platform.MACOSX) {
+
+			// We want to restart the application here with the -XstartOnFirstThread JVM argument
+			// This is slightly more difficult for us as we have the java agent to deal with
+		}
 
 		SplashScreen splash = SplashScreen.getSplashScreen();
 		if(splash != null) {

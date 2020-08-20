@@ -14,4 +14,6 @@ public abstract class AbstractModInstaller {
     public abstract boolean canInstall(Mod mod);
 
     public abstract boolean install(Mod mod);
+
+    public abstract boolean uninstall(Mod mod);
 }

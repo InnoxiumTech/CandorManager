@@ -236,43 +236,44 @@ public class ModScene extends JPanel {
             File modStore = new File("/config" + ModuleSelector.currentModule.getExeName() + "/mods");
             Mod mod = (Mod)o;
 
-            mod.getAssociatedFiles().forEach(element -> {
+            // We let the module decide how to delete the files
+            if(ModuleSelector.currentModule.getModInstaller().uninstall(mod)) {
 
-                try {
+                // Once the module has deleted the files, remove the mod from the mods config
+                mod.getAssociatedFiles().forEach(element -> {
 
-                    File toDelete = new File(modsFolder, element.getAsString());
-                    System.out.println("Deleting: " + toDelete.getAbsolutePath());
-                    FileUtils.deleteQuietly(new File(modsFolder, element.getAsString()));
+                    try {
 
-                    JsonObject contents = JsonUtil.getObjectFromUrl(installedModsConfig.toURI().toURL());
-                    JsonArray array = contents.get("mods").getAsJsonArray();
-                    JsonArray newArray = array.deepCopy();
+                        JsonObject contents = JsonUtil.getObjectFromUrl(installedModsConfig.toURI().toURL());
+                        JsonArray array = contents.get("mods").getAsJsonArray();
+                        JsonArray newArray = array.deepCopy();
 
-                    array.forEach(object -> {
+                        array.forEach(object -> {
 
-                        JsonObject obj = (JsonObject)object;
-                        if(mod.getName().equals(obj.get("name").getAsString())) {
+                            JsonObject obj = (JsonObject)object;
+                            if(mod.getName().equals(obj.get("name").getAsString())) {
 
-                            newArray.remove(obj);
-                        }
-                    });
+                                newArray.remove(obj);
+                            }
+                        });
 
-                    contents.remove("mods");
-                    contents.add("mods", newArray);
+                        contents.remove("mods");
+                        contents.add("mods", newArray);
 
-                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                    FileWriter writer = new FileWriter(installedModsConfig);
-                    gson.toJson(contents, writer);
+                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                        FileWriter writer = new FileWriter(installedModsConfig);
+                        gson.toJson(contents, writer);
 
-                    writer.close();
+                        writer.close();
 
-                    FileUtils.deleteQuietly(mod.getFile());
-                    removedMods.add(mod);
-                } catch (IOException exception) {
+                        FileUtils.deleteQuietly(mod.getFile());
+                    } catch (IOException exception) {
 
-                    exception.printStackTrace();
-                }
-            });
+                        exception.printStackTrace();
+                    }
+                });
+                removedMods.add(mod);
+            }
         });
 
         removedMods.forEach(ModsHandler.MODS::remove);

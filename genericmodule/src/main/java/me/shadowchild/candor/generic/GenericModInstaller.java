@@ -1,9 +1,9 @@
 package me.shadowchild.candor.generic;
 
+import me.shadowchild.candor.Settings;
 import me.shadowchild.candor.mod.Mod;
 import me.shadowchild.candor.module.AbstractModInstaller;
 import me.shadowchild.candor.module.AbstractModule;
-import me.shadowchild.candor.Settings;
 import me.shadowchild.cybernize.zip.ZipUtils;
 import org.apache.commons.io.FileUtils;
 
@@ -57,5 +57,17 @@ public class GenericModInstaller extends AbstractModInstaller {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean uninstall(Mod mod) {
+
+        mod.getAssociatedFiles().forEach(element -> {
+
+            File toDelete = new File(module.getModsFolder(), element.getAsString());
+            System.out.println("Deleting: " + toDelete.getAbsolutePath());
+            FileUtils.deleteQuietly(new File(module.getModsFolder(), element.getAsString()));
+        });
+        return true;
     }
 }

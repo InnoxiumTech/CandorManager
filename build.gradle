@@ -176,7 +176,7 @@ publishing {
             artifact javadocJar
             groupId 'me.shadowchild.candor'
             artifactId 'candor-full'
-            version '0.1.2'
+            version '0.1.3'
         }
     }
 }
@@ -202,7 +202,7 @@ bintray {
         licenses = ['MIT']
         version {
 
-            name = '0.1.2'
+            name = '0.1.3'
             desc = ' Initial Test Release For Candor'
             released = new Date()
         }

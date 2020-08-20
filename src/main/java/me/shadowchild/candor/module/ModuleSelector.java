@@ -99,7 +99,7 @@ public class ModuleSelector {
     public static void checkGenericModule() throws IOException {
 
         File moduleJar = new File("./module/GenericModule.jar");
-        String url = "https://dl.bintray.com/candor/candor-alpha/me/shadowchild/candor/candor-genericmodule/0.1.2/candor-genericmodule-0.1.2.jar";
+        String url = "https://dl.bintray.com/candor/candor-alpha/me/shadowchild/candor/candor-genericmodule/0.1.3/candor-genericmodule-0.1.3.jar";
         String fileName = Utils.getFileName(new URL(url));
         if(!moduleJar.exists()) {
 
