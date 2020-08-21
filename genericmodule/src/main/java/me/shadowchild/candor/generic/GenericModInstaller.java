@@ -4,7 +4,8 @@ import me.shadowchild.candor.Settings;
 import me.shadowchild.candor.mod.Mod;
 import me.shadowchild.candor.module.AbstractModInstaller;
 import me.shadowchild.candor.module.AbstractModule;
-import me.shadowchild.cybernize.zip.ZipUtils;
+import me.shadowchild.cybernize.archive.Archive;
+import me.shadowchild.cybernize.archive.ArchiveBuilder;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -33,8 +34,9 @@ public class GenericModInstaller extends AbstractModInstaller {
 
             try {
 
-                ZipUtils.unZipIt(mod.getFile().getCanonicalPath(), modDir.getCanonicalPath());
-                return true;
+                Archive archive = new ArchiveBuilder(mod.getFile()).outputDirectory(modDir).build();
+                return archive.extract();
+//                ZipUtils.unZipIt(mod.getFile().getCanonicalPath(), modDir.getCanonicalPath());
             } catch (IOException exception) {
 
                 exception.printStackTrace();

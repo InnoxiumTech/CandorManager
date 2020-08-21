@@ -2,13 +2,13 @@ package me.shadowchild.candor.mod;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import me.shadowchild.cybernize.zip.ZipUtils;
+import me.shadowchild.candor.util.Utils;
+import me.shadowchild.cybernize.archive.Archive;
+import me.shadowchild.cybernize.archive.ArchiveBuilder;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import java.util.Objects;
 
 public class Mod {
 
@@ -68,28 +68,24 @@ public class Mod {
         State state = State.DISABLED;
 
         JsonArray array = new JsonArray();
-        if(ZipUtils.isZip(file)) {
 
+        if(Utils.isArchive(file)) {
+
+            Archive archive = new ArchiveBuilder(file).build();
             try {
 
-                ZipInputStream stream = new ZipInputStream(new FileInputStream(file));
-                ZipEntry entry = stream.getNextEntry();
+                for(String filePath : archive.getAllArchiveItems()) {
 
-                while(entry != null) {
-
-                    String entryName = entry.getName();
-                    System.out.println(entryName);
-
-                    array.add(entryName);
-
-                    entry = stream.getNextEntry();
+                    System.out.println(filePath);
+                    array.add(filePath);
                 }
-                stream.closeEntry();
-                stream.close();
             } catch (IOException e) {
 
                 e.printStackTrace();
             }
+        } else {
+
+            array.add(file.getName());
         }
 
         return new Mod(file, name, state, name, array);
@@ -121,7 +117,7 @@ public class Mod {
     @Override
     public int hashCode() {
 
-        return this.name.hashCode();
+        return Objects.hashCode(name);
     }
 
     @Override

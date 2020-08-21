@@ -1,6 +1,5 @@
 package me.shadowchild.candor.generic;
 
-import me.shadowchild.candor.ConfigHandler;
 import me.shadowchild.candor.Settings;
 import me.shadowchild.candor.module.AbstractModInstaller;
 import me.shadowchild.candor.module.AbstractModule;
@@ -58,12 +57,6 @@ public class GenericModule extends AbstractModule {
 
         // Return the executable without the file extension
         return game.getName().substring(0, game.getName().lastIndexOf("."));
-    }
-
-    @Override
-    public ConfigHandler.IConfig getConfig() {
-
-        return new GenericConfig();
     }
 
     @Override

@@ -12,3 +12,4 @@ config/
 res/
 bintray.properties
 module/
+run/

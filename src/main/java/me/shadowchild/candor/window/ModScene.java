@@ -293,7 +293,7 @@ public class ModScene extends JPanel {
         RunConfig runConfig = ModuleSelector.currentModule.getDefaultRunConfig();
         
         ProcessBuilder builder = new ProcessBuilder();
-        builder.command(runConfig.getStartCommand() + " " + runConfig.getProgramArgs().toString());
+        builder.command(runConfig.getStartCommand() + " " + runConfig.getProgramArgs());
         String workingDir = runConfig.getWorkingDir();
         if(workingDir != null && !workingDir.isEmpty()) {
 

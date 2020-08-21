@@ -1,7 +1,5 @@
 package me.shadowchild.candor.module;
 
-import me.shadowchild.candor.ConfigHandler;
-
 import java.io.File;
 
 public abstract class AbstractModule {
@@ -31,8 +29,6 @@ public abstract class AbstractModule {
     }
 
     public abstract String getReadableGameName();
-
-    public abstract ConfigHandler.IConfig getConfig();
 
     public abstract AbstractModInstaller getModInstaller();
 
