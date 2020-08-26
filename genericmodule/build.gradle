@@ -5,7 +5,7 @@ plugins {
     id "com.jfrog.bintray" version '1.8.5'
 }
 
-group 'me.shadowchild.candor'
+group 'uk.co.innoxium.candor'
 version '1.0'
 
 apply plugin: 'maven'
@@ -56,7 +56,7 @@ jar {
 
         // Candor will look for this to find your modules' AbstractModule class
         // Absolutely required to function correctly
-        attributes 'Candor-Module-Class': 'me.shadowchild.candor.generic.GenericModule'
+        attributes 'Candor-Module-Class': 'uk.co.innoxium.candor.generic.GenericModule'
     }
 }
 
@@ -90,7 +90,7 @@ publishing {
             from components.java
             artifact sourcesJar
             artifact javadocJar
-            groupId 'me.shadowchild.candor'
+            groupId 'uk.co.innoxium.candor'
             artifactId 'candor-genericmodule'
             version '0.1.4'
         }
@@ -114,7 +114,7 @@ bintray {
         repo = 'candor-alpha'
         name = 'candor-genericmodule'
         userOrg = 'candor'
-        vcsUrl = 'https://github.com/ShadowChild/CandorManager.git'
+        vcsUrl = 'https://github.com/InnoxiumTech/CandorManager.git'
         licenses = ['MIT']
         version {
 

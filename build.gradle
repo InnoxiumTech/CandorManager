@@ -20,7 +20,7 @@ switch (org.gradle.internal.os.OperatingSystem.current()) {
         break
 }
 
-group 'me.shadowchild.candor'
+group 'uk.co.innoxium.candor'
 version 'snapshot'
 
 apply plugin: 'maven'
@@ -87,7 +87,7 @@ jar {
 
     manifest {
 
-        attributes 'Main-Class': 'me.shadowchild.candor.CandorLauncher'
+        attributes 'Main-Class': 'uk.co.innoxium.candor.CandorLauncher'
         attributes 'Premain-Class': 'ca.cgjennings.jvm.JarLoader'
         attributes 'SplashScreen-Image': 'splash.png'
     }
@@ -100,7 +100,7 @@ shadowJar {
 
     manifest {
 
-        attributes 'Main-Class': 'me.shadowchild.candor.CandorLauncher'
+        attributes 'Main-Class': 'uk.co.innoxium.candor.CandorLauncher'
         attributes 'Premain-Class': 'ca.cgjennings.jvm.JarLoader'
         attributes 'SplashScreen-Image': 'splash.png'
     }
@@ -174,7 +174,7 @@ publishing {
             from components.java
             artifact sourcesJar
             artifact javadocJar
-            groupId 'me.shadowchild.candor'
+            groupId 'uk.co.innoxium.candor'
             artifactId 'candor-full'
             version '0.1.4'
         }
@@ -198,7 +198,7 @@ bintray {
         repo = 'candor-alpha'
         name = 'candor-full'
         userOrg = 'candor'
-        vcsUrl = 'https://github.com/ShadowChild/CandorManager.git'
+        vcsUrl = 'https://github.com/InnoxiumTech/CandorManager.git'
         licenses = ['MIT']
         version {
 
