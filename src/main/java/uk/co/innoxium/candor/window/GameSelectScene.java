@@ -104,7 +104,6 @@ public class GameSelectScene extends JFrame {
             this.setLocationRelativeTo(null);
             this.pack();
             this.setVisible(true);
-            this.dispose(); // Dispose of the screens assets, it may not be used again
         }
     }
 
