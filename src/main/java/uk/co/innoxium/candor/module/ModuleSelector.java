@@ -2,12 +2,12 @@ package uk.co.innoxium.candor.module;
 
 import ca.cgjennings.jvm.JarLoader;
 import com.google.common.collect.Lists;
-import uk.co.innoxium.candor.util.Dialogs;
-import me.shadowchild.cybernize.util.ClassLoadUtil;
-import me.shadowchild.cybernize.util.Download;
-import me.shadowchild.cybernize.util.MathUtils;
-import me.shadowchild.cybernize.util.Utils;
 import org.apache.commons.io.FileUtils;
+import uk.co.innoxium.candor.util.Dialogs;
+import uk.co.innoxium.cybernize.util.ClassLoadUtil;
+import uk.co.innoxium.cybernize.util.Download;
+import uk.co.innoxium.cybernize.util.MathUtils;
+import uk.co.innoxium.cybernize.util.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,7 +66,7 @@ public class ModuleSelector {
 
         try {
 
-            Class<? extends AbstractModule> clazz = ClassLoadUtil.loadClass("me.shadowchild.candor.generic.GenericModule");
+            Class<? extends AbstractModule> clazz = ClassLoadUtil.loadClass("uk.co.innoxium.candor.generic.GenericModule");
             GENERIC_MODULE = clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
 
@@ -125,7 +125,7 @@ public class ModuleSelector {
 
 
 
-        return "https://dl.bintray.com/candor/candor-alpha/me/shadowchild/candor/candor-genericmodule/0.1.4/candor-genericmodule-0.1.4.jar";
+        return "https://dl.bintray.com/candor/candor-alpha/uk/co/innoxium/candor/candor-genericmodule/0.1.5/candor-genericmodule-0.1.5.jar";
     }
 
     private static class DownloadObserver implements Observer {

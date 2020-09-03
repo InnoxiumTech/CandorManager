@@ -1,5 +1,6 @@
 package uk.co.innoxium.candor.window;
 
+import uk.co.innoxium.candor.mod.store.ModStore;
 import uk.co.innoxium.candor.module.AbstractModule;
 import uk.co.innoxium.candor.util.Dialogs;
 import uk.co.innoxium.candor.util.Resources;
@@ -84,12 +85,15 @@ public class GameSelectScene extends JFrame {
                     true);
         } else {
 
+            // TODO: Break window loading into utility class
+
             Settings.gameExe = gameField.getText();
             Settings.modsFolder = modFolderField.getText();
 
             AbstractModule module = ModuleSelector.currentModule;
             module.setGame(new File(gameField.getText()));
             module.setModsFolder(new File(modFolderField.getText()));
+            ModStore.initialise();
             this.setVisible(false);
             this.setResizable(true);
             ModScene modScene = new ModScene();
@@ -100,6 +104,7 @@ public class GameSelectScene extends JFrame {
             this.setLocationRelativeTo(null);
             this.pack();
             this.setVisible(true);
+            this.dispose(); // Dispose of the screens assets, it may not be used again
         }
     }
 

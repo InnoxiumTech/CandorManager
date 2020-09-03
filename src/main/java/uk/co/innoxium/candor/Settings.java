@@ -1,9 +1,10 @@
 package uk.co.innoxium.candor;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
-import me.shadowchild.cybernize.setting.Config;
-import me.shadowchild.cybernize.setting.Setting;
-import me.shadowchild.cybernize.setting.SettingsHolder;
+import uk.co.innoxium.candor.util.Resources;
+import uk.co.innoxium.cybernize.setting.Config;
+import uk.co.innoxium.cybernize.setting.Setting;
+import uk.co.innoxium.cybernize.setting.SettingsHolder;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -32,7 +33,7 @@ public class Settings {
     public static CommentedFileConfig getConfig() {
 
         return CommentedFileConfig
-                .builder(new File("./config", "core.toml"))
+                .builder(new File(Resources.CONFIG_PATH, "core.toml"))
                 .autosave()
                 .autoreload()
                 .charset(StandardCharsets.UTF_8)

@@ -1,12 +1,12 @@
 package uk.co.innoxium.candor.generic;
 
-import me.shadowchild.candor.Settings;
-import me.shadowchild.candor.mod.Mod;
-import me.shadowchild.candor.module.AbstractModInstaller;
-import me.shadowchild.candor.module.AbstractModule;
-import me.shadowchild.cybernize.archive.Archive;
-import me.shadowchild.cybernize.archive.ArchiveBuilder;
 import org.apache.commons.io.FileUtils;
+import uk.co.innoxium.candor.Settings;
+import uk.co.innoxium.candor.mod.Mod;
+import uk.co.innoxium.candor.module.AbstractModInstaller;
+import uk.co.innoxium.candor.module.AbstractModule;
+import uk.co.innoxium.cybernize.archive.Archive;
+import uk.co.innoxium.cybernize.archive.ArchiveBuilder;
 
 import java.io.File;
 import java.io.IOException;

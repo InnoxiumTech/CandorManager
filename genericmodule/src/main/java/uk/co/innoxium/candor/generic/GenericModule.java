@@ -1,9 +1,9 @@
 package uk.co.innoxium.candor.generic;
 
-import me.shadowchild.candor.Settings;
-import me.shadowchild.candor.module.AbstractModInstaller;
-import me.shadowchild.candor.module.AbstractModule;
-import me.shadowchild.candor.module.RunConfig;
+import uk.co.innoxium.candor.Settings;
+import uk.co.innoxium.candor.module.AbstractModInstaller;
+import uk.co.innoxium.candor.module.AbstractModule;
+import uk.co.innoxium.candor.module.RunConfig;
 
 import java.io.File;
 

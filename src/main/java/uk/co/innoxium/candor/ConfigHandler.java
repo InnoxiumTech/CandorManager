@@ -1,15 +1,14 @@
 package uk.co.innoxium.candor;
 
-import me.shadowchild.cybernize.setting.SettingsHandler;
 
-import java.io.File;
+import uk.co.innoxium.candor.util.Resources;
+import uk.co.innoxium.cybernize.setting.SettingsHandler;
 
 public class ConfigHandler {
 
-    private static File configFolder = new File("./config");
-
     public static void handleCore() {
 
+        SettingsHandler.CONFIG_DIR = Resources.CONFIG_PATH;
         SettingsHandler.addHolder(Settings.class);
         try {
 
@@ -18,7 +17,5 @@ public class ConfigHandler {
 
             e.printStackTrace();
         }
-//        CoreSettings.init();
-//        coreConfig.loadConfig(configFolder);
     }
 }

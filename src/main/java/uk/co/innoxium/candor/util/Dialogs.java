@@ -141,6 +141,17 @@ public class Dialogs {
         return TinyFileDialogs.tinyfd_messageBox(title, message, dialogType, iconType, defaultOption);
     }
 
+    public static boolean showErrorMessage(String message) {
+
+        return showInfoDialog(
+                "Candor Mod Manager",
+                message,
+                "ok",
+                "error",
+                true
+        );
+    }
+
     public static void showCandorGenericFailure() {
 
         showInfoDialog(

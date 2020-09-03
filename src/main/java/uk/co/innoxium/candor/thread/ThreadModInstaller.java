@@ -5,10 +5,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import uk.co.innoxium.candor.mod.Mod;
-import uk.co.innoxium.candor.mod.ModsHandler;
+import uk.co.innoxium.candor.mod.store.ModStore;
 import uk.co.innoxium.candor.module.AbstractModInstaller;
 import uk.co.innoxium.candor.module.ModuleSelector;
-import me.shadowchild.cybernize.util.JsonUtil;
+import uk.co.innoxium.cybernize.json.JsonUtil;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -47,12 +47,12 @@ public class ThreadModInstaller extends Thread {
 
                 mod.setState(Mod.State.ENABLED);
                 updateStateInModStore(mod, Mod.State.ENABLED);
-                ModsHandler.MODS.fireChangeToListeners("install", mod, true);
+                ModStore.MODS.fireChangeToListeners("install", mod, true);
             }
         } else {
 
             boolean successful = modInstaller.uninstall(mod);
-            ModsHandler.MODS.fireChangeToListeners("uninstall", mod, successful);
+            ModStore.MODS.fireChangeToListeners("uninstall", mod, successful);
         }
     }
 

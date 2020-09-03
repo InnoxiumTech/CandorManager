@@ -1,14 +1,15 @@
 package uk.co.innoxium.candor;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
+import org.lwjgl.system.Platform;
+import uk.co.innoxium.candor.mod.store.ModStore;
 import uk.co.innoxium.candor.module.AbstractModule;
 import uk.co.innoxium.candor.module.ModuleSelector;
-import me.shadowchild.cybernize.util.ClassLoadUtil;
-import org.lwjgl.system.Platform;
 import uk.co.innoxium.candor.util.Dialogs;
 import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.candor.window.GameSelectScene;
 import uk.co.innoxium.candor.window.ModScene;
+import uk.co.innoxium.cybernize.util.ClassLoadUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -66,6 +67,7 @@ public class CandorLauncher {
 			AbstractModule module = ModuleSelector.getModuleForGame(game);
 			module.setGame(game);
 			module.setModsFolder(new File(Settings.modsFolder));
+			ModStore.initialise();
 			frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			frame.addWindowListener(new WindowAdapter() {
 

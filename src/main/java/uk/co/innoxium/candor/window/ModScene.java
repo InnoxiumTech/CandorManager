@@ -5,22 +5,16 @@
 package uk.co.innoxium.candor.window;
 
 import com.formdev.flatlaf.FlatIconColors;
-import com.google.common.collect.Lists;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import uk.co.innoxium.candor.util.Dialogs;
-import uk.co.innoxium.candor.module.RunConfig;
-import uk.co.innoxium.candor.mod.Mod;
-import uk.co.innoxium.candor.mod.ModUtils;
-import uk.co.innoxium.candor.mod.ModsHandler;
-import uk.co.innoxium.candor.module.ModuleSelector;
-import uk.co.innoxium.candor.thread.ThreadModInstaller;
-import uk.co.innoxium.candor.window.setting.SettingsFrame;
-import me.shadowchild.cybernize.util.JsonUtil;
 import net.miginfocom.swing.MigLayout;
-import org.apache.commons.io.FileUtils;
+import uk.co.innoxium.candor.Settings;
+import uk.co.innoxium.candor.mod.Mod;
+import uk.co.innoxium.candor.mod.ModList;
+import uk.co.innoxium.candor.mod.store.ModStore;
+import uk.co.innoxium.candor.module.ModuleSelector;
+import uk.co.innoxium.candor.module.RunConfig;
+import uk.co.innoxium.candor.thread.ThreadModInstaller;
+import uk.co.innoxium.candor.util.Dialogs;
+import uk.co.innoxium.candor.window.setting.SettingsFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,15 +22,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 
 
 public class ModScene extends JPanel {
-
-    File installedModsConfig = new File("config/" + ModuleSelector.currentModule.getExeName() + "/mods.json");
 
     public ModScene() {
 
@@ -50,23 +40,25 @@ public class ModScene extends JPanel {
             System.exit(-1);
         }
         initComponents();
-        ModsHandler.MODS.addListener(new ModsHandler.ListChangeListener<Mod>() {
+        ModStore.MODS.addListener(new ModList.ListChangeListener<Mod>() {
 
             @Override
             public void handleChange(String identifier, Mod mod, boolean result) {
 
-                list1.setListData(ModsHandler.MODS.toArray());
+                list1.setListData(ModStore.MODS.toArray());
             }
 
             @Override
             public void handleChange(String identifier, Collection<? extends Mod> c, boolean result) {
 
-                list1.setListData(ModsHandler.MODS.toArray());
+                list1.setListData(ModStore.MODS.toArray());
             }
         });
     }
 
     private void determineInstalledMods() throws IOException {
+
+        ModStore.determineInstalledMods();
 
         // This is an example of how the mods will be stored in data
         /*
@@ -83,36 +75,12 @@ public class ModScene extends JPanel {
             }
          ]
          */
-        if(!installedModsConfig.getParentFile().exists()) installedModsConfig.getParentFile().mkdirs();
-        if(!installedModsConfig.exists()) {
-
-            installedModsConfig.createNewFile();
-            Gson gson = new Gson();
-            JsonObject obj = new JsonObject();
-            obj.add("mods", new JsonArray());
-            FileWriter writer = new FileWriter(installedModsConfig);
-            gson.toJson(obj, writer);
-
-            writer.close();
-        }
-
-        JsonObject contents = JsonUtil.getObjectFromUrl(installedModsConfig.toURI().toURL());
-        if(contents.has("mods")) {
-
-            JsonArray array = JsonUtil.getArray(contents, "mods");
-            array.forEach(element -> {
-
-                Mod mod = Mod.of((JsonObject)element);
-                // TODO: check if mods is already in the list
-                ModsHandler.MODS.add(mod);
-            });
-        }
     }
 
     private void createUIComponents() {
 
 
-        list1 = new JList(ModsHandler.MODS.toArray());
+        list1 = new JList(ModStore.MODS.toArray());
         list1.setCellRenderer(new ListRenderer());
         list1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         list1.setSelectionModel(new DefaultListSelectionModel() {
@@ -187,96 +155,32 @@ public class ModScene extends JPanel {
 
     private void addModClicked(ActionEvent e) {
 
-        File modStore = new File("config/" + ModuleSelector.currentModule.getExeName() + "/mods");
-        if(!modStore.exists()) modStore.mkdirs();
-
         Dialogs.openMultiFileDialog(ModuleSelector.currentModule.getModFileFilterList()).forEach(file -> {
 
-            if(!ModUtils.checkAlreadyInstalled(file)) {
+            ModStore.Result result = ModStore.addModFile(file);
 
-                try {
+            switch(result) {
 
-                    FileUtils.copyFileToDirectory(file, modStore);
-                } catch (IOException exception) {
-
-                    System.out.println("Could not copy Mod to the mod store, please retry");
-                    exception.printStackTrace();
-                    return;
-                }
-                File newFile = new File(modStore, file.getName());
-                Mod mod = Mod.of(newFile);
-                mod.setReadableName(JOptionPane.showInputDialog("Please Enter a name for this mod: ", mod.getName()));
-                try {
-
-                    JsonObject contents = JsonUtil.getObjectFromUrl(installedModsConfig.toURI().toURL());
-                    contents.get("mods").getAsJsonArray().add(Mod.from(mod));
-
-                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                    FileWriter writer = new FileWriter(installedModsConfig);
-                    gson.toJson(contents, writer);
-
-                    writer.close();
-                } catch (IOException exception) {
-
-                    exception.printStackTrace();
-                }
-                ModsHandler.MODS.add(mod);
-//                new ThreadModInstaller(mod).start();
+                case DUPLICATE -> Dialogs.showErrorMessage("Mod is a Duplicate and already installed.\nIf updating, please uninstall old file first.");
+                case FAIL -> Dialogs.showErrorMessage(String.format("Mod file %s could not be added.\nPlease try again.", file.getName()));
+                // Fallthrough on default
+                default -> {}
             }
         });
     }
 
     private void removeModsSelected(ActionEvent e) {
 
-        ArrayList<Mod> removedMods = Lists.newArrayList();
-
         list1.getSelectedValuesList().forEach(o -> {
-            
-            File modsFolder = ModuleSelector.currentModule.getModsFolder();
-            File modStore = new File("/config" + ModuleSelector.currentModule.getExeName() + "/mods");
-            Mod mod = (Mod)o;
 
-            // We let the module decide how to delete the files
-            if(ModuleSelector.currentModule.getModInstaller().uninstall(mod)) {
+            try {
 
-                // Once the module has deleted the files, remove the mod from the mods config
-                mod.getAssociatedFiles().forEach(element -> {
+                ModStore.removeModFile((Mod)o);
+            } catch (IOException exception) {
 
-                    try {
-
-                        JsonObject contents = JsonUtil.getObjectFromUrl(installedModsConfig.toURI().toURL());
-                        JsonArray array = contents.get("mods").getAsJsonArray();
-                        JsonArray newArray = array.deepCopy();
-
-                        array.forEach(object -> {
-
-                            JsonObject obj = (JsonObject)object;
-                            if(mod.getName().equals(obj.get("name").getAsString())) {
-
-                                newArray.remove(obj);
-                            }
-                        });
-
-                        contents.remove("mods");
-                        contents.add("mods", newArray);
-
-                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                        FileWriter writer = new FileWriter(installedModsConfig);
-                        gson.toJson(contents, writer);
-
-                        writer.close();
-
-                        FileUtils.deleteQuietly(mod.getFile());
-                    } catch (IOException exception) {
-
-                        exception.printStackTrace();
-                    }
-                });
-                removedMods.add(mod);
+                exception.printStackTrace();
             }
         });
-
-        removedMods.forEach(ModsHandler.MODS::remove);
     }
 
     private void installModsClicked(ActionEvent e) {
@@ -308,10 +212,29 @@ public class ModScene extends JPanel {
             ioException.printStackTrace();
         }
     }
-    
+
+    private void toggleSelectedMods(ActionEvent e) {
+    }
+
+    private void newGameClicked(ActionEvent e) {
+
+        Settings.showIntro = true;
+        Settings.gameExe = "";
+        Settings.modsFolder = "";
+        Settings.modExtract = false;
+        GameSelectScene scene = new GameSelectScene();
+        scene.initComponents();
+        scene.setVisible(false);
+
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        frame.dispose();
+
+        scene.setVisible(true);
+
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Zach Piddock
         createUIComponents();
 
         panel1 = new JPanel();
@@ -320,6 +243,7 @@ public class ModScene extends JPanel {
         button1 = new JButton();
         button2 = new JButton();
         button3 = new JButton();
+        button4 = new JButton();
         scrollPane2 = new JScrollPane();
         scrollPane1 = new JScrollPane();
         tree1 = new JTree();
@@ -335,12 +259,6 @@ public class ModScene extends JPanel {
         menuItem7 = new JMenuItem();
 
         //======== this ========
-        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border .EmptyBorder
-        ( 0, 0 ,0 , 0) ,  "JFor\u006dDesi\u0067ner \u0045valu\u0061tion" , javax. swing .border . TitledBorder. CENTER ,javax . swing. border
-        .TitledBorder . BOTTOM, new java. awt .Font ( "Dia\u006cog", java .awt . Font. BOLD ,12 ) ,java . awt
-        . Color .red ) , getBorder () ) );  addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void
-        propertyChange (java . beans. PropertyChangeEvent e) { if( "bord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException( )
-        ;} } );
         setLayout(new BorderLayout());
 
         //======== panel1 ========
@@ -379,6 +297,11 @@ public class ModScene extends JPanel {
                 button3.setIcon(UIManager.getIcon("FileView.floppyDriveIcon"));
                 button3.addActionListener(e -> installModsClicked(e));
                 panel3.add(button3);
+
+                //---- button4 ----
+                button4.setText("Toggle Enabled");
+                button4.addActionListener(e -> toggleSelectedMods(e));
+                panel3.add(button4);
             }
             panel1.add(panel3, "cell 0 0");
 
@@ -412,6 +335,7 @@ public class ModScene extends JPanel {
                 //---- menuItem2 ----
                 menuItem2.setText("Load New Game");
                 menuItem2.setMnemonic('L');
+                menuItem2.addActionListener(e -> newGameClicked(e));
                 menu1.add(menuItem2);
 
                 //---- menuItem4 ----
@@ -452,13 +376,13 @@ public class ModScene extends JPanel {
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Zach Piddock
     private JPanel panel1;
     private JPanel panel3;
     private JLabel label1;
     private JButton button1;
     private JButton button2;
     private JButton button3;
+    private JButton button4;
     private JScrollPane scrollPane2;
     private JList list1;
     private JScrollPane scrollPane1;

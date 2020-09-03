@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.2.4.305" Java: "11.0.7" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.2.4.305" Java: "11.0.8" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -40,6 +40,11 @@ new FormModel {
 						"icon": new com.jformdesigner.model.SwingIcon( 2, "FileView.floppyDriveIcon" )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "installModsClicked", true ) )
 					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "button4"
+						"text": "Toggle Enabled"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "toggleSelectedMods", true ) )
+					} )
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 0 0"
 				} )
@@ -80,6 +85,7 @@ new FormModel {
 						name: "menuItem2"
 						"text": "Load New Game"
 						"mnemonic": 76
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "newGameClicked", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "menuItem4"

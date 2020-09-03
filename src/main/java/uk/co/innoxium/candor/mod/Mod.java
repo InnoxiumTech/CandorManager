@@ -3,8 +3,8 @@ package uk.co.innoxium.candor.mod;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import uk.co.innoxium.candor.util.Utils;
-import me.shadowchild.cybernize.archive.Archive;
-import me.shadowchild.cybernize.archive.ArchiveBuilder;
+import uk.co.innoxium.cybernize.archive.Archive;
+import uk.co.innoxium.cybernize.archive.ArchiveBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,7 +62,7 @@ public class Mod {
         return associatedFiles;
     }
 
-    public static Mod of(File file) {
+    public static Mod fromFile(File file) {
 
         String name = file.getName().substring(0, file.getName().lastIndexOf("."));
         State state = State.DISABLED;
@@ -91,7 +91,7 @@ public class Mod {
         return new Mod(file, name, state, name, array);
     }
 
-    public static Mod of(JsonObject obj) {
+    public static Mod fromJson(JsonObject obj) {
 
         File file = new File(obj.get("file").getAsString());
         String name = obj.get("name").getAsString();
@@ -103,7 +103,7 @@ public class Mod {
         return new Mod(file, name, state, readableName, array);
     }
 
-    public static JsonObject from(Mod mod) throws IOException {
+    public static JsonObject toJson(Mod mod) throws IOException {
 
         JsonObject obj = new JsonObject();
         obj.addProperty("file", mod.getFile().getCanonicalPath());

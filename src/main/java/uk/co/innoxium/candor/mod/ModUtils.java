@@ -1,5 +1,7 @@
 package uk.co.innoxium.candor.mod;
 
+import uk.co.innoxium.candor.mod.store.ModStore;
+
 import java.io.File;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -9,9 +11,9 @@ public class ModUtils {
 
         AtomicBoolean ret = new AtomicBoolean(false);
 
-        ModsHandler.MODS.forEach(o -> {
+        ModStore.MODS.forEach(o -> {
 
-            if(Mod.of(mod).equals(o)) {
+            if(Mod.fromFile(mod).equals(o)) {
 
                 ret.set(true);
             }
