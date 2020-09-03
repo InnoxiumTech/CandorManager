@@ -130,6 +130,38 @@ public class ModStore {
         return false;
     }
 
+    public static void updateModState(Mod mod, Mod.State state) {
+
+        try {
+
+            JsonObject contents = JsonUtil.getObjectFromPath(modStoreFile.toPath());
+            JsonArray array = contents.get("mods").getAsJsonArray();
+            JsonArray newArray = array.deepCopy();
+
+            for (int i = 0; i < array.size(); i++) {
+
+                JsonObject obj = array.get(i).getAsJsonObject();
+                if(mod.getName().equals(obj.get("name").getAsString())) {
+
+                    newArray.get(i).getAsJsonObject().remove("state");
+                    newArray.get(i).getAsJsonObject().addProperty("state", state.name());
+                }
+            }
+
+            contents.remove("mods");
+            contents.add("mods", newArray);
+
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            FileWriter writer = new FileWriter(modStoreFile);
+            gson.toJson(contents, writer);
+
+            writer.close();
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+    }
+
     public static File getModStoreFolder() {
 
         return modStoreFolder;

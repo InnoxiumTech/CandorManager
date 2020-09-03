@@ -178,7 +178,7 @@ publishing {
             artifact javadocJar
             groupId 'uk.co.innoxium.candor'
             artifactId 'candor-full'
-            version '0.1.5'
+            version '0.1.7'
         }
     }
 }
@@ -204,8 +204,8 @@ bintray {
         licenses = ['MIT']
         version {
 
-            name = '0.1.5'
-            desc = ' Initial Test Release For Candor'
+            name = '0.1.7'
+            desc = 'This release has the new ModStore, which enables better handling of mods'
             released = new Date()
         }
     }
