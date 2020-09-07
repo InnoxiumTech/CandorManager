@@ -43,4 +43,9 @@ public abstract class AbstractModule {
     }
 
     public abstract RunConfig getDefaultRunConfig();
+
+    public boolean isCritical(String filePath) {
+
+        return false;
+    }
 }

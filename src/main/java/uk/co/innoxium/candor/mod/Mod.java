@@ -2,6 +2,7 @@ package uk.co.innoxium.candor.mod;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.util.Utils;
 import uk.co.innoxium.cybernize.archive.Archive;
 import uk.co.innoxium.cybernize.archive.ArchiveBuilder;
@@ -76,8 +77,12 @@ public class Mod {
 
                 for(String filePath : archive.getAllArchiveItems()) {
 
-                    System.out.println(filePath);
-                    array.add(filePath);
+                    // TODO: Add exclude critical folders
+                    if(!ModuleSelector.currentModule.isCritical(filePath)) {
+
+                        System.out.println(filePath);
+                        array.add(filePath);
+                    }
                 }
             } catch (IOException e) {
 
