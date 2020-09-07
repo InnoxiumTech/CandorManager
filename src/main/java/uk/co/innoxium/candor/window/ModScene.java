@@ -399,7 +399,7 @@ public class ModScene extends JPanel {
     private JMenuItem menuItem7;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
-    class ListRenderer extends JCheckBox implements ListCellRenderer<Mod> {
+    static class ListRenderer extends JCheckBox implements ListCellRenderer<Mod> {
 
 //        public boolean selected = false;
 

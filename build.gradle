@@ -75,17 +75,9 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-tinyfd::natives-windows"
     runtimeOnly "org.lwjgl:lwjgl-tinyfd::natives-macos"
     runtimeOnly "org.lwjgl:lwjgl-tinyfd::natives-linux"
-
-//    compile project(":core")
-//    compile project(":gui")
-//    compile project(":entry")
-//    compile project(":genericmodule")
 }
 
 jar {
-
-//    archiveBaseName = 'CandorManager'
-//    archiveClassifier = ''
 
     manifest {
 
