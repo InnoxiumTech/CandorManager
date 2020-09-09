@@ -2,6 +2,8 @@ package uk.co.innoxium.candor.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Vector;
 
 public class Utils {
 
@@ -31,5 +33,10 @@ public class Utils {
             e.printStackTrace();
         }
         return filePath.substring(filePath.lastIndexOf(".") + 1);
+    }
+
+    public static <T> Vector<T> getVectorArrayFromList(ArrayList<T> list) {
+
+        return new Vector<>(list);
     }
 }

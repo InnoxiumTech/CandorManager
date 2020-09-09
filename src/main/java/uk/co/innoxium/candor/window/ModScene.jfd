@@ -93,6 +93,11 @@ new FormModel {
 						"mnemonic": 83
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "settingsClicked", true ) )
 					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "menuItem8"
+						"text": "About"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "aboutClicked", true ) )
+					} )
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "menu2"

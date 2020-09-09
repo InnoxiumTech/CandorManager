@@ -1,14 +1,38 @@
 package uk.co.innoxium.candor.game;
 
 import com.google.gson.JsonObject;
+import uk.co.innoxium.candor.module.ModuleSelector;
 
+import java.io.File;
 import java.util.Objects;
 
 public class Game {
 
-    public String gameExe;
-    public String modsFolder;
-    public String moduleClass;
+    private String gameExe;
+    private String modsFolder;
+    private String moduleClass;
+
+    public Game(String gameExe, String modsFolder, String moduleClass) {
+
+        this.gameExe = gameExe;
+        this.modsFolder = modsFolder;
+        this.moduleClass = moduleClass;
+    }
+
+    public String getGameExe() {
+
+        return gameExe;
+    }
+
+    public String getModsFolder() {
+
+        return modsFolder;
+    }
+
+    public String getModuleClass() {
+
+        return moduleClass;
+    }
 
     public JsonObject toJson() {
 
@@ -38,10 +62,18 @@ public class Game {
 
     @Override
     public String toString() {
-        return "Game{" +
-                "gameExe='" + gameExe + '\'' +
-                ", modsFolder='" + modsFolder + '\'' +
-                ", moduleClass='" + moduleClass + '\'' +
-                '}';
+
+        String gameName = ModuleSelector.getModuleForGame(new File(gameExe)).getReadableGameName();
+        return gameName;
     }
+
+
+    //    @Override
+//    public String toString() {
+//        return "Game{" +
+//                "gameExe='" + gameExe + '\'' +
+//                ", modsFolder='" + modsFolder + '\'' +
+//                ", moduleClass='" + moduleClass + '\'' +
+//                '}';
+//    }
 }

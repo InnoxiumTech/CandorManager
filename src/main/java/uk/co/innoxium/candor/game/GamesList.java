@@ -9,11 +9,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class GamesList {
 
-    private static final List<Game> GAMES_LIST = new ArrayList<>();
+    private static final ArrayList<Game> GAMES_LIST = new ArrayList<>();
     private static final File GAMES_FILE = JsonUtil.getJsonFile(new File(Resources.CONFIG_PATH, "Games.json"), false);
 
     public static void addGame(Game game) {
@@ -24,7 +23,7 @@ public class GamesList {
         }
     }
 
-    public static List<Game> getGamesList() {
+    public static ArrayList<Game> getGamesList() {
 
         return GAMES_LIST;
     }

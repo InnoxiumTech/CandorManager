@@ -233,6 +233,13 @@ public class ModScene extends JPanel {
 
     }
 
+    private void aboutClicked(ActionEvent e) {
+
+        JFrame frame = (JFrame)SwingUtilities.getWindowAncestor(this);
+        AboutDialog dialog = new AboutDialog(frame);
+        dialog.setVisible(true);
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         createUIComponents();
@@ -252,6 +259,7 @@ public class ModScene extends JPanel {
         menuItem1 = new JMenuItem();
         menuItem2 = new JMenuItem();
         menuItem4 = new JMenuItem();
+        menuItem8 = new JMenuItem();
         menu2 = new JMenu();
         menuItem5 = new JMenuItem();
         menuItem6 = new JMenuItem();
@@ -343,6 +351,11 @@ public class ModScene extends JPanel {
                 menuItem4.setMnemonic('S');
                 menuItem4.addActionListener(e -> settingsClicked(e));
                 menu1.add(menuItem4);
+
+                //---- menuItem8 ----
+                menuItem8.setText("About");
+                menuItem8.addActionListener(e -> aboutClicked(e));
+                menu1.add(menuItem8);
             }
             menuBar1.add(menu1);
 
@@ -392,6 +405,7 @@ public class ModScene extends JPanel {
     private JMenuItem menuItem1;
     private JMenuItem menuItem2;
     private JMenuItem menuItem4;
+    private JMenuItem menuItem8;
     private JMenu menu2;
     private JMenuItem menuItem5;
     private JMenuItem menuItem6;

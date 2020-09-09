@@ -14,3 +14,4 @@ bintray.properties
 /module/
 run/
 src/test/
+compileLibs/
