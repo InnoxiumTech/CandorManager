@@ -6,7 +6,11 @@ plugins {
 }
 
 def props = new Properties()
-file("bintray.properties").withInputStream { props.load(it) }
+File bintrayProps = new File("bintray.properties")
+if(bintrayProps.exists()) {
+
+    file("bintray.properties").withInputStream { props.load(it) }
+}
 
 switch (org.gradle.internal.os.OperatingSystem.current()) {
     case org.gradle.internal.os.OperatingSystem.LINUX:
