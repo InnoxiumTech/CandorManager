@@ -22,6 +22,9 @@ switch (org.gradle.internal.os.OperatingSystem.current()) {
     case org.gradle.internal.os.OperatingSystem.WINDOWS:
         project.ext.lwjglNatives = System.getProperty("os.arch").contains("64") ? "natives-windows" : "natives-windows-x86"
         break
+    default:
+        project.ext.lwjglNatives = "natives-linux"
+        break
 }
 
 group 'uk.co.innoxium.candor'
