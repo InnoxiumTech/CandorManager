@@ -1,22 +1,21 @@
 package uk.co.innoxium.candor.window;
 
-import uk.co.innoxium.candor.mod.store.ModStore;
-import uk.co.innoxium.candor.module.AbstractModule;
-import uk.co.innoxium.candor.util.Dialogs;
-import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.candor.Settings;
+import uk.co.innoxium.candor.game.Game;
+import uk.co.innoxium.candor.game.GamesList;
+import uk.co.innoxium.candor.module.AbstractModule;
 import uk.co.innoxium.candor.module.ModuleSelector;
+import uk.co.innoxium.candor.util.Dialogs;
+import uk.co.innoxium.candor.util.WindowUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 
-public class GameSelectScene extends JFrame {
+public class GameSelectScene extends JPanel {
 
     private void gameExeClicked(ActionEvent e) {
 
@@ -90,42 +89,22 @@ public class GameSelectScene extends JFrame {
             Settings.gameExe = gameField.getText();
             Settings.modsFolder = modFolderField.getText();
 
-            AbstractModule module = ModuleSelector.currentModule;
-            module.setGame(new File(gameField.getText()));
-            module.setModsFolder(new File(modFolderField.getText()));
-            ModStore.initialise();
-            this.setVisible(false);
-            this.setResizable(true);
-            ModScene modScene = new ModScene();
-            Resources.currentScene = modScene;
-            this.setContentPane(modScene);
-            this.setMinimumSize(new Dimension(1200, 768));
-            // TODO: Allow the window to stay on the same screen it was used on
-            this.setLocationRelativeTo(null);
-            this.pack();
-            this.setVisible(true);
+            AbstractModule module = ModuleSelector.getModuleForGame(new File(Settings.gameExe));
+            Game game = new Game(Settings.gameExe, module.getModsFolder().getAbsolutePath(), module.getModuleName());
+            WindowUtils.setupModScene(game);
         }
     }
 
     private void checkBox(ActionEvent e) {
 
-        Settings.showIntro = !Settings.showIntro;
+        JCheckBox checkbox = (JCheckBox)e.getSource();
+        Settings.showIntro = !checkbox.isSelected();
     }
 
     private void extractorClicked(ActionEvent e) {
 
-        Settings.modExtract = !Settings.modExtract;
-    }
-
-    private void thisWindowClosing(WindowEvent e) {
-
-        boolean result = Dialogs.showInfoDialog(
-                "Candor Mod Manager",
-                "Are you sure you wish to exit?",
-                "yesno",
-                "question",
-                false);
-        if(result) System.exit(0);
+        JCheckBox checkbox = (JCheckBox)e.getSource();
+        Settings.modExtract = checkbox.isSelected();
     }
 
     public void initComponents() {
@@ -145,19 +124,7 @@ public class GameSelectScene extends JFrame {
         cancelButton = new JButton();
 
         //======== this ========
-        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        setLocationByPlatform(true);
-        setTitle("Candor Mod Manager");
-        setResizable(false);
-        setIconImage(new ImageIcon(getClass().getResource("/logo.png")).getImage());
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                thisWindowClosing(e);
-            }
-        });
-        var contentPane = getContentPane();
-        contentPane.setLayout(new BorderLayout());
+        setLayout(new BorderLayout());
 
         //======== dialogPane ========
         {
@@ -238,9 +205,7 @@ public class GameSelectScene extends JFrame {
             }
             dialogPane.add(buttonBar, BorderLayout.SOUTH);
         }
-        contentPane.add(dialogPane, BorderLayout.CENTER);
-        setSize(435, 300);
-        setLocationRelativeTo(null);
+        add(dialogPane, BorderLayout.CENTER);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 

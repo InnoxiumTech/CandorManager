@@ -14,6 +14,7 @@ import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.module.RunConfig;
 import uk.co.innoxium.candor.thread.ThreadModInstaller;
 import uk.co.innoxium.candor.util.Dialogs;
+import uk.co.innoxium.candor.util.WindowUtils;
 import uk.co.innoxium.candor.window.setting.SettingsFrame;
 
 import javax.swing.*;
@@ -32,6 +33,7 @@ public class ModScene extends JPanel {
 
         try {
 
+            WindowUtils.mainFrame.setMinimumSize(new Dimension(1200, 768));
             determineInstalledMods();
         } catch (IOException e) {
 
@@ -171,16 +173,27 @@ public class ModScene extends JPanel {
 
     private void removeModsSelected(ActionEvent e) {
 
-        list1.getSelectedValuesList().forEach(o -> {
+        if(Dialogs.showConfirmDialog("Remove Selected Mods")) {
 
-            try {
-
-                ModStore.removeModFile((Mod)o);
-            } catch (IOException exception) {
-
-                exception.printStackTrace();
+            if(list1.getSelectedValuesList().isEmpty()) {
+                Dialogs.showInfoDialog(
+                        "Candor Mod Manager",
+                        "You have not selected any mods to remove.",
+                        "ok",
+                        "warning",
+                        false);
             }
-        });
+            list1.getSelectedValuesList().forEach(o -> {
+
+                try {
+
+                    ModStore.removeModFile((Mod) o);
+                } catch (IOException exception) {
+
+                    exception.printStackTrace();
+                }
+            });
+        }
     }
 
     private void installModsClicked(ActionEvent e) {
@@ -219,24 +232,15 @@ public class ModScene extends JPanel {
     private void newGameClicked(ActionEvent e) {
 
         Settings.showIntro = true;
-        Settings.gameExe = "";
-        Settings.modsFolder = "";
-        Settings.modExtract = false;
-        GameSelectScene scene = new GameSelectScene();
-        scene.initComponents();
-        scene.setVisible(false);
-
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        frame.dispose();
-
-        scene.setVisible(true);
-
+//        Settings.gameExe = "";
+//        Settings.modsFolder = "";
+//        Settings.modExtract = false;
+        WindowUtils.setupGameSelectScene();
     }
 
     private void aboutClicked(ActionEvent e) {
 
-        JFrame frame = (JFrame)SwingUtilities.getWindowAncestor(this);
-        AboutDialog dialog = new AboutDialog(frame);
+        AboutDialog dialog = new AboutDialog(WindowUtils.mainFrame);
         dialog.setVisible(true);
     }
 

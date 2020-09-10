@@ -5,12 +5,18 @@
 package uk.co.innoxium.candor.window;
 
 import net.miginfocom.swing.MigLayout;
+import uk.co.innoxium.candor.Settings;
 import uk.co.innoxium.candor.game.Game;
 import uk.co.innoxium.candor.game.GamesList;
+import uk.co.innoxium.candor.module.AbstractModule;
+import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.util.Utils;
+import uk.co.innoxium.candor.util.WindowUtils;
 import uk.co.innoxium.cybernize.util.ClassLoadUtil;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.io.File;
 
 /**
  * @author Zach Piddock
@@ -23,15 +29,35 @@ public class EntryScene extends JPanel {
     private void createUIComponents() {
 
         candoLogo = new JLabel(new ImageIcon(ClassLoadUtil.getCL().getResource("logo.png")));
-        comboBox1 = new JComboBox<Game>(Utils.getVectorArrayFromList(GamesList.getGamesList()));
+        gamesList = new JComboBox<>(Utils.getVectorArrayFromList(GamesList.getGamesList()));
+    }
+
+    private void newGameClicked(ActionEvent e) {
+
+        WindowUtils.setupGameSelectScene();
+    }
+
+    private void loadGameClicked(ActionEvent e) {
+
+        Game game = (Game)gamesList.getSelectedItem();
+        if(game != null) {
+
+            if(defaultCheck.isSelected()) {
+
+                Settings.showIntro = false;
+            }
+            AbstractModule module = ModuleSelector.getModuleForGame(new File(game.getGameExe()));
+            WindowUtils.setupModScene(game);
+        }
     }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         createUIComponents();
 
-        button1 = new JButton();
-        button2 = new JButton();
+        defaultCheck = new JCheckBox();
+        newGameButton = new JButton();
+        loadGameButton = new JButton();
 
         //======== this ========
         setLayout(new MigLayout(
@@ -43,22 +69,29 @@ public class EntryScene extends JPanel {
             "[]" +
             "[]"));
         add(candoLogo, "cell 0 0,dock center");
-        add(comboBox1, "cell 0 1");
+        add(gamesList, "cell 0 1,growx");
 
-        //---- button1 ----
-        button1.setText("Load New Game");
-        add(button1, "cell 0 2,alignx center,growx 0");
+        //---- defaultCheck ----
+        defaultCheck.setText("Default?");
+        add(defaultCheck, "cell 0 1,alignx trailing,growx 0");
 
-        //---- button2 ----
-        button2.setText("Load Selected Game");
-        add(button2, "cell 0 2,alignx center,growx 0");
+        //---- newGameButton ----
+        newGameButton.setText("Load New Game");
+        newGameButton.addActionListener(e -> newGameClicked(e));
+        add(newGameButton, "cell 0 2,alignx center,growx 0");
+
+        //---- loadGameButton ----
+        loadGameButton.setText("Load Selected Game");
+        loadGameButton.addActionListener(e -> loadGameClicked(e));
+        add(loadGameButton, "cell 0 2,alignx center,growx 0");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     private JLabel candoLogo;
-    private JComboBox comboBox1;
-    private JButton button1;
-    private JButton button2;
+    private JComboBox gamesList;
+    private JCheckBox defaultCheck;
+    private JButton newGameButton;
+    private JButton loadGameButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

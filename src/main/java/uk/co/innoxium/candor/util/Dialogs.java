@@ -162,4 +162,14 @@ public class Dialogs {
                 true);
         System.exit(2);
     }
+
+    public static boolean showConfirmDialog(String action) {
+
+        return showInfoDialog(
+                "Candor Mod Manager",
+                "Are you sure you wish perform:\n" + action,
+                "yesno",
+                "question",
+                false);
+    }
 }

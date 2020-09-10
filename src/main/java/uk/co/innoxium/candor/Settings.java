@@ -21,6 +21,8 @@ public class Settings {
     @Setting.Comment("The path to the game .exe")
     public static String gameExe = "";
 
+    // To be replaced by getDefaultGame().getModsFolder()
+    @Deprecated(forRemoval = true)
     @Setting(category = "game")
     @Setting.Comment("The path to the game's mods folder")
     public static String modsFolder = "";

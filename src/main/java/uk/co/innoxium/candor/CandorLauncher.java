@@ -7,6 +7,7 @@ import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.util.WindowUtils;
 
 import java.awt.*;
+import java.io.IOException;
 
 public class CandorLauncher {
 	
@@ -46,15 +47,7 @@ public class CandorLauncher {
 
 		if(splash != null) splash.close();
 
-//		if(Settings.showIntro) {
-//
-//			GameSelectScene gameWindow = new GameSelectScene();
-//			gameWindow.initComponents();
-//			gameWindow.setVisible(true);
-//		} else {
-//
-			WindowUtils.initialiseEntryScene();
-//		}
+		WindowUtils.initialiseFrame(Settings.showIntro);
 	}
 
 	private static class RuntimeHook extends Thread {
@@ -62,6 +55,13 @@ public class CandorLauncher {
 		@Override
 		public void run() {
 
+			try {
+
+				GamesList.writeToFile();
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
 //			CoreConfig config = (CoreConfig)ConfigHandler.getCoreConfig();
 //			config.close();
 		}

@@ -18,22 +18,30 @@ new FormModel {
 				"value": "cell 0 0,dock center"
 			} )
 			add( new FormComponent( "javax.swing.JComboBox" ) {
-				name: "comboBox1"
+				name: "gamesList"
 				auxiliary() {
 					"JavaCodeGenerator.customCreate": true
 				}
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 0 1"
+				"value": "cell 0 1,growx"
+			} )
+			add( new FormComponent( "javax.swing.JCheckBox" ) {
+				name: "defaultCheck"
+				"text": "Default?"
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 1,alignx trailing,growx 0"
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
-				name: "button1"
+				name: "newGameButton"
 				"text": "Load New Game"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "newGameClicked", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 2,alignx center,growx 0"
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
-				name: "button2"
+				name: "loadGameButton"
 				"text": "Load Selected Game"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "loadGameClicked", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 2,alignx center,growx 0"
 			} )
