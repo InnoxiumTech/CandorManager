@@ -3,6 +3,8 @@
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
 version: 2.1
+orbs:
+  discord: antonioned/discord@0.1.0
 jobs:
   build:
     docker:
@@ -61,4 +63,6 @@ jobs:
           path: build/packaged
 
       # run tests!
-      - run: ./gradlew test
+      # - run: ./gradlew test
+      - discord/status:
+        webhook: "${DISCORD_WEBHOOK}"
