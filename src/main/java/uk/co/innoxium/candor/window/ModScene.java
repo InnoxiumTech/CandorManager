@@ -5,11 +5,15 @@
 package uk.co.innoxium.candor.window;
 
 import com.formdev.flatlaf.FlatIconColors;
+import com.github.f4b6a3.uuid.util.UuidConverter;
 import net.miginfocom.swing.MigLayout;
 import uk.co.innoxium.candor.Settings;
+import uk.co.innoxium.candor.game.Game;
+import uk.co.innoxium.candor.game.GamesList;
 import uk.co.innoxium.candor.mod.Mod;
 import uk.co.innoxium.candor.mod.ModList;
 import uk.co.innoxium.candor.mod.store.ModStore;
+import uk.co.innoxium.candor.module.AbstractModule;
 import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.module.RunConfig;
 import uk.co.innoxium.candor.thread.ThreadModInstaller;
@@ -29,12 +33,20 @@ import java.util.Collection;
 
 public class ModScene extends JPanel {
 
-    public ModScene() {
+    public ModScene(String gameUuid) {
+
+        // Set game stuff
+        Game game = GamesList.getGameFromUUID(UuidConverter.fromString(gameUuid));
+        assert game != null;
+        AbstractModule module = ModuleSelector.getModuleForGame(game);
+        module.setGame(new File(game.getGameExe()));
+        module.setModsFolder(new File(game.getModsFolder()));
+        ModStore.initialise();
 
         try {
 
             WindowUtils.mainFrame.setMinimumSize(new Dimension(1200, 768));
-            determineInstalledMods();
+            ModStore.determineInstalledMods();
         } catch (IOException e) {
 
             System.out.println("This shouldn't happen, likely a corrupt mods.json :(");
@@ -56,27 +68,6 @@ public class ModScene extends JPanel {
                 list1.setListData(ModStore.MODS.toArray());
             }
         });
-    }
-
-    private void determineInstalledMods() throws IOException {
-
-        ModStore.determineInstalledMods();
-
-        // This is an example of how the mods will be stored in data
-        /*
-         mods: [
-            {
-                name: "example",
-                file: "path/to/file.ext", // The original file will be stored somewhere so we can compare loose files when disabling/removing
-                state: "enabled"
-            },
-            {
-                name: "anotherExample",
-                file: "another/path/to/file.ext",
-                state: "disabled"
-            }
-         ]
-         */
     }
 
     private void createUIComponents() {

@@ -2,7 +2,6 @@ package uk.co.innoxium.candor.window;
 
 import uk.co.innoxium.candor.Settings;
 import uk.co.innoxium.candor.game.Game;
-import uk.co.innoxium.candor.game.GamesList;
 import uk.co.innoxium.candor.module.AbstractModule;
 import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.util.Dialogs;
@@ -23,7 +22,7 @@ public class GameSelectScene extends JPanel {
         try {
 
             gameField.setText(gameExe.getCanonicalPath());
-            AbstractModule module = ModuleSelector.getModuleForGame(gameExe);
+            AbstractModule module = ModuleSelector.getModuleForGame(gameExe.getCanonicalPath());
             if(module.requiresModFolderSelection()) {
 
                 modFolderField.setEnabled(true);
@@ -85,12 +84,10 @@ public class GameSelectScene extends JPanel {
         } else {
 
             // TODO: Break window loading into utility class
-
-            Settings.gameExe = gameField.getText();
-            Settings.modsFolder = modFolderField.getText();
-
-            AbstractModule module = ModuleSelector.getModuleForGame(new File(Settings.gameExe));
-            Game game = new Game(Settings.gameExe, module.getModsFolder().getAbsolutePath(), module.getModuleName());
+            AbstractModule module = ModuleSelector.getModuleForGame(gameField.getText());
+            module.setGame(new File(gameField.getText()));
+            module.setModsFolder(new File(modFolderField.getText()));
+            Game game = new Game(module.getGame().getAbsolutePath(), module.getModsFolder().getAbsolutePath(), module.getModuleName());
             WindowUtils.setupModScene(game);
         }
     }

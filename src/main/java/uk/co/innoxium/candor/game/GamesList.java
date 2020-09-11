@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class GamesList {
 
@@ -21,6 +23,19 @@ public class GamesList {
 
             GAMES_LIST.add(game);
         }
+    }
+
+    public static Game getGameFromUUID(UUID uuid) {
+
+        AtomicReference<Game> ret = new AtomicReference<>();
+        GAMES_LIST.forEach(game -> {
+
+            if(game.getUUID().equals(uuid)) {
+
+                ret.set(game);
+            }
+        });
+        return ret.get();
     }
 
     public static ArrayList<Game> getGamesList() {

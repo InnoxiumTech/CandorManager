@@ -1,11 +1,9 @@
 package uk.co.innoxium.candor.util;
 
+import com.github.f4b6a3.uuid.util.UuidConverter;
 import uk.co.innoxium.candor.Settings;
 import uk.co.innoxium.candor.game.Game;
 import uk.co.innoxium.candor.game.GamesList;
-import uk.co.innoxium.candor.mod.store.ModStore;
-import uk.co.innoxium.candor.module.AbstractModule;
-import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.window.EntryScene;
 import uk.co.innoxium.candor.window.GameSelectScene;
 import uk.co.innoxium.candor.window.ModScene;
@@ -15,7 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
+import java.util.UUID;
 
 public class WindowUtils {
 
@@ -23,11 +21,7 @@ public class WindowUtils {
 
     public static void initialiseFrame(boolean showIntro) {
 
-        File game = new File(Settings.gameExe);
-        AbstractModule module = ModuleSelector.getModuleForGame(game);
-        module.setGame(game);
-        module.setModsFolder(new File(Settings.modsFolder));
-        ModStore.initialise();
+        // We don't need this for the entry screen, instead we should show the entry screen if no default is found
         mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         mainFrame.addWindowListener(new WindowAdapter() {
 
@@ -46,7 +40,7 @@ public class WindowUtils {
         mainFrame.setResizable(false);
         mainFrame.setTitle("Candor Mod Manager");
         mainFrame.setIconImage(new ImageIcon(ClassLoadUtil.getCL().getResource("logo.png")).getImage());
-        JPanel scene = showIntro ? new EntryScene() : new ModScene();
+        JPanel scene = showIntroCheck() ? new EntryScene() : new ModScene(Settings.defaultGameUuid);
         Resources.currentScene = scene;
         mainFrame.setContentPane(scene);
         // TODO: Allow the window to stay on the same screen it was used on
@@ -57,14 +51,10 @@ public class WindowUtils {
 
     public static void setupModScene(Game game) {
 
-        AbstractModule module = ModuleSelector.currentModule;
         GamesList.addGame(game);
-        module.setGame(new File(game.getGameExe()));
-        module.setModsFolder(new File(game.getModsFolder()));
-        ModStore.initialise();
         mainFrame.setVisible(false);
         mainFrame.setResizable(true);
-        ModScene modScene = new ModScene();
+        ModScene modScene = new ModScene(game.getUUID().toString());
         Resources.currentScene = modScene;
         mainFrame.setContentPane(modScene);
         mainFrame.setMinimumSize(new Dimension(1200, 768));
@@ -87,5 +77,19 @@ public class WindowUtils {
         mainFrame.pack();
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
+    }
+
+    // true for show intro, false for show mod scene
+    private static boolean showIntroCheck() {
+
+        // If the default uuid is set, we can continue
+        if(Settings.defaultGameUuid.isBlank()) return true;
+
+        UUID  uuid = UuidConverter.fromString(Settings.defaultGameUuid);
+        Game game = GamesList.getGameFromUUID(uuid);
+        // If game is null, no game was found, so show the entry screen
+        boolean ret = game == null;
+        if(!ret) System.out.println("Found game to load " + game.getGameExe());
+        return game == null; // returns true if game is null
     }
 }

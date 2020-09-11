@@ -13,23 +13,22 @@ import java.nio.file.Files;
 @SettingsHolder(id = "core", ext = "toml")
 public class Settings {
 
+    @Deprecated(since = "2.0")
     @Setting(category = "window")
     @Setting.Comment("Should we show the intro screen?")
     public static boolean showIntro = true;
 
     @Setting(category = "game")
-    @Setting.Comment("The path to the game .exe")
-    public static String gameExe = "";
-
-    // To be replaced by getDefaultGame().getModsFolder()
-    @Deprecated(forRemoval = true)
-    @Setting(category = "game")
-    @Setting.Comment("The path to the game's mods folder")
-    public static String modsFolder = "";
-
-    @Setting(category = "game")
     @Setting.Comment("Should the mod file be extracted? May be overwritten by a module")
     public static boolean modExtract = false;
+
+    @Setting(category = "game")
+    @Setting.Comment("The UUID of the default game to load")
+    public static String defaultGameUuid = "";
+
+    @Setting(category = "game")
+    @Setting.Comment("The UUID of the last game loaded")
+    public static String lastGameUuid = "";
 
     @Config
     public static CommentedFileConfig getConfig() {

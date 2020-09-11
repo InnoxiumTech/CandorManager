@@ -2,7 +2,9 @@ package uk.co.innoxium.candor.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.Vector;
 
 public class Utils {
@@ -38,5 +40,10 @@ public class Utils {
     public static <T> Vector<T> getVectorArrayFromList(ArrayList<T> list) {
 
         return new Vector<>(list);
+    }
+
+    public static UUID getUUIDFromGame(String gameExe) {
+
+        return UUID.nameUUIDFromBytes(gameExe.getBytes(Charset.defaultCharset()));
     }
 }

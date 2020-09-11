@@ -3,6 +3,7 @@ package uk.co.innoxium.candor.module;
 import ca.cgjennings.jvm.JarLoader;
 import com.google.common.collect.Lists;
 import org.apache.commons.io.FileUtils;
+import uk.co.innoxium.candor.game.Game;
 import uk.co.innoxium.candor.util.Dialogs;
 import uk.co.innoxium.cybernize.util.ClassLoadUtil;
 import uk.co.innoxium.cybernize.util.Download;
@@ -75,6 +76,37 @@ public class ModuleSelector {
         }
     }
 
+    public static AbstractModule getModuleForGame(String gameExe) {
+
+        File file = new File(gameExe);
+        String gameString = file.getName().substring(0, file.getName().indexOf("."));
+
+        for(AbstractModule module : MODULES) {
+
+            for(String s : module.acceptedExe()) {
+
+                System.out.println(s);
+                System.out.println(gameString);
+                if(s.equalsIgnoreCase(gameString)) {
+
+                    System.out.println("Module is " + module.getModuleName());
+                    currentModule = module;
+                    return module;
+                }
+            }
+        }
+        System.out.println("Module is " + GENERIC_MODULE.getModuleName());
+        currentModule = GENERIC_MODULE;
+        return GENERIC_MODULE;
+    }
+
+    public static AbstractModule getModuleForGame(Game game) {
+
+        return getModuleForGame(game.getGameExe());
+    }
+
+    // Please use getModuleForGame(Game game)
+    @Deprecated(forRemoval = true)
     public static AbstractModule getModuleForGame(File gameExe) {
 
         for (AbstractModule module : MODULES) {
@@ -92,6 +124,7 @@ public class ModuleSelector {
                 }
             }
         }
+        System.out.println("Module is " + GENERIC_MODULE.getModuleName());
         currentModule = GENERIC_MODULE;
         return GENERIC_MODULE;
     }
@@ -124,8 +157,7 @@ public class ModuleSelector {
     private static String findGenericModuleUrl() {
 
 
-
-        return "https://dl.bintray.com/candor/candor-alpha/uk/co/innoxium/candor/candor-genericmodule/0.1.5/candor-genericmodule-0.1.5.jar";
+        return "https://dl.bintray.com/candor/candor-alpha/uk/co/innoxium/candor/candor-genericmodule/0.2.0/candor-genericmodule-0.2.0.jar";
     }
 
     private static class DownloadObserver implements Observer {

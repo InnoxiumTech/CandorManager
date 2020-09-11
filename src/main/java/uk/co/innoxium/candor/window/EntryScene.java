@@ -16,7 +16,6 @@ import uk.co.innoxium.cybernize.util.ClassLoadUtil;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.io.File;
 
 /**
  * @author Zach Piddock
@@ -44,10 +43,21 @@ public class EntryScene extends JPanel {
 
             if(defaultCheck.isSelected()) {
 
+                Settings.defaultGameUuid = game.getUUID().toString();
                 Settings.showIntro = false;
             }
-            AbstractModule module = ModuleSelector.getModuleForGame(new File(game.getGameExe()));
+            Settings.lastGameUuid = game.getUUID().toString();
+            AbstractModule module = ModuleSelector.getModuleForGame(game.getGameExe());
             WindowUtils.setupModScene(game);
+        }
+    }
+
+    private void defaultClicked(ActionEvent e) {
+
+        Game game = (Game)gamesList.getSelectedItem();
+        if(game != null) {
+
+            Settings.defaultGameUuid = game.getUUID().toString();
         }
     }
 
@@ -73,6 +83,7 @@ public class EntryScene extends JPanel {
 
         //---- defaultCheck ----
         defaultCheck.setText("Default?");
+        defaultCheck.addActionListener(e -> defaultClicked(e));
         add(defaultCheck, "cell 0 1,alignx trailing,growx 0");
 
         //---- newGameButton ----
