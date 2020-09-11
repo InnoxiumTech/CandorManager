@@ -1,6 +1,9 @@
 package uk.co.innoxium.candor.generic;
 
+import com.github.f4b6a3.uuid.util.UuidConverter;
 import uk.co.innoxium.candor.Settings;
+import uk.co.innoxium.candor.game.Game;
+import uk.co.innoxium.candor.game.GamesList;
 import uk.co.innoxium.candor.module.AbstractModInstaller;
 import uk.co.innoxium.candor.module.AbstractModule;
 import uk.co.innoxium.candor.module.RunConfig;
@@ -95,7 +98,9 @@ public class GenericModule extends AbstractModule {
         @Override
         public String getStartCommand() {
 
-            return Settings.gameExe;
+            Game game = GamesList.getGameFromUUID(UuidConverter.fromString(Settings.lastGameUuid));
+
+            return game.getGameExe();
         }
 
         @Override

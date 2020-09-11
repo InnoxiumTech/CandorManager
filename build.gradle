@@ -1,7 +1,7 @@
 plugins {
 
     id 'java'
-//    id 'com.github.johnrengelman.shadow' version '6.0.0'
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
     id "com.jfrog.bintray" version '1.8.5'
 }
 
@@ -95,18 +95,18 @@ jar {
     }
 }
 
-//shadowJar {
-//
-//    archiveBaseName = 'CandorManager'
-//    archiveClassifier = ''
-//
-//    manifest {
-//
-//        attributes 'Main-Class': 'uk.co.innoxium.candor.CandorLauncher'
-//        attributes 'Premain-Class': 'ca.cgjennings.jvm.JarLoader'
-//        attributes 'SplashScreen-Image': 'splash.png'
-//    }
-//}
+shadowJar {
+
+    archiveBaseName = 'CandorManager'
+    archiveClassifier = ''
+
+    manifest {
+
+        attributes 'Main-Class': 'uk.co.innoxium.candor.CandorLauncher'
+        attributes 'Premain-Class': 'ca.cgjennings.jvm.JarLoader'
+        attributes 'SplashScreen-Image': 'splash.png'
+    }
+}
 
 task copyJars(type: Copy) {
 
