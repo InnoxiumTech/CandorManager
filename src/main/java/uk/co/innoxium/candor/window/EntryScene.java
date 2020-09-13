@@ -8,8 +8,6 @@ import net.miginfocom.swing.MigLayout;
 import uk.co.innoxium.candor.Settings;
 import uk.co.innoxium.candor.game.Game;
 import uk.co.innoxium.candor.game.GamesList;
-import uk.co.innoxium.candor.module.AbstractModule;
-import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.util.Utils;
 import uk.co.innoxium.candor.util.WindowUtils;
 import uk.co.innoxium.cybernize.util.ClassLoadUtil;
@@ -47,7 +45,7 @@ public class EntryScene extends JPanel {
                 Settings.showIntro = false;
             }
             Settings.lastGameUuid = game.getUUID().toString();
-            AbstractModule module = ModuleSelector.getModuleForGame(game.getGameExe());
+//            AbstractModule module = ModuleSelector.getModuleForGame(game.getGameExe(), true);
             WindowUtils.setupModScene(game);
         }
     }

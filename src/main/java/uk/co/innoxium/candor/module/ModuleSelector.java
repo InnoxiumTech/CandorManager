@@ -76,7 +76,7 @@ public class ModuleSelector {
         }
     }
 
-    public static AbstractModule getModuleForGame(String gameExe) {
+    public static AbstractModule getModuleForGame(String gameExe, boolean showWarning) {
 
         File file = new File(gameExe);
         String gameString = file.getName().substring(0, file.getName().indexOf("."));
@@ -85,8 +85,8 @@ public class ModuleSelector {
 
             for(String s : module.acceptedExe()) {
 
-                System.out.println(s);
-                System.out.println(gameString);
+//                System.out.println(s);
+//                System.out.println(gameString);
                 if(s.equalsIgnoreCase(gameString)) {
 
                     System.out.println("Module is " + module.getModuleName());
@@ -95,38 +95,36 @@ public class ModuleSelector {
                 }
             }
         }
+        if(showWarning) {
+
+            Dialogs.showInfoDialog(
+                    "Candor Mod Manager",
+                    "Warning, No module was found for this game.\n" +
+                            "Defaulting to Generic Module, this may have unforseen consequences.\n" +
+                            "For more information, please visit https://innoxium.co.uk/candor/modules",
+                    "ok",
+                    "warning",
+                    true
+            );
+        }
         System.out.println("Module is " + GENERIC_MODULE.getModuleName());
         currentModule = GENERIC_MODULE;
         return GENERIC_MODULE;
+    }
+
+    public static AbstractModule getModuleForGame(Game game, boolean showWarning) {
+
+        return getModuleForGame(game.getGameExe(), showWarning);
     }
 
     public static AbstractModule getModuleForGame(Game game) {
 
-        return getModuleForGame(game.getGameExe());
+        return getModuleForGame(game.getGameExe(), false);
     }
 
-    // Please use getModuleForGame(Game game)
-    @Deprecated(forRemoval = true)
-    public static AbstractModule getModuleForGame(File gameExe) {
+    public static AbstractModule getModuleForGame(String gameExe) {
 
-        for (AbstractModule module : MODULES) {
-
-            for(String s : module.acceptedExe()) {
-
-                String gameString = gameExe.getName().substring(0, gameExe.getName().indexOf("."));
-                System.out.println(s);
-                System.out.println(gameString);
-                if(s.equalsIgnoreCase(gameString)) {
-
-                    System.out.println("Module is " + module.getModuleName());
-                    currentModule = module;
-                    return module;
-                }
-            }
-        }
-        System.out.println("Module is " + GENERIC_MODULE.getModuleName());
-        currentModule = GENERIC_MODULE;
-        return GENERIC_MODULE;
+        return getModuleForGame(gameExe, false);
     }
 
     public static void checkGenericModule() throws IOException {

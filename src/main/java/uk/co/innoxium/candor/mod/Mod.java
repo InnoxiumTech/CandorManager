@@ -6,6 +6,7 @@ import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.util.Utils;
 import uk.co.innoxium.cybernize.archive.Archive;
 import uk.co.innoxium.cybernize.archive.ArchiveBuilder;
+import uk.co.innoxium.cybernize.archive.ArchiveItem;
 
 import java.io.File;
 import java.io.IOException;
@@ -75,13 +76,13 @@ public class Mod {
             Archive archive = new ArchiveBuilder(file).build();
             try {
 
-                for(String filePath : archive.getAllArchiveItems()) {
+                for(ArchiveItem archiveItem : archive.getAllArchiveItems()) {
 
                     // TODO: Add exclude critical folders
-                    if(!ModuleSelector.currentModule.isCritical(filePath)) {
+                    if(!ModuleSelector.currentModule.isCritical(archiveItem)) {
 
-                        System.out.println(filePath);
-                        array.add(filePath);
+                        System.out.println(archiveItem);
+                        array.add(archiveItem.getFilePath());
                     }
                 }
             } catch (IOException e) {

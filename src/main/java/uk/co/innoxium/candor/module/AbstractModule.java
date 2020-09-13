@@ -1,5 +1,7 @@
 package uk.co.innoxium.candor.module;
 
+import uk.co.innoxium.cybernize.archive.ArchiveItem;
+
 import java.io.File;
 
 public abstract class AbstractModule {
@@ -44,7 +46,7 @@ public abstract class AbstractModule {
 
     public abstract RunConfig getDefaultRunConfig();
 
-    public boolean isCritical(String filePath) {
+    public boolean isCritical(ArchiveItem archiveItem) {
 
         return false;
     }
