@@ -4,11 +4,14 @@
 
 package uk.co.innoxium.candor.window;
 
+import uk.co.innoxium.candor.util.Resources;
+import uk.co.innoxium.candor.window.component.JImage;
+import uk.co.innoxium.swing.component.JHyperlink;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
 
 /**
  * @author Zach Piddock
@@ -22,17 +25,33 @@ public class AboutDialog extends JDialog {
 
     private void createUIComponents() {
 
-        editorPane1 = new JTextPane();
-        try {
+        Font linkFont = Resources.fantasque.deriveFont(24f);
 
-            editorPane1.setContentType("text/html");
-            editorPane1.setPage(AboutDialog.class.getResource("/html/about.html"));
-        } catch (IOException e) {
+        candorLogo = new JImage(Resources.CANDOR_LOGO);
+        innoxiumLogo = new JImage(Resources.INNOXIUM_LOGO);
 
-            e.printStackTrace();
-            editorPane1.setContentType("text/html");
-            editorPane1.setText("<html>Page not found.</html>");
-        }
+        discordLink = new JHyperlink("Discord", "discord.gg/CMG9ZtS");
+        discordLink.setFont(linkFont);
+        githubLink = new JHyperlink("Github", "github.com/InnoxiumTech/CandorManager");
+        githubLink.setFont(linkFont);
+        websiteLink = new JHyperlink("Website", "innoxium.co.uk");
+        websiteLink.setFont(linkFont);
+        twitterLink = new JHyperlink("Twitter", "twitter.com/InnoxiumTech");
+        twitterLink.setFont(linkFont);
+        itchLink = new JHyperlink("Itch.io", "innoxium.itch.io/candor-mod-manager");
+        itchLink.setFont(linkFont);
+
+//        editorPane1 = new JTextPane();
+//        try {
+//
+//            editorPane1.setContentType("text/html");
+//            editorPane1.setPage(AboutDialog.class.getResource("/html/about.html"));
+//        } catch (IOException e) {
+//
+//            e.printStackTrace();
+//            editorPane1.setContentType("text/html");
+//            editorPane1.setText("<html>Page not found.</html>");
+//        }
     }
 
     private void okClicked(ActionEvent e) {
@@ -46,7 +65,8 @@ public class AboutDialog extends JDialog {
 
         dialogPane = new JPanel();
         contentPanel = new JPanel();
-        scrollPane1 = new JScrollPane();
+        panel1 = new JPanel();
+        panel2 = new JPanel();
         buttonBar = new JPanel();
         okButton = new JButton();
 
@@ -66,11 +86,39 @@ public class AboutDialog extends JDialog {
             {
                 contentPanel.setLayout(new BorderLayout());
 
-                //======== scrollPane1 ========
+                //======== panel1 ========
                 {
-                    scrollPane1.setViewportView(editorPane1);
+                    panel1.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 5));
+
+                    //---- discordLink ----
+                    discordLink.setText("Discord");
+                    panel1.add(discordLink);
+
+                    //---- githubLink ----
+                    githubLink.setText("Github");
+                    panel1.add(githubLink);
+
+                    //---- websiteLink ----
+                    websiteLink.setText("Website");
+                    panel1.add(websiteLink);
+
+                    //---- twitterLink ----
+                    twitterLink.setText("Twitter");
+                    panel1.add(twitterLink);
+
+                    //---- itchLink ----
+                    itchLink.setText("Itch.io");
+                    panel1.add(itchLink);
                 }
-                contentPanel.add(scrollPane1, BorderLayout.CENTER);
+                contentPanel.add(panel1, BorderLayout.SOUTH);
+
+                //======== panel2 ========
+                {
+                    panel2.setLayout(new FlowLayout());
+                    panel2.add(candorLogo);
+                    panel2.add(innoxiumLogo);
+                }
+                contentPanel.add(panel2, BorderLayout.NORTH);
             }
             dialogPane.add(contentPanel, BorderLayout.CENTER);
 
@@ -99,8 +147,15 @@ public class AboutDialog extends JDialog {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     private JPanel dialogPane;
     private JPanel contentPanel;
-    private JScrollPane scrollPane1;
-    private JEditorPane editorPane1;
+    private JPanel panel1;
+    private JLabel discordLink;
+    private JLabel githubLink;
+    private JLabel websiteLink;
+    private JLabel twitterLink;
+    private JLabel itchLink;
+    private JPanel panel2;
+    private JLabel candorLogo;
+    private JLabel innoxiumLogo;
     private JPanel buttonBar;
     private JButton okButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables

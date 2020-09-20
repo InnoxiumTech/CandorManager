@@ -13,11 +13,6 @@ import java.nio.file.Files;
 @SettingsHolder(id = "core", ext = "toml")
 public class Settings {
 
-    @Deprecated(since = "2.0")
-    @Setting(category = "window")
-    @Setting.Comment("Should we show the intro screen?")
-    public static boolean showIntro = true;
-
     @Setting(category = "game")
     @Setting.Comment("Should the mod file be extracted? May be overwritten by a module")
     public static boolean modExtract = false;

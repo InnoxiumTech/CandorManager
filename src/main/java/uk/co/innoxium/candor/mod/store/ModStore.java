@@ -21,7 +21,7 @@ public class ModStore {
 
     private static boolean initialised = false;
 
-    public static final ModList MODS = new ModList<Mod>();
+    public static final ModList<Mod> MODS = new ModList<>();
 
     private static File modStoreFolder = new File(Resources.STORE_PATH, ModuleSelector.currentModule.getExeName() + "/mods");
     private static File modStoreFile = JsonUtil.getJsonFile(new File(Resources.STORE_PATH, ModuleSelector.currentModule.getExeName() + "/mods.json"), false);
@@ -94,7 +94,7 @@ public class ModStore {
         return Result.OK;
     }
 
-    public static boolean removeModFile(Mod mod) throws IOException {
+    public static boolean removeModFile(Mod mod, boolean removeFromModsList) throws IOException {
 
         // We let the module decide how to delete the files
         if(ModuleSelector.currentModule.getModInstaller().uninstall(mod)) {
@@ -124,7 +124,8 @@ public class ModStore {
             // Close the writer and delete the mod in the mod store
             writer.close();
             FileUtils.deleteQuietly(mod.getFile());
-            MODS.remove(mod);
+            // remove from mods list, only if boolean is true
+            if(removeFromModsList) MODS.remove(mod);
             return true;
         }
         return false;

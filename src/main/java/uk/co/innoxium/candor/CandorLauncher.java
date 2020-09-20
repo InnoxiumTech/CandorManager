@@ -4,6 +4,7 @@ import com.formdev.flatlaf.FlatDarculaLaf;
 import org.lwjgl.system.Platform;
 import uk.co.innoxium.candor.game.GamesList;
 import uk.co.innoxium.candor.module.ModuleSelector;
+import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.candor.util.WindowUtils;
 
 import java.awt.*;
@@ -30,6 +31,13 @@ public class CandorLauncher {
 
 			splash.update();
 		}
+		try {
+
+			Resources.installFonts();
+		} catch (IOException | FontFormatException e) {
+
+			e.printStackTrace();
+		}
 		FlatDarculaLaf.install();
 
 		try {
@@ -47,7 +55,7 @@ public class CandorLauncher {
 
 		if(splash != null) splash.close();
 
-		WindowUtils.initialiseFrame(Settings.showIntro);
+		WindowUtils.initialiseFrame();
 	}
 
 	private static class RuntimeHook extends Thread {

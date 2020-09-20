@@ -42,7 +42,6 @@ public class EntryScene extends JPanel {
             if(defaultCheck.isSelected()) {
 
                 Settings.defaultGameUuid = game.getUUID().toString();
-                Settings.showIntro = false;
             }
             Settings.lastGameUuid = game.getUUID().toString();
 //            AbstractModule module = ModuleSelector.getModuleForGame(game.getGameExe(), true);

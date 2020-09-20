@@ -19,7 +19,7 @@ public class WindowUtils {
 
     public static JFrame mainFrame = new JFrame();
 
-    public static void initialiseFrame(boolean showIntro) {
+    public static void initialiseFrame() {
 
         // We don't need this for the entry screen, instead we should show the entry screen if no default is found
         mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

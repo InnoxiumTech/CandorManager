@@ -7,7 +7,6 @@ package uk.co.innoxium.candor.window;
 import com.formdev.flatlaf.FlatIconColors;
 import com.github.f4b6a3.uuid.util.UuidConverter;
 import net.miginfocom.swing.MigLayout;
-import uk.co.innoxium.candor.Settings;
 import uk.co.innoxium.candor.game.Game;
 import uk.co.innoxium.candor.game.GamesList;
 import uk.co.innoxium.candor.mod.Mod;
@@ -18,8 +17,8 @@ import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.module.RunConfig;
 import uk.co.innoxium.candor.thread.ThreadModInstaller;
 import uk.co.innoxium.candor.util.Dialogs;
+import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.candor.util.WindowUtils;
-import uk.co.innoxium.candor.window.setting.SettingsFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -59,13 +58,13 @@ public class ModScene extends JPanel {
             @Override
             public void handleChange(String identifier, Mod mod, boolean result) {
 
-                list1.setListData(ModStore.MODS.toArray());
+                installedModsJList.setListData(ModStore.MODS.toArray());
             }
 
             @Override
             public void handleChange(String identifier, Collection<? extends Mod> c, boolean result) {
 
-                list1.setListData(ModStore.MODS.toArray());
+                installedModsJList.setListData(ModStore.MODS.toArray());
             }
         });
     }
@@ -73,10 +72,12 @@ public class ModScene extends JPanel {
     private void createUIComponents() {
 
 
-        list1 = new JList(ModStore.MODS.toArray());
-        list1.setCellRenderer(new ListRenderer());
-        list1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        list1.setSelectionModel(new DefaultListSelectionModel() {
+        installedModsJList = new JList(ModStore.MODS.toArray());
+
+        installedModsJList.setCellRenderer(new ListRenderer());
+        installedModsJList.setFont(Resources.fantasque.deriveFont(24f));
+        installedModsJList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        installedModsJList.setSelectionModel(new DefaultListSelectionModel() {
 
             private static final long serialVersionUID = 1L;
 
@@ -118,11 +119,12 @@ public class ModScene extends JPanel {
             public void setValueIsAdjusting(boolean isAdjusting) {
 
                 if (!isAdjusting) {
+
                     gestureStarted = false;
                 }
             }
         });
-        list1.addMouseListener(new MouseAdapter() {
+        installedModsJList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
 
@@ -140,10 +142,11 @@ public class ModScene extends JPanel {
 
     private void settingsClicked(ActionEvent e) {
 
-        JDialog dialog = new SettingsFrame();
-        dialog.setAlwaysOnTop(true);
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
+        // Disable while we don't have enough settings
+//        JDialog dialog = new SettingsFrame();
+//        dialog.setAlwaysOnTop(true);
+//        dialog.setLocationRelativeTo(this);
+//        dialog.setVisible(true);
     }
 
     private void addModClicked(ActionEvent e) {
@@ -166,7 +169,7 @@ public class ModScene extends JPanel {
 
         if(Dialogs.showConfirmDialog("Remove Selected Mods")) {
 
-            if(list1.getSelectedValuesList().isEmpty()) {
+            if(installedModsJList.getSelectedValuesList().isEmpty()) {
                 Dialogs.showInfoDialog(
                         "Candor Mod Manager",
                         "You have not selected any mods to remove.",
@@ -174,11 +177,11 @@ public class ModScene extends JPanel {
                         "warning",
                         false);
             }
-            list1.getSelectedValuesList().forEach(o -> {
+            installedModsJList.getSelectedValuesList().forEach(o -> {
 
                 try {
 
-                    ModStore.removeModFile((Mod) o);
+                    ModStore.removeModFile((Mod) o, true);
                 } catch (IOException exception) {
 
                     exception.printStackTrace();
@@ -189,7 +192,7 @@ public class ModScene extends JPanel {
 
     private void installModsClicked(ActionEvent e) {
         
-        list1.getSelectedValuesList().forEach(o -> {
+        installedModsJList.getSelectedValuesList().forEach(o -> {
 
             Mod mod = (Mod)o;
             new ThreadModInstaller(mod).start();
@@ -217,21 +220,44 @@ public class ModScene extends JPanel {
         }
     }
 
+
+    // TODO: Add support for modules to determine how to toggle mods, e.g. via a plugin list for GameBryo games
     private void toggleSelectedMods(ActionEvent e) {
+
+        if(Dialogs.showConfirmDialog("Toggle Selected Mods")) {
+
+            if(installedModsJList.getSelectedValuesList().isEmpty()) {
+
+                Dialogs.showInfoDialog(
+                        "Candor Mod Manager",
+                        "You have not selected any mods to toggle.",
+                        "ok",
+                        "warning",
+                        false);
+            }
+            installedModsJList.getSelectedValuesList().forEach(o -> {
+
+                try {
+
+                    ModStore.removeModFile((Mod) o, false);
+                } catch (IOException exception) {
+
+                    exception.printStackTrace();
+                }
+            });
+        }
     }
 
     private void newGameClicked(ActionEvent e) {
 
-        Settings.showIntro = true;
-//        Settings.gameExe = "";
-//        Settings.modsFolder = "";
-//        Settings.modExtract = false;
         WindowUtils.setupGameSelectScene();
     }
 
     private void aboutClicked(ActionEvent e) {
 
         AboutDialog dialog = new AboutDialog(WindowUtils.mainFrame);
+        dialog.setResizable(true);
+        dialog.pack();
         dialog.setVisible(true);
     }
 
@@ -239,34 +265,32 @@ public class ModScene extends JPanel {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         createUIComponents();
 
-        panel1 = new JPanel();
-        panel3 = new JPanel();
-        label1 = new JLabel();
-        button1 = new JButton();
-        button2 = new JButton();
-        button3 = new JButton();
-        button4 = new JButton();
-        scrollPane2 = new JScrollPane();
-        scrollPane1 = new JScrollPane();
-        tree1 = new JTree();
-        menuBar1 = new JMenuBar();
-        menu1 = new JMenu();
-        menuItem1 = new JMenuItem();
-        menuItem2 = new JMenuItem();
-        menuItem4 = new JMenuItem();
-        menuItem8 = new JMenuItem();
-        menu2 = new JMenu();
-        menuItem5 = new JMenuItem();
-        menuItem6 = new JMenuItem();
-        menuItem3 = new JMenuItem();
-        menuItem7 = new JMenuItem();
+        managerPanel = new JPanel();
+        managerPaneMenu = new JPanel();
+        gameLabel = new JLabel();
+        addModButton = new JButton();
+        removeModsButton = new JButton();
+        installModsButton = new JButton();
+        toggleButton = new JButton();
+        listScrollPane = new JScrollPane();
+        menuBar = new JMenuBar();
+        fileMenu = new JMenu();
+        applyModsMenuItem = new JMenuItem();
+        loadNewGameMenuItem = new JMenuItem();
+        settingsMenuItem = new JMenuItem();
+        aboutMenuItem = new JMenuItem();
+        gameMenu = new JMenu();
+        openGameFolderMenuItem = new JMenuItem();
+        opemModsFolderMenuItem = new JMenuItem();
+        launchGameMenuItem = new JMenuItem();
+        runConfigsMenuItem = new JMenuItem();
 
         //======== this ========
         setLayout(new BorderLayout());
 
-        //======== panel1 ========
+        //======== managerPanel ========
         {
-            panel1.setLayout(new MigLayout(
+            managerPanel.setLayout(new MigLayout(
                 "fill,insets panel,hidemode 3",
                 // columns
                 "[fill]",
@@ -274,138 +298,130 @@ public class ModScene extends JPanel {
                 "[]" +
                 "[]"));
 
-            //======== panel3 ========
+            //======== managerPaneMenu ========
             {
-                panel3.setLayout(new FlowLayout(FlowLayout.LEFT));
+                managerPaneMenu.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-                //---- label1 ----
-                label1.setFont(new Font("Segoe UI", Font.BOLD, 16));
-                label1.setText(ModuleSelector.currentModule.getReadableGameName().toUpperCase());
-                panel3.add(label1);
+                //---- gameLabel ----
+                gameLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+                gameLabel.setText(ModuleSelector.currentModule.getReadableGameName().toUpperCase());
+                managerPaneMenu.add(gameLabel);
 
-                //---- button1 ----
-                button1.setText("Add Mod(s)");
-                button1.setIcon(UIManager.getIcon("Tree.leafIcon"));
-                button1.addActionListener(e -> addModClicked(e));
-                panel3.add(button1);
+                //---- addModButton ----
+                addModButton.setText("Add Mod(s)");
+                addModButton.setIcon(UIManager.getIcon("Tree.leafIcon"));
+                addModButton.addActionListener(e -> addModClicked(e));
+                managerPaneMenu.add(addModButton);
 
-                //---- button2 ----
-                button2.setText("Remove Selected");
-                button2.setIcon(null);
-                button2.addActionListener(e -> removeModsSelected(e));
-                panel3.add(button2);
+                //---- removeModsButton ----
+                removeModsButton.setText("Remove Selected");
+                removeModsButton.setIcon(null);
+                removeModsButton.addActionListener(e -> removeModsSelected(e));
+                managerPaneMenu.add(removeModsButton);
 
-                //---- button3 ----
-                button3.setText("Install Selected Mod(s)");
-                button3.setIcon(UIManager.getIcon("FileView.floppyDriveIcon"));
-                button3.addActionListener(e -> installModsClicked(e));
-                panel3.add(button3);
+                //---- installModsButton ----
+                installModsButton.setText("Install Selected Mod(s)");
+                installModsButton.setIcon(UIManager.getIcon("FileView.floppyDriveIcon"));
+                installModsButton.addActionListener(e -> installModsClicked(e));
+                managerPaneMenu.add(installModsButton);
 
-                //---- button4 ----
-                button4.setText("Toggle Enabled");
-                button4.addActionListener(e -> toggleSelectedMods(e));
-                panel3.add(button4);
+                //---- toggleButton ----
+                toggleButton.setText("Toggle Enabled");
+                toggleButton.addActionListener(e -> toggleSelectedMods(e));
+                managerPaneMenu.add(toggleButton);
             }
-            panel1.add(panel3, "cell 0 0");
+            managerPanel.add(managerPaneMenu, "cell 0 0");
 
-            //======== scrollPane2 ========
+            //======== listScrollPane ========
             {
-                scrollPane2.setViewportView(list1);
+                listScrollPane.setViewportView(installedModsJList);
             }
-            panel1.add(scrollPane2, "cell 0 1,dock center");
-
-            //======== scrollPane1 ========
-            {
-                scrollPane1.setViewportView(tree1);
-            }
-            panel1.add(scrollPane1, "cell 0 1,dock center");
+            managerPanel.add(listScrollPane, "cell 0 1,dock center");
         }
-        add(panel1, BorderLayout.CENTER);
+        add(managerPanel, BorderLayout.CENTER);
 
-        //======== menuBar1 ========
+        //======== menuBar ========
         {
 
-            //======== menu1 ========
+            //======== fileMenu ========
             {
-                menu1.setText("File");
-                menu1.setMnemonic('F');
+                fileMenu.setText("File");
+                fileMenu.setMnemonic('F');
 
-                //---- menuItem1 ----
-                menuItem1.setText("Apply Mod(s)");
-                menuItem1.setMnemonic('A');
-                menu1.add(menuItem1);
+                //---- applyModsMenuItem ----
+                applyModsMenuItem.setText("Apply Mod(s)");
+                applyModsMenuItem.setMnemonic('A');
+                fileMenu.add(applyModsMenuItem);
 
-                //---- menuItem2 ----
-                menuItem2.setText("Load New Game");
-                menuItem2.setMnemonic('L');
-                menuItem2.addActionListener(e -> newGameClicked(e));
-                menu1.add(menuItem2);
+                //---- loadNewGameMenuItem ----
+                loadNewGameMenuItem.setText("Load New Game");
+                loadNewGameMenuItem.setMnemonic('L');
+                loadNewGameMenuItem.addActionListener(e -> newGameClicked(e));
+                fileMenu.add(loadNewGameMenuItem);
 
-                //---- menuItem4 ----
-                menuItem4.setText("Settings");
-                menuItem4.setMnemonic('S');
-                menuItem4.addActionListener(e -> settingsClicked(e));
-                menu1.add(menuItem4);
+                //---- settingsMenuItem ----
+                settingsMenuItem.setText("Settings");
+                settingsMenuItem.setMnemonic('S');
+                settingsMenuItem.addActionListener(e -> settingsClicked(e));
+                fileMenu.add(settingsMenuItem);
 
-                //---- menuItem8 ----
-                menuItem8.setText("About");
-                menuItem8.addActionListener(e -> aboutClicked(e));
-                menu1.add(menuItem8);
+                //---- aboutMenuItem ----
+                aboutMenuItem.setText("About");
+                aboutMenuItem.addActionListener(e -> aboutClicked(e));
+                fileMenu.add(aboutMenuItem);
             }
-            menuBar1.add(menu1);
+            menuBar.add(fileMenu);
 
-            //======== menu2 ========
+            //======== gameMenu ========
             {
-                menu2.setText("Game");
-                menu2.setMnemonic('G');
+                gameMenu.setText("Game");
+                gameMenu.setMnemonic('G');
 
-                //---- menuItem5 ----
-                menuItem5.setText("Open Game Folder");
-                menu2.add(menuItem5);
+                //---- openGameFolderMenuItem ----
+                openGameFolderMenuItem.setText("Open Game Folder");
+                gameMenu.add(openGameFolderMenuItem);
 
-                //---- menuItem6 ----
-                menuItem6.setText("Open Mods Folder");
-                menu2.add(menuItem6);
+                //---- opemModsFolderMenuItem ----
+                opemModsFolderMenuItem.setText("Open Mods Folder");
+                gameMenu.add(opemModsFolderMenuItem);
 
-                //---- menuItem3 ----
-                menuItem3.setText("Launch Game");
-                menuItem3.addActionListener(e -> runGameClicked(e));
-                menu2.add(menuItem3);
-                menu2.addSeparator();
+                //---- launchGameMenuItem ----
+                launchGameMenuItem.setText("Launch Game");
+                launchGameMenuItem.addActionListener(e -> runGameClicked(e));
+                gameMenu.add(launchGameMenuItem);
+                gameMenu.addSeparator();
 
-                //---- menuItem7 ----
-                menuItem7.setText("Custom Run Config(s)");
-                menu2.add(menuItem7);
+                //---- runConfigsMenuItem ----
+                runConfigsMenuItem.setText("Custom Run Config(s)");
+                gameMenu.add(runConfigsMenuItem);
             }
-            menuBar1.add(menu2);
+            menuBar.add(gameMenu);
         }
-        add(menuBar1, BorderLayout.NORTH);
+        add(menuBar, BorderLayout.NORTH);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    private JPanel panel1;
-    private JPanel panel3;
-    private JLabel label1;
-    private JButton button1;
-    private JButton button2;
-    private JButton button3;
-    private JButton button4;
-    private JScrollPane scrollPane2;
-    private JList list1;
-    private JScrollPane scrollPane1;
-    private JTree tree1;
-    private JMenuBar menuBar1;
-    private JMenu menu1;
-    private JMenuItem menuItem1;
-    private JMenuItem menuItem2;
-    private JMenuItem menuItem4;
-    private JMenuItem menuItem8;
-    private JMenu menu2;
-    private JMenuItem menuItem5;
-    private JMenuItem menuItem6;
-    private JMenuItem menuItem3;
-    private JMenuItem menuItem7;
+    private JPanel managerPanel;
+    private JPanel managerPaneMenu;
+    private JLabel gameLabel;
+    private JButton addModButton;
+    private JButton removeModsButton;
+    private JButton installModsButton;
+    private JButton toggleButton;
+    private JScrollPane listScrollPane;
+    private JList installedModsJList;
+    private JMenuBar menuBar;
+    private JMenu fileMenu;
+    private JMenuItem applyModsMenuItem;
+    private JMenuItem loadNewGameMenuItem;
+    private JMenuItem settingsMenuItem;
+    private JMenuItem aboutMenuItem;
+    private JMenu gameMenu;
+    private JMenuItem openGameFolderMenuItem;
+    private JMenuItem opemModsFolderMenuItem;
+    private JMenuItem launchGameMenuItem;
+    private JMenuItem runConfigsMenuItem;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
     static class ListRenderer extends JCheckBox implements ListCellRenderer<Mod> {

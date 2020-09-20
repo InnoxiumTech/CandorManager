@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.2.4.305" Java: "11.0.8" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -13,16 +13,64 @@ new FormModel {
 				"border": new javax.swing.border.EmptyBorder( 12, 12, 12, 12 )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 					name: "contentPanel"
-					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-						name: "scrollPane1"
-						add( new FormComponent( "javax.swing.JEditorPane" ) {
-							name: "editorPane1"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+						"hgap": 15
+					} ) {
+						name: "panel1"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "discordLink"
+							"text": "Discord"
+							auxiliary() {
+								"JavaCodeGenerator.customCreate": true
+							}
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "githubLink"
+							"text": "Github"
+							auxiliary() {
+								"JavaCodeGenerator.customCreate": true
+							}
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "websiteLink"
+							"text": "Website"
+							auxiliary() {
+								"JavaCodeGenerator.customCreate": true
+							}
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "twitterLink"
+							"text": "Twitter"
+							auxiliary() {
+								"JavaCodeGenerator.customCreate": true
+							}
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "itchLink"
+							"text": "Itch.io"
 							auxiliary() {
 								"JavaCodeGenerator.customCreate": true
 							}
 						} )
 					}, new FormLayoutConstraints( class java.lang.String ) {
-						"value": "Center"
+						"value": "South"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) ) {
+						name: "panel2"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "candorLogo"
+							auxiliary() {
+								"JavaCodeGenerator.customCreate": true
+							}
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "innoxiumLogo"
+							auxiliary() {
+								"JavaCodeGenerator.customCreate": true
+							}
+						} )
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "North"
 					} )
 				}, new FormLayoutConstraints( class java.lang.String ) {
 					"value": "Center"
@@ -51,7 +99,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 475, 220 )
+			"size": new java.awt.Dimension( 475, 400 )
 		} )
 	}
 }

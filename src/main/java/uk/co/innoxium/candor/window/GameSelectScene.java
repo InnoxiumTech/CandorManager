@@ -95,7 +95,6 @@ public class GameSelectScene extends JPanel {
     private void checkBox(ActionEvent e) {
 
         JCheckBox checkbox = (JCheckBox)e.getSource();
-        Settings.showIntro = !checkbox.isSelected();
     }
 
     private void extractorClicked(ActionEvent e) {

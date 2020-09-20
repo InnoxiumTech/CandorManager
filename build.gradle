@@ -49,11 +49,17 @@ repositories {
         name 'Cybernize Bintray Repo'
         url 'https://dl.bintray.com/candor/cybernize'
     }
+    maven {
+
+        name 'Swing Extensions repo'
+        url 'https://dl.bintray.com/innoxium/SwingExtensions'
+    }
 }
 
 dependencies {
 
     implementation 'uk.co.innoxium.cybernize:cybernize:1.1.4'
+    implementation 'uk.co.innoxium.swing:swingext:0.1'
     implementation 'com.electronwill.night-config:toml:3.6.3'
     implementation 'com.miglayout:miglayout:3.7.4'
     implementation 'com.google.code.gson:gson:2.8.6'
@@ -74,6 +80,7 @@ dependencies {
     implementation "org.lwjgl:lwjgl"
     implementation "org.lwjgl:lwjgl-nfd"
     implementation "org.lwjgl:lwjgl-tinyfd"
+    implementation 'org.jetbrains:annotations:19.0.0'
     runtimeOnly "org.lwjgl:lwjgl::natives-windows"
     runtimeOnly "org.lwjgl:lwjgl::natives-macos"
     runtimeOnly "org.lwjgl:lwjgl::natives-linux"
