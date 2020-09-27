@@ -115,6 +115,7 @@ shadowJar {
     }
 }
 
+// TODO: add task to copy start executables
 task copyJars(type: Copy) {
 
     dependsOn 'shadowJar'

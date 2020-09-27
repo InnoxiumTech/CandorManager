@@ -10,6 +10,9 @@ import uk.co.innoxium.candor.util.WindowUtils;
 import java.awt.*;
 import java.io.IOException;
 
+/**
+ * The entry point for candor!
+ */
 public class CandorLauncher {
 	
 	public static void main(String[] args) {
@@ -20,6 +23,7 @@ public class CandorLauncher {
 			// This is slightly more difficult for us as we have the java agent to deal with
 		}
 
+		// Get a plash screen instance, currently, we don't do any manipulation, this may be increased in the future.
 		SplashScreen splash = SplashScreen.getSplashScreen();
 		if(splash != null) {
 
@@ -31,30 +35,41 @@ public class CandorLauncher {
 
 			splash.update();
 		}
+
 		try {
 
+			// We next want to install our fonts,
 			Resources.installFonts();
 		} catch (IOException | FontFormatException e) {
 
+			// Print stack if it fails.
 			e.printStackTrace();
 		}
+		// Install our Look and Feel.
 		FlatDarculaLaf.install();
 
 		try {
 
+			// Check if the generic module exists, if not download it.
 			ModuleSelector.checkGenericModule();
+			// Load modules from disk.
 			ModuleSelector.initModules();
+			// Load the lists of user set up games.
 			GamesList.loadFromFile();
 		} catch (Exception e) {
 
 			// Probably from IDE, ignore for now
 			e.printStackTrace();
 		}
+		// Handle our configurations
 		ConfigHandler.handleCore();
+		// Add our shutdown hook for saving configs
 		Runtime.getRuntime().addShutdownHook(new RuntimeHook());
 
+		// Close the splash screen now
 		if(splash != null) splash.close();
 
+		// We can now set up the frame.
 		WindowUtils.initialiseFrame();
 	}
 
@@ -65,13 +80,12 @@ public class CandorLauncher {
 
 			try {
 
+				// Write the games list to file
 				GamesList.writeToFile();
 			} catch (IOException e) {
 
 				e.printStackTrace();
 			}
-//			CoreConfig config = (CoreConfig)ConfigHandler.getCoreConfig();
-//			config.close();
 		}
 	}
 }

@@ -16,7 +16,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
- * @author Zach Piddock
+ * The entry scene, to set up a game, or load game.
  */
 public class EntryScene extends JPanel {
     public EntryScene() {
@@ -25,30 +25,39 @@ public class EntryScene extends JPanel {
 
     private void createUIComponents() {
 
+        // Create our components separate from JFormDesigner code.
         candoLogo = new JLabel(new ImageIcon(ClassLoadUtil.getCL().getResource("logo.png")));
         gamesList = new JComboBox<>(Utils.getVectorArrayFromList(GamesList.getGamesList()));
     }
 
     private void newGameClicked(ActionEvent e) {
 
+        // Show the game selection scene.
         WindowUtils.setupGameSelectScene();
     }
 
     private void loadGameClicked(ActionEvent e) {
 
+        // get the selected game from the list.
         Game game = (Game)gamesList.getSelectedItem();
+
+        // if it's not null, we can load the mod scene from the game.
         if(game != null) {
 
+            // if the default game checkbox is checked, set this game to now be the default.
             if(defaultCheck.isSelected()) {
 
                 Settings.defaultGameUuid = game.getUUID().toString();
+
             }
+            // The last game we loaded is now this one.
             Settings.lastGameUuid = game.getUUID().toString();
-//            AbstractModule module = ModuleSelector.getModuleForGame(game.getGameExe(), true);
+            // Set up the mod scene with the selected game.
             WindowUtils.setupModScene(game);
         }
     }
 
+    // TODO: Remove as we set the default game once the load game button is clicked.
     private void defaultClicked(ActionEvent e) {
 
         Game game = (Game)gamesList.getSelectedItem();

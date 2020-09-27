@@ -16,7 +16,7 @@ new FormModel {
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
 						"hgap": 15
 					} ) {
-						name: "panel1"
+						name: "linksPanel"
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "discordLink"
 							"text": "Discord"
@@ -56,7 +56,7 @@ new FormModel {
 						"value": "South"
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) ) {
-						name: "panel2"
+						name: "imagePanel"
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "candorLogo"
 							auxiliary() {

@@ -14,7 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 /**
- * @author Zach Piddock
+ * The about dialogs shows the various links and logos connected with Candor.
  */
 public class AboutDialog extends JDialog {
 
@@ -23,9 +23,10 @@ public class AboutDialog extends JDialog {
         initComponents();
     }
 
+    /* Create our components away from JFormDesigner code. */
     private void createUIComponents() {
 
-        Font linkFont = Resources.fantasque.deriveFont(24f);
+        Font linkFont = Resources.getFantasque(24f);
 
         candorLogo = new JImage(Resources.CANDOR_LOGO);
         innoxiumLogo = new JImage(Resources.INNOXIUM_LOGO);
@@ -40,22 +41,11 @@ public class AboutDialog extends JDialog {
         twitterLink.setFont(linkFont);
         itchLink = new JHyperlink("Itch.io", "innoxium.itch.io/candor-mod-manager");
         itchLink.setFont(linkFont);
-
-//        editorPane1 = new JTextPane();
-//        try {
-//
-//            editorPane1.setContentType("text/html");
-//            editorPane1.setPage(AboutDialog.class.getResource("/html/about.html"));
-//        } catch (IOException e) {
-//
-//            e.printStackTrace();
-//            editorPane1.setContentType("text/html");
-//            editorPane1.setText("<html>Page not found.</html>");
-//        }
     }
 
     private void okClicked(ActionEvent e) {
 
+        // Close this dialog.
         this.dispose();
     }
 
@@ -65,8 +55,8 @@ public class AboutDialog extends JDialog {
 
         dialogPane = new JPanel();
         contentPanel = new JPanel();
-        panel1 = new JPanel();
-        panel2 = new JPanel();
+        linksPanel = new JPanel();
+        imagePanel = new JPanel();
         buttonBar = new JPanel();
         okButton = new JButton();
 
@@ -86,39 +76,39 @@ public class AboutDialog extends JDialog {
             {
                 contentPanel.setLayout(new BorderLayout());
 
-                //======== panel1 ========
+                //======== linksPanel ========
                 {
-                    panel1.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 5));
+                    linksPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 5));
 
                     //---- discordLink ----
                     discordLink.setText("Discord");
-                    panel1.add(discordLink);
+                    linksPanel.add(discordLink);
 
                     //---- githubLink ----
                     githubLink.setText("Github");
-                    panel1.add(githubLink);
+                    linksPanel.add(githubLink);
 
                     //---- websiteLink ----
                     websiteLink.setText("Website");
-                    panel1.add(websiteLink);
+                    linksPanel.add(websiteLink);
 
                     //---- twitterLink ----
                     twitterLink.setText("Twitter");
-                    panel1.add(twitterLink);
+                    linksPanel.add(twitterLink);
 
                     //---- itchLink ----
                     itchLink.setText("Itch.io");
-                    panel1.add(itchLink);
+                    linksPanel.add(itchLink);
                 }
-                contentPanel.add(panel1, BorderLayout.SOUTH);
+                contentPanel.add(linksPanel, BorderLayout.SOUTH);
 
-                //======== panel2 ========
+                //======== imagePanel ========
                 {
-                    panel2.setLayout(new FlowLayout());
-                    panel2.add(candorLogo);
-                    panel2.add(innoxiumLogo);
+                    imagePanel.setLayout(new FlowLayout());
+                    imagePanel.add(candorLogo);
+                    imagePanel.add(innoxiumLogo);
                 }
-                contentPanel.add(panel2, BorderLayout.NORTH);
+                contentPanel.add(imagePanel, BorderLayout.NORTH);
             }
             dialogPane.add(contentPanel, BorderLayout.CENTER);
 
@@ -147,13 +137,13 @@ public class AboutDialog extends JDialog {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     private JPanel dialogPane;
     private JPanel contentPanel;
-    private JPanel panel1;
+    private JPanel linksPanel;
     private JLabel discordLink;
     private JLabel githubLink;
     private JLabel websiteLink;
     private JLabel twitterLink;
     private JLabel itchLink;
-    private JPanel panel2;
+    private JPanel imagePanel;
     private JLabel candorLogo;
     private JLabel innoxiumLogo;
     private JPanel buttonBar;

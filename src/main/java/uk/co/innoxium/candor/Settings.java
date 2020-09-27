@@ -10,6 +10,9 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
+/**
+ * This class contains all the settings we will be using.
+ */
 @SettingsHolder(id = "core", ext = "toml")
 public class Settings {
 
@@ -25,6 +28,7 @@ public class Settings {
     @Setting.Comment("The UUID of the last game loaded")
     public static String lastGameUuid = "";
 
+    /* The CommentedFileConfig instance to use to load, save the config from. */
     @Config
     public static CommentedFileConfig getConfig() {
 

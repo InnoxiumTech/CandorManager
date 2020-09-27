@@ -15,10 +15,18 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.UUID;
 
+/**
+ * Contains a bunch of helper methods for setting up the scenes.
+ * Not for outside use, without proper knowledge.
+ */
 public class WindowUtils {
 
+    /* The main JFrame we use to show the scenes. */
     public static JFrame mainFrame = new JFrame();
 
+    /**
+     * This method initialises the JFrame.
+     */
     public static void initialiseFrame() {
 
         // We don't need this for the entry screen, instead we should show the entry screen if no default is found
@@ -40,6 +48,7 @@ public class WindowUtils {
         mainFrame.setResizable(false);
         mainFrame.setTitle("Candor Mod Manager");
         mainFrame.setIconImage(new ImageIcon(ClassLoadUtil.getCL().getResource("logo.png")).getImage());
+        // This check sets which scene would be loaded
         JPanel scene = showIntroCheck() ? new EntryScene() : new ModScene(Settings.defaultGameUuid);
         Resources.currentScene = scene;
         mainFrame.setContentPane(scene);
@@ -49,6 +58,7 @@ public class WindowUtils {
         mainFrame.setVisible(true);
     }
 
+    // Sets up the frame for the mod scene, based on the game passed
     public static void setupModScene(Game game) {
 
         GamesList.addGame(game);
@@ -64,6 +74,7 @@ public class WindowUtils {
         mainFrame.setVisible(true);
     }
 
+    // Sets up the frame for the game selection scene.
     public static void setupGameSelectScene() {
 
 //        mainFrame.setLocationByPlatform(true);

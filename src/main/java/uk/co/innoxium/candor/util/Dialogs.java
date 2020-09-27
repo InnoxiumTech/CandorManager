@@ -13,8 +13,16 @@ import static org.lwjgl.system.MemoryUtil.memAllocPointer;
 import static org.lwjgl.system.MemoryUtil.memFree;
 import static org.lwjgl.util.nfd.NativeFileDialog.*;
 
+/**
+ * The dialogs class contains a few helper methods to communicate between NativeFileDialogs and TinyFileDialogs.
+ */
 public class Dialogs {
 
+    /**
+     * Shows a native file dialog allowing you to choose a single file.
+     * @param filterList - will show only files in the filter list, they should be comma separated without spaces. i.e. "png,jpg,svg".
+     * @return - Will return a file instance if a file was chosen, else will return null.
+     */
     public static File showSingleFileDialog(String filterList) {
 
         // Initialize the value we will return
@@ -110,6 +118,9 @@ public class Dialogs {
         return ret;
     }
 
+    /*
+        A method used primarily in this class only, to decide what happens based on the outcome of the dialog.
+     */
     private static int checkResult(int result, PointerBuffer path) {
 
         switch (result) {
@@ -136,11 +147,20 @@ public class Dialogs {
         return result;
     }
 
+    /**
+     * A tiny wrapper method to TinyFileDialogs, see @Link{TinyFileDialogs.tinyfd_messagebox} for more info.
+     * @return - true for ok, false for cancel.
+     */
     public static boolean showInfoDialog(String title, String message, String dialogType, String iconType, boolean defaultOption) {
 
         return TinyFileDialogs.tinyfd_messageBox(title, message, dialogType, iconType, defaultOption);
     }
 
+    /**
+     * Shows an error message, see {showInfoDialog} for more info.
+     * @param message - The message to show.
+     * @return - true for ok, false for cancel.
+     */
     public static boolean showErrorMessage(String message) {
 
         return showInfoDialog(
@@ -152,17 +172,22 @@ public class Dialogs {
         );
     }
 
+    /**
+     * Shows a generic failure dialog.
+     */
     public static void showCandorGenericFailure() {
 
-        showInfoDialog(
-                "Candor Mod Manager",
-                "Candor experienced an error.\nPlease restart or contact us at:\nhttps://discord.gg/CMG9ZtS",
-                "ok",
-                "error",
-                true);
+        showErrorMessage(
+                "Candor experienced an error.\nPlease restart or contact us at:\nhttps://discord.gg/CMG9ZtS"
+        );
         System.exit(2);
     }
 
+    /**
+     * Asks the user to confirm an action to be taken.
+     * @param action - A description of the action about to be taken, for example, "Remove Mod(s)"
+     * @return - true for ok, false for cancel.
+     */
     public static boolean showConfirmDialog(String action) {
 
         return showInfoDialog(
