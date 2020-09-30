@@ -10,8 +10,30 @@ on:
     branches: [ dev ]
 
 jobs:
-  build:
+  build_win:
+    name: Building Windows Candor 
+    runs-on: windows-latest
 
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 14
+      uses: actions/setup-java@v1
+      with:
+        java-version: '14.0.0'
+        java-package: jdk
+        architecture: x64
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    - name: Build with Gradle
+      run: ./gradlew packageCandor
+    - uses: actions/upload-artifact@v2
+      with:
+        name: CandorManager-linux
+        path: build/packaged/CandorModManager.zip
+  
+  build_linux:
+
+    name: Building Linux Candor 
     runs-on: ubuntu-latest
 
     steps:
@@ -28,5 +50,27 @@ jobs:
       run: ./gradlew packageCandor
     - uses: actions/upload-artifact@v2
       with:
-        name: CandorManager-win.zip
+        name: CandorManager-linux
+        path: build/packaged/CandorModManager.zip
+
+  build_mac:
+
+    name: Building MacOS Candor 
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 14
+      uses: actions/setup-java@v1
+      with:
+        java-version: '14.0.0'
+        java-package: jdk
+        architecture: x64
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    - name: Build with Gradle
+      run: ./gradlew packageCandor
+    - uses: actions/upload-artifact@v2
+      with:
+        name: CandorManager-mac
         path: build/packaged/CandorModManager.zip
