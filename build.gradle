@@ -1,7 +1,8 @@
 plugins {
 
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '6.0.0'
+//    id 'com.github.johnrengelman.shadow' version '6.0.0'
+    id 'org.beryx.runtime' version '1.11.4'
     id "com.jfrog.bintray" version '1.8.5'
 }
 
@@ -36,7 +37,7 @@ apply plugin: 'java'
 
 sourceCompatibility = 14
 
-//mainClassName = 'me.shadowchild.candor.CandorLauncher'
+mainClassName = 'uk.co.innoxium.candor.CandorLauncher'
 
 repositories {
 
@@ -102,16 +103,43 @@ jar {
     }
 }
 
-shadowJar {
+//shadowJar {
+//
+//    archiveBaseName = 'CandorManager'
+//    archiveClassifier = ''
+//
+//    manifest {
+//
+//        attributes 'Main-Class': 'uk.co.innoxium.candor.CandorLauncher'
+//        attributes 'Premain-Class': 'ca.cgjennings.jvm.JarLoader'
+//        attributes 'SplashScreen-Image': 'splash.png'
+//    }
+//}
 
-    archiveBaseName = 'CandorManager'
-    archiveClassifier = ''
+runtime {
 
-    manifest {
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
 
-        attributes 'Main-Class': 'uk.co.innoxium.candor.CandorLauncher'
-        attributes 'Premain-Class': 'ca.cgjennings.jvm.JarLoader'
-        attributes 'SplashScreen-Image': 'splash.png'
+    launcher {
+
+        jvmArgs = [
+                '-javaagent:app/CandorManager-snapshot.jar'
+        ]
+    }
+
+    jpackage {
+
+        imageOptions = [ '--win-console' ]
+        appVersion = "1.0"
+        skipInstaller = true
+    }
+}
+tasks.runtime.doLast {
+
+    copy {
+
+        from('src/main/resources')
+        into("$buildDir/image/bin")
     }
 }
 
@@ -127,9 +155,10 @@ task copyJars(type: Copy) {
 
 task copyScripts(type: Copy) {
 
-    dependsOn 'copyJars'
+    dependsOn 'jpackageImage'
+//    dependsOn 'copyJars'
 
-    from "$projectDir/scripts"
+    from "$buildDir/jpackage"
     into "$buildDir/packaged"
 }
 
@@ -138,8 +167,8 @@ task zipCandor(type: Zip) {
     dependsOn 'copyScripts'
 
     from "$buildDir/packaged"
-    include '*'
-    include '*/*'
+//    include '*'
+//    include '*/*'
     exclude '*.zip'
     archiveFileName = 'CandorModManager.zip'
     destinationDirectory = file("$buildDir/packaged")
