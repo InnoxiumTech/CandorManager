@@ -28,7 +28,7 @@ jobs:
       run: ./gradlew packageCandor
     - uses: actions/upload-artifact@v2
       with:
-        name: CandorManager-linux
+        name: CandorManager-win
         path: build/packaged/CandorModManager.zip
   
   build_linux:
