@@ -26,3 +26,7 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew packageCandor
+    - uses: actions/upload-artifact@v2
+      with:
+        name: CandorManager-win.zip
+        path: build/packaged/CandorManager.zip
