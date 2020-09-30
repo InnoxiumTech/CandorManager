@@ -1,6 +1,6 @@
 # CandorManager 
 [ ![CI Build](https://github.com/InnoxiumTech/CandorManager/workflows/Java%20CI%20with%20Gradle/badge.svg) ](https://github.com/InnoxiumTech/CandorManager)
-[ ![Download](https://api.bintray.com/packages/candor/candor-alpha/candor-api/images/download.svg) ](https://bintray.com/candor/candor-alpha/candor-api/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/candor/candor-alpha/candor-api/images/download.svg) ](https://bintray.com/candor/candor-alpha/candor-api/_latestVersion)<br>
 A new breed of mod manager
 
 # Thanks
