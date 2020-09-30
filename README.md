@@ -1,11 +1,13 @@
-# CandorManager [![CandorManager](https://circleci.com/gh/InnoxiumTech/CandorManager.svg?style=shield)]() [ ![Download](https://api.bintray.com/packages/candor/candor-alpha/candor-full/images/download.svg) ](https://bintray.com/candor/candor-alpha/candor-full/_latestVersion)
+# CandorManager 
+[ ![CI Build](https://github.com/InnoxiumTech/CandorManager/workflows/Java%20CI%20with%20Gradle/badge.svg) ](https://github.com/InnoxiumTech/CandorManager)
+[ ![Download](https://api.bintray.com/packages/candor/candor-alpha/candor-full/images/download.svg) ](https://bintray.com/candor/candor-alpha/candor-full/_latestVersion)
 A new breed of mod manager
 
 # Thanks
 I would like to say thank you right away to the following people:
 
-CGJennings -> https://github.com/CGJennings/jar-loader - Allowing me to load modules from external jars
-
+CGJennings -> https://github.com/CGJennings/jar-loader - Allowing me to load modules from external jars  
+[@bl4ckscor3](https://github.com/bl4ckscor3) - Creating the amazing splash screen artwork!
 
 # What is Candor?
 Candor aims to be a mod manager that will remove the need 
@@ -46,5 +48,5 @@ and not because someone is paying me to do so.
 Please contact me if you would like to donate.
 
 # How can I contact you?
-Join my discord at https://discord.gg/CMG9ZtS
+Join my discord at https://discord.gg/CMG9ZtS  
 You can also contact me on twitter @ShadowChild12
