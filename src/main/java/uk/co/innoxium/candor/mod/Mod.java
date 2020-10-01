@@ -3,6 +3,7 @@ package uk.co.innoxium.candor.mod;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import uk.co.innoxium.candor.module.ModuleSelector;
+import uk.co.innoxium.candor.util.Logger;
 import uk.co.innoxium.candor.util.Utils;
 import uk.co.innoxium.cybernize.archive.Archive;
 import uk.co.innoxium.cybernize.archive.ArchiveBuilder;
@@ -103,7 +104,7 @@ public class Mod {
                     // TODO: Backup and restore files that conflict with vanilla files.
                     if(!ModuleSelector.currentModule.isCritical(archiveItem)) {
 
-                        System.out.println(archiveItem);
+                        Logger.info(archiveItem);
                         // Add the item if the array if it isn't critical to the game's vanilla functionality
                         array.add(archiveItem.getFilePath());
                     }

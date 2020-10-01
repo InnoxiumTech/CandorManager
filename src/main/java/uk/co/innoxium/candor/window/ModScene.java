@@ -17,6 +17,7 @@ import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.module.RunConfig;
 import uk.co.innoxium.candor.thread.ThreadModInstaller;
 import uk.co.innoxium.candor.util.Dialogs;
+import uk.co.innoxium.candor.util.Logger;
 import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.candor.util.WindowUtils;
 
@@ -48,7 +49,7 @@ public class ModScene extends JPanel {
             ModStore.determineInstalledMods();
         } catch (IOException e) {
 
-            System.out.println("This shouldn't happen, likely a corrupt mods.json :(");
+            Logger.info("This shouldn't happen, likely a corrupt mods.json :(");
             e.printStackTrace();
             System.exit(-1);
         }
@@ -212,7 +213,7 @@ public class ModScene extends JPanel {
         }
         try {
 
-            System.out.println(builder.command().toString());
+            Logger.info(builder.command().toString());
             Process process = builder.start();
         } catch (IOException ioException) {
 

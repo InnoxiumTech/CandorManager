@@ -67,7 +67,7 @@ public class GenericModInstaller extends AbstractModInstaller {
         mod.getAssociatedFiles().forEach(element -> {
 
             File toDelete = new File(module.getModsFolder(), element.getAsString());
-            System.out.println("Deleting: " + toDelete.getAbsolutePath());
+            Logger.info("Deleting: " + toDelete.getAbsolutePath());
             FileUtils.deleteQuietly(new File(module.getModsFolder(), element.getAsString()));
         });
         return true;

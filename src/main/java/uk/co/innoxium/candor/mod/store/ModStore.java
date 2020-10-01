@@ -9,6 +9,7 @@ import uk.co.innoxium.candor.mod.Mod;
 import uk.co.innoxium.candor.mod.ModList;
 import uk.co.innoxium.candor.mod.ModUtils;
 import uk.co.innoxium.candor.module.ModuleSelector;
+import uk.co.innoxium.candor.util.Logger;
 import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.cybernize.json.JsonUtil;
 
@@ -43,7 +44,7 @@ public class ModStore {
         // Clear the mods, in case this was called from the load new game option in the mods scene.
         MODS.clear();
 
-        System.out.println(modStoreFolder.getAbsolutePath());
+        Logger.info(modStoreFolder.getAbsolutePath());
 
         // Make the folder, if it doesn't already exist.
         if(!modStoreFolder.exists()) {
@@ -93,7 +94,7 @@ public class ModStore {
             FileUtils.copyFileToDirectory(file, modStoreFolder);
         } catch (IOException e) {
 
-            System.out.println("Could not copy Mod to the mod store, please retry");
+            Logger.info("Could not copy Mod to the mod store, please retry");
             e.printStackTrace();
             return Result.FAIL;
         }

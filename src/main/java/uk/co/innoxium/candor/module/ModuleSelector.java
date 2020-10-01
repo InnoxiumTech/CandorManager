@@ -4,6 +4,7 @@ import ca.cgjennings.jvm.JarLoader;
 import org.apache.commons.io.FileUtils;
 import uk.co.innoxium.candor.game.Game;
 import uk.co.innoxium.candor.util.Dialogs;
+import uk.co.innoxium.candor.util.Logger;
 import uk.co.innoxium.cybernize.util.ClassLoadUtil;
 import uk.co.innoxium.cybernize.util.Download;
 import uk.co.innoxium.cybernize.util.MathUtils;
@@ -39,8 +40,8 @@ public class ModuleSelector {
     public static void initModules() throws Exception {
 
         loadFromDir(new File("./module"));
-        System.out.println("Modules Found: " + MODULES.size());
-        for(AbstractModule module : MODULES) System.out.println("Loaded Module: " + module.getModuleName());
+        Logger.info("Modules Found: " + MODULES.size());
+        for(AbstractModule module : MODULES) Logger.info("Loaded Module: " + module.getModuleName());
         instanceGenericModule();
     }
 
@@ -68,7 +69,7 @@ public class ModuleSelector {
                 Attributes attrib = mf.getMainAttributes();
                 // Get the module attribute
                 String clazz = attrib.getValue("Candor-Module-Class");
-                System.out.println(clazz);
+                Logger.info(clazz);
 
                 // Use JarLoader to add the jar in to our classpath
                 JarLoader.addToClassPath(jar);
@@ -119,7 +120,7 @@ public class ModuleSelector {
                 if(s.toLowerCase().equals(gameString)) {
 
                     // Return the module instance
-                    System.out.println("Module is " + module.getModuleName());
+                    Logger.info("Module is " + module.getModuleName());
                     currentModule = module;
                     return module;
                 }
@@ -139,7 +140,7 @@ public class ModuleSelector {
             );
         }
         // We have fallen back on the generic module
-        System.out.println("Module is " + GENERIC_MODULE.getModuleName());
+        Logger.info("Module is " + GENERIC_MODULE.getModuleName());
         currentModule = GENERIC_MODULE;
         return GENERIC_MODULE;
     }
@@ -229,7 +230,7 @@ public class ModuleSelector {
             switch (dl.getStatus()) {
 
                 // If downloading, print the progress of it
-                case Download.DOWNLOADING -> System.out.println("Progress = " + dl.getProgress() + ", " +
+                case Download.DOWNLOADING -> Logger.info("Progress = " + dl.getProgress() + ", " +
                         MathUtils.humanReadableByteCount(dl.getDownloaded(), false) + " / " +
                         MathUtils.humanReadableByteCount(dl.getSize(), false));
                 // If complete, copy the file

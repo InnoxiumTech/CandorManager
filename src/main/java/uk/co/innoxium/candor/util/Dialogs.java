@@ -4,10 +4,13 @@ import com.google.common.collect.Sets;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.util.nfd.NFDPathSet;
 import org.lwjgl.util.tinyfd.TinyFileDialogs;
+import uk.co.innoxium.cybernize.net.Hastebin;
+import uk.co.innoxium.swing.util.DesktopUtil;
 
-import java.io.File;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.lwjgl.system.MemoryUtil.memAllocPointer;
 import static org.lwjgl.system.MemoryUtil.memFree;
@@ -82,7 +85,7 @@ public class Dialogs {
                     }
                     NFD_PathSet_Free(pathSet);
                 }
-                case NFD_CANCEL -> System.out.println("User pressed cancel.");
+                case NFD_CANCEL -> Logger.info("User pressed cancel.");
                 // NFD_ERROR
                 default -> System.err.format("Error: %s\n", NFD_GetError());
             }
@@ -127,13 +130,13 @@ public class Dialogs {
 
             case NFD_OKAY -> {
 
-                System.out.println("Success!");
-                System.out.println(path.getStringUTF8(0));
+                Logger.info("Success!");
+                Logger.info(path.getStringUTF8(0));
                 nNFD_Free(path.get(0));
             }
             case NFD_CANCEL -> {
 
-                System.out.println("User pressed cancel.");
+                Logger.info("User pressed cancel.");
                 showInfoDialog(
                         "Candor Mod Manager",
                         "Selection Error.\nPlease select a file/folder.",
@@ -177,10 +180,32 @@ public class Dialogs {
      */
     public static void showCandorGenericFailure() {
 
-        showErrorMessage(
-                "Candor experienced an error.\nPlease restart or contact us at:\nhttps://discord.gg/CMG9ZtS"
-        );
-        System.exit(2);
+        showCandorGenericFailure(true);
+    }
+
+    public static void showCandorGenericFailure(boolean hastebinUpload) {
+
+        try {
+            String message = "Candor experienced an error.\nPlease restart or contact us at:\nhttps://discord.gg/CMG9ZtS";
+            if (hastebinUpload) {
+
+                File log = new File("./debug.log");
+                FileReader fr = new FileReader(log);
+                BufferedReader reader = new BufferedReader(fr);
+                String hastebinContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+                String hastebinurl = Hastebin.post(hastebinContent, false);
+                message += "\nA log has been uploaded, please copy the link for help: " + hastebinurl;
+                DesktopUtil.openURL(hastebinurl.replace("https://", ""));
+            }
+            showErrorMessage(
+                    message
+            );
+            System.exit(2);
+        } catch (IOException e) {
+
+            e.printStackTrace();
+            System.exit(2);
+        }
     }
 
     /**

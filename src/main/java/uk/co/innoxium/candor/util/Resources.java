@@ -49,8 +49,8 @@ public class Resources {
         assert is != null;
         fantasque = Font.createFont(Font.TRUETYPE_FONT, is);
         GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(fantasque);
-        System.out.println(fantasque.getFamily());
-        System.out.println(fantasque.getFontName());
+        Logger.info(fantasque.getFamily());
+        Logger.info(fantasque.getFontName());
         is.close();
     }
 

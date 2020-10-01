@@ -100,7 +100,7 @@ public class WindowUtils {
         Game game = GamesList.getGameFromUUID(uuid);
         // If game is null, no game was found, so show the entry screen
         boolean ret = game == null;
-        if(!ret) System.out.println("Found game to load " + game.getGameExe());
+        if(!ret) Logger.info("Found game to load " + game.getGameExe());
         return game == null; // returns true if game is null
     }
 }

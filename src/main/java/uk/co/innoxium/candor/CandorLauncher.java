@@ -4,6 +4,7 @@ import com.formdev.flatlaf.FlatDarculaLaf;
 import org.lwjgl.system.Platform;
 import uk.co.innoxium.candor.game.GamesList;
 import uk.co.innoxium.candor.module.ModuleSelector;
+import uk.co.innoxium.candor.util.Logger;
 import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.candor.util.WindowUtils;
 
@@ -16,6 +17,11 @@ import java.io.IOException;
 public class CandorLauncher {
 	
 	public static void main(String[] args) {
+
+		// Initialise our Logger
+		Logger.initialise();
+
+		Logger.info("Candor Initialising");
 
 		if(Platform.get() == Platform.MACOSX) {
 
@@ -86,6 +92,7 @@ public class CandorLauncher {
 
 				e.printStackTrace();
 			}
+			Logger.info("Candor shutting down.");
 		}
 	}
 }

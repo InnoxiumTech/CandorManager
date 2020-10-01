@@ -2,6 +2,7 @@ package uk.co.innoxium.candor.game;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import uk.co.innoxium.candor.util.Logger;
 import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.cybernize.json.JsonUtil;
 
@@ -100,6 +101,7 @@ public class GamesList {
      */
     public static void writeToFile() throws IOException {
 
+        Logger.info("Writing Games List to file");
         // Get the contents of the current file.
         JsonObject contents = JsonUtil.getObjectFromPath(GAMES_FILE.toPath());
         // Get the current "games" array of the file
