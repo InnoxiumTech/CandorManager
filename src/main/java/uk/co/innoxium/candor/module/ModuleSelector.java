@@ -153,7 +153,8 @@ public class ModuleSelector {
      */
     public static AbstractModule getModuleForGame(Game game, boolean showWarning) {
 
-        return getModuleForGame(game.getGameExe(), showWarning);
+        File file = new File(game.getGameExe());
+        return getModuleForGame(file.getName(), showWarning);
     }
 
     /**
@@ -163,7 +164,7 @@ public class ModuleSelector {
      */
     public static AbstractModule getModuleForGame(Game game) {
 
-        return getModuleForGame(game.getGameExe(), false);
+        return getModuleForGame(game, false);
     }
 
     /**
