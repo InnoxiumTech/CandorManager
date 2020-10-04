@@ -103,4 +103,17 @@ public class WindowUtils {
         if(!ret) Logger.info("Found game to load " + game.getGameExe());
         return game == null; // returns true if game is null
     }
+
+    // Sets up the frame for the entry scene
+    public static void setupEntryScene() {
+
+        mainFrame.setMinimumSize(new Dimension(0, 0));
+        JPanel scene = new EntryScene();
+        Resources.currentScene = scene;
+        mainFrame.setContentPane(scene);
+        // TODO: Allow the window to stay on the same screen it was used on
+        mainFrame.pack();
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setVisible(true);
+    }
 }

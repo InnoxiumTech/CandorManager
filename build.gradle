@@ -79,7 +79,7 @@ dependencies {
     implementation "net.harawata:appdirs:1.2.0"
 
     // Flat LAF
-    implementation 'com.formdev:flatlaf:0.38'
+    implementation 'com.formdev:flatlaf:0.42'
 
     implementation platform("org.lwjgl:lwjgl-bom:3.2.4-SNAPSHOT")
 
@@ -139,10 +139,13 @@ runtime {
 
             imageOptions = ['--win-console']
         }
+        imageOptions.add("--icon")
+        imageOptions.add("res/website_logo_transparent_background.ico")
         appVersion = "1.0"
         skipInstaller = true
     }
 }
+
 tasks.runtime.doLast {
 
     copy {
@@ -166,8 +169,15 @@ task copyScripts(type: Copy) {
 
     dependsOn 'jpackageImage'
 //    dependsOn 'copyJars'
-
     from "$buildDir/jpackage"
+
+    // Exclude api-ms dll's from the main directory, they aren't needed
+    exclude {
+
+        FileTreeElement details ->
+            !details.file.getAbsolutePath().contains("runtime\\bin") &&
+                    details.file.name.contains("api-ms")
+    }
     into "$buildDir/packaged"
 }
 
@@ -224,7 +234,7 @@ publishing {
             artifact javadocJar
             groupId 'uk.co.innoxium.candor'
             artifactId 'candor-api'
-            version '0.2.1'
+            version '0.2.2'
         }
     }
 }
@@ -250,8 +260,8 @@ bintray {
         licenses = ['MIT']
         version {
 
-            name = '0.2.1'
-            desc = 'This release marks a huge step forward in terms of UX and presentation.'
+            name = '0.2.2'
+            desc = 'This is the first production ready release of Candor!'
             released = new Date()
         }
     }

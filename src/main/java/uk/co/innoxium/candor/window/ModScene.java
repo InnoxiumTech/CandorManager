@@ -251,7 +251,8 @@ public class ModScene extends JPanel {
 
     private void newGameClicked(ActionEvent e) {
 
-        WindowUtils.setupGameSelectScene();
+        WindowUtils.setupEntryScene();
+//        WindowUtils.setupGameSelectScene();
     }
 
     private void aboutClicked(ActionEvent e) {
@@ -279,12 +280,13 @@ public class ModScene extends JPanel {
         applyModsMenuItem = new JMenuItem();
         loadNewGameMenuItem = new JMenuItem();
         settingsMenuItem = new JMenuItem();
-        aboutMenuItem = new JMenuItem();
         gameMenu = new JMenu();
         openGameFolderMenuItem = new JMenuItem();
         opemModsFolderMenuItem = new JMenuItem();
         launchGameMenuItem = new JMenuItem();
         runConfigsMenuItem = new JMenuItem();
+        aboutMenu = new JMenu();
+        aboutMenuItem = new JMenuItem();
 
         //======== this ========
         setLayout(new BorderLayout());
@@ -365,11 +367,6 @@ public class ModScene extends JPanel {
                 settingsMenuItem.setMnemonic('S');
                 settingsMenuItem.addActionListener(e -> settingsClicked(e));
                 fileMenu.add(settingsMenuItem);
-
-                //---- aboutMenuItem ----
-                aboutMenuItem.setText("About");
-                aboutMenuItem.addActionListener(e -> aboutClicked(e));
-                fileMenu.add(aboutMenuItem);
             }
             menuBar.add(fileMenu);
 
@@ -397,6 +394,17 @@ public class ModScene extends JPanel {
                 gameMenu.add(runConfigsMenuItem);
             }
             menuBar.add(gameMenu);
+
+            //======== aboutMenu ========
+            {
+                aboutMenu.setText("About");
+
+                //---- aboutMenuItem ----
+                aboutMenuItem.setText("About Candor");
+                aboutMenuItem.addActionListener(e -> aboutClicked(e));
+                aboutMenu.add(aboutMenuItem);
+            }
+            menuBar.add(aboutMenu);
         }
         add(menuBar, BorderLayout.NORTH);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
@@ -417,12 +425,13 @@ public class ModScene extends JPanel {
     private JMenuItem applyModsMenuItem;
     private JMenuItem loadNewGameMenuItem;
     private JMenuItem settingsMenuItem;
-    private JMenuItem aboutMenuItem;
     private JMenu gameMenu;
     private JMenuItem openGameFolderMenuItem;
     private JMenuItem opemModsFolderMenuItem;
     private JMenuItem launchGameMenuItem;
     private JMenuItem runConfigsMenuItem;
+    private JMenu aboutMenu;
+    private JMenuItem aboutMenuItem;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
     static class ListRenderer extends JCheckBox implements ListCellRenderer<Mod> {
