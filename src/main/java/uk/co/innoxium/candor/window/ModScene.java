@@ -73,7 +73,7 @@ public class ModScene extends JPanel {
     private void createUIComponents() {
 
 
-        installedModsJList = new JList(ModStore.MODS.toArray());
+        installedModsJList = new JList<>(ModStore.MODS.toArray());
 
         installedModsJList.setCellRenderer(new ListRenderer());
         installedModsJList.setFont(Resources.fantasque.deriveFont(24f));

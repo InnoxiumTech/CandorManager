@@ -7,6 +7,7 @@ import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.util.Logger;
 import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.candor.util.WindowUtils;
+import uk.co.innoxium.cybernize.zip.ZipUtils;
 
 import java.awt.*;
 import java.io.IOException;
@@ -22,6 +23,8 @@ public class CandorLauncher {
 		Logger.initialise();
 
 		Logger.info("Candor Initialising");
+		// Ensure the 7zip natives are loaded
+		ZipUtils.setUpSevenZip();
 
 		if(Platform.get() == Platform.MACOSX) {
 

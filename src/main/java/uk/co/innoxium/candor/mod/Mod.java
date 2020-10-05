@@ -76,6 +76,11 @@ public class Mod {
         return associatedFiles;
     }
 
+    public void setAssociatedFiles(JsonArray associatedFiles) {
+
+        this.associatedFiles = associatedFiles;
+    }
+
     /**
      * Creates a Mod object from a file.
      * @param file - The File to create a mod of.
