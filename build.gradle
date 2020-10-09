@@ -234,7 +234,7 @@ publishing {
             artifact javadocJar
             groupId 'uk.co.innoxium.candor'
             artifactId 'candor-api'
-            version '0.2.3'
+            version '0.2.7'
         }
     }
 }
@@ -260,8 +260,8 @@ bintray {
         licenses = ['MIT']
         version {
 
-            name = '0.2.3'
-            desc = 'This is the first production ready release of Candor!'
+            name = '0.2.7'
+            desc = 'Allows for setting associated files for a mod'
             released = new Date()
         }
     }

@@ -189,10 +189,14 @@ public class ModStore {
             for (int i = 0; i < array.size(); i++) {
 
                 JsonObject obj = array.get(i).getAsJsonObject();
+                JsonObject newObj = newArray.get(i).getAsJsonObject();
                 if(mod.getName().equals(obj.get("name").getAsString())) {
 
-                    newArray.get(i).getAsJsonObject().remove("state");
-                    newArray.get(i).getAsJsonObject().addProperty("state", state.name());
+                    newObj.remove("state");
+                    newObj.addProperty("state", state.name());
+
+                    newObj.remove("associatedFiles");
+                    newObj.add("associatedFiles", mod.getAssociatedFiles());
                 }
             }
 
