@@ -93,10 +93,14 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "openGameFolderMenuItem"
 						"text": "Open Game Folder"
+						"actionCommand": "game"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "openFolder", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "opemModsFolderMenuItem"
 						"text": "Open Mods Folder"
+						"actionCommand": "mods"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "openFolder", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "launchGameMenuItem"

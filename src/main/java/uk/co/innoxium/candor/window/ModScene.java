@@ -20,6 +20,7 @@ import uk.co.innoxium.candor.util.Dialogs;
 import uk.co.innoxium.candor.util.Logger;
 import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.candor.util.WindowUtils;
+import uk.co.innoxium.swing.util.DesktopUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -263,6 +264,22 @@ public class ModScene extends JPanel {
         dialog.setVisible(true);
     }
 
+    private void openFolder(ActionEvent e) {
+
+        switch(e.getActionCommand()) {
+
+            case "game" -> {
+
+                DesktopUtil.openURL("", ModuleSelector.currentModule.getGame().getParent());
+            }
+            case "mods" -> {
+
+                DesktopUtil.openURL("", ModuleSelector.currentModule.getModsFolder().getAbsolutePath());
+            }
+            default -> {}
+        }
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         createUIComponents();
@@ -377,10 +394,14 @@ public class ModScene extends JPanel {
 
                 //---- openGameFolderMenuItem ----
                 openGameFolderMenuItem.setText("Open Game Folder");
+                openGameFolderMenuItem.setActionCommand("game");
+                openGameFolderMenuItem.addActionListener(e -> openFolder(e));
                 gameMenu.add(openGameFolderMenuItem);
 
                 //---- opemModsFolderMenuItem ----
                 opemModsFolderMenuItem.setText("Open Mods Folder");
+                opemModsFolderMenuItem.setActionCommand("mods");
+                opemModsFolderMenuItem.addActionListener(e -> openFolder(e));
                 gameMenu.add(opemModsFolderMenuItem);
 
                 //---- launchGameMenuItem ----
