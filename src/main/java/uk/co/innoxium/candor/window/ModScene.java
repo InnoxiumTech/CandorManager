@@ -30,9 +30,12 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.LinkedList;
 
 
 public class ModScene extends JPanel {
+
+    private final LinkedList<ThreadModInstaller> queuedMods = new LinkedList<>();
 
     public ModScene(String gameUuid) {
 
@@ -197,7 +200,20 @@ public class ModScene extends JPanel {
         installedModsJList.getSelectedValuesList().forEach(o -> {
 
             Mod mod = (Mod)o;
-            new ThreadModInstaller(mod).start();
+            ThreadModInstaller thread = new ThreadModInstaller(mod);
+
+            queuedMods.add(thread);
+        });
+
+        queuedMods.iterator().forEachRemaining(installer -> {
+
+            installer.start();
+
+            while(installer.isAlive()) {
+
+                // Halt until thread dies
+            }
+            queuedMods.remove(installer);
         });
     }
 
@@ -268,14 +284,9 @@ public class ModScene extends JPanel {
 
         switch(e.getActionCommand()) {
 
-            case "game" -> {
-
-                DesktopUtil.openURL("", ModuleSelector.currentModule.getGame().getParent());
-            }
-            case "mods" -> {
-
-                DesktopUtil.openURL("", ModuleSelector.currentModule.getModsFolder().getAbsolutePath());
-            }
+            case "game" -> DesktopUtil.openURL("", ModuleSelector.currentModule.getGame().getParent());
+            case "mods" -> DesktopUtil.openURL("", ModuleSelector.currentModule.getModsFolder().getAbsolutePath());
+            case "candor" -> DesktopUtil.openURL("", Resources.CANDOR_DATA_PATH.getAbsolutePath());
             default -> {}
         }
     }
@@ -304,6 +315,7 @@ public class ModScene extends JPanel {
         runConfigsMenuItem = new JMenuItem();
         aboutMenu = new JMenu();
         aboutMenuItem = new JMenuItem();
+        candorSettingButton = new JMenuItem();
 
         //======== this ========
         setLayout(new BorderLayout());
@@ -424,6 +436,12 @@ public class ModScene extends JPanel {
                 aboutMenuItem.setText("About Candor");
                 aboutMenuItem.addActionListener(e -> aboutClicked(e));
                 aboutMenu.add(aboutMenuItem);
+
+                //---- candorSettingButton ----
+                candorSettingButton.setText("Open Candor Folder");
+                candorSettingButton.setActionCommand("candor");
+                candorSettingButton.addActionListener(e -> openFolder(e));
+                aboutMenu.add(candorSettingButton);
             }
             menuBar.add(aboutMenu);
         }
@@ -453,6 +471,7 @@ public class ModScene extends JPanel {
     private JMenuItem runConfigsMenuItem;
     private JMenu aboutMenu;
     private JMenuItem aboutMenuItem;
+    private JMenuItem candorSettingButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
     static class ListRenderer extends JCheckBox implements ListCellRenderer<Mod> {
