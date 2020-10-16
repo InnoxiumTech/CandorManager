@@ -29,7 +29,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 
 
@@ -63,19 +65,29 @@ public class ModScene extends JPanel {
             @Override
             public void handleChange(String identifier, Mod mod, boolean result) {
 
-                installedModsJList.setListData(ModStore.MODS.toArray());
+                handleChange(identifier, Collections.singletonList(mod), result);
             }
 
             @Override
             public void handleChange(String identifier, Collection<? extends Mod> c, boolean result) {
 
                 installedModsJList.setListData(ModStore.MODS.toArray());
+                c.forEach(mod -> {
+
+                    if(identifier.equals("install")) {
+
+                        queuedMods.removeFirst();
+                        if(queuedMods.size() > 0) {
+
+                            queuedMods.getFirst().start();
+                        }
+                    }
+                });
             }
         });
     }
 
     private void createUIComponents() {
-
 
         installedModsJList = new JList(ModStore.MODS.toArray());
 
@@ -196,25 +208,8 @@ public class ModScene extends JPanel {
     }
 
     private void installModsClicked(ActionEvent e) {
-        
-        installedModsJList.getSelectedValuesList().forEach(o -> {
 
-            Mod mod = (Mod)o;
-            ThreadModInstaller thread = new ThreadModInstaller(mod);
-
-            queuedMods.add(thread);
-        });
-
-        queuedMods.iterator().forEachRemaining(installer -> {
-
-            installer.start();
-
-            while(installer.isAlive()) {
-
-                // Halt until thread dies
-            }
-            queuedMods.remove(installer);
-        });
+        doInstallMod((ArrayList<Mod>)installedModsJList.getSelectedValuesList());
     }
 
     private void runGameClicked(ActionEvent e) {
@@ -253,17 +248,70 @@ public class ModScene extends JPanel {
                         "warning",
                         false);
             }
+            ArrayList<Mod> toInstall = new ArrayList<>();
             installedModsJList.getSelectedValuesList().forEach(o -> {
 
-                try {
+                Mod mod = (Mod)o;
 
-                    ModStore.removeModFile((Mod) o, false);
-                } catch (IOException exception) {
+                if(mod.getState() == Mod.State.ENABLED && ModuleSelector.currentModule.getModInstaller().uninstall(mod)) {
 
-                    exception.printStackTrace();
+                    mod.setState(Mod.State.DISABLED);
+                    ModStore.updateModState(mod, Mod.State.DISABLED);
+                } else {
+
+                    toInstall.add(mod);
                 }
+                if(toInstall.size() > 0) doInstallMod(toInstall);
+//                try {
+//
+//                    Mod mod = (Mod)o;
+//                    ModStore.removeModFile((Mod) o, false);
+//                } catch (IOException exception) {
+//
+//                    exception.printStackTrace();
+//                }
             });
         }
+    }
+
+    public void doInstallMod(ArrayList<Mod> mods) {
+
+        // Any mods in here will enable the message box saying it was installed
+        ArrayList<Mod> badMods = new ArrayList<>();
+
+        // Instantiate a Thread for each mod selected
+        mods.forEach(mod -> {
+
+            if(mod.getState() == Mod.State.ENABLED) {
+
+                badMods.add(mod);
+            } else {
+
+                ThreadModInstaller thread = new ThreadModInstaller(mod);
+
+                queuedMods.add(thread);
+            }
+        });
+
+        if(badMods.size() > 0) {
+
+            StringBuilder builder = new StringBuilder();
+            builder.append("The following mods are already installed and will be ignored: \n");
+            for (Mod badMod : badMods) {
+
+                builder.append(badMod.getReadableName()).append("\n");
+            }
+
+            Dialogs.showInfoDialog(
+                    "Candor Mod Manager",
+                    builder.toString(),
+                    "ok",
+                    "info",
+                    true);
+        }
+
+        // install the mods one by one
+        queuedMods.getFirst().start();
     }
 
     private void newGameClicked(ActionEvent e) {
