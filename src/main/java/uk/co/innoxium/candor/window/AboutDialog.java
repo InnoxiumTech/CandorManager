@@ -5,6 +5,7 @@
 package uk.co.innoxium.candor.window;
 
 import uk.co.innoxium.candor.util.Resources;
+import uk.co.innoxium.candor.util.WindowUtils;
 import uk.co.innoxium.candor.window.component.JImage;
 import uk.co.innoxium.swing.component.JHyperlink;
 
@@ -18,8 +19,8 @@ import java.awt.event.ActionEvent;
  */
 public class AboutDialog extends JDialog {
 
-    public AboutDialog(Window owner) {
-        super(owner);
+    public AboutDialog() {
+        super(WindowUtils.mainFrame);
         initComponents();
     }
 

@@ -2,7 +2,7 @@
  * Created by JFormDesigner on Mon Jun 22 16:06:01 BST 2020
  */
 
-package uk.co.innoxium.candor.window;
+package uk.co.innoxium.candor.window.modscene;
 
 import com.formdev.flatlaf.FlatIconColors;
 import com.github.f4b6a3.uuid.util.UuidConverter;
@@ -20,6 +20,7 @@ import uk.co.innoxium.candor.util.NativeDialogs;
 import uk.co.innoxium.candor.util.Logger;
 import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.candor.util.WindowUtils;
+import uk.co.innoxium.candor.window.AboutDialog;
 import uk.co.innoxium.swing.util.DesktopUtil;
 
 import javax.swing.*;
@@ -94,56 +95,62 @@ public class ModScene extends JPanel {
         installedModsJList.setCellRenderer(new ListRenderer());
         installedModsJList.setFont(Resources.fantasque.deriveFont(24f));
         installedModsJList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        installedModsJList.setSelectionModel(new DefaultListSelectionModel() {
-
-            private static final long serialVersionUID = 1L;
-
-            boolean gestureStarted = false;
-
-            @Override
-            public void setSelectionInterval(int index0, int index1) {
-
-                if(!gestureStarted) {
-
-                    if (index0 == index1) {
-
-                        if (isSelectedIndex(index0)) {
-
-                            removeSelectionInterval(index0, index0);
-                            return;
-                        }
-                    }
-                    super.setSelectionInterval(index0, index1);
-                }
-                gestureStarted = true;
-            }
-
-            @Override
-            public void addSelectionInterval(int index0, int index1) {
-
-                if (index0==index1) {
-
-                    if (isSelectedIndex(index0)) {
-
-                        removeSelectionInterval(index0, index0);
-                        return;
-                    }
-                    super.addSelectionInterval(index0, index1);
-                }
-            }
-
-            @Override
-            public void setValueIsAdjusting(boolean isAdjusting) {
-
-                if (!isAdjusting) {
-
-                    gestureStarted = false;
-                }
-            }
-        });
+//        installedModsJList.setSelectionModel(new DefaultListSelectionModel() {
+//
+//            private static final long serialVersionUID = 1L;
+//
+//            boolean gestureStarted = false;
+//
+//            @Override
+//            public void setSelectionInterval(int index0, int index1) {
+//
+//                if(!gestureStarted) {
+//
+//                    if (index0 == index1) {
+//
+//                        if (isSelectedIndex(index0)) {
+//
+//                            removeSelectionInterval(index0, index0);
+//                            return;
+//                        }
+//                    }
+//                    super.setSelectionInterval(index0, index1);
+//                }
+//                gestureStarted = true;
+//            }
+//
+//            @Override
+//            public void addSelectionInterval(int index0, int index1) {
+//
+//                if (index0==index1) {
+//
+//                    if (isSelectedIndex(index0)) {
+//
+//                        removeSelectionInterval(index0, index0);
+//                        return;
+//                    }
+//                    super.addSelectionInterval(index0, index1);
+//                }
+//            }
+//
+//            @Override
+//            public void setValueIsAdjusting(boolean isAdjusting) {
+//
+//                if (!isAdjusting) {
+//
+//                    gestureStarted = false;
+//                }
+//            }
+//        });
         installedModsJList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
+                if(SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2 && !e.isConsumed()) {
+
+                    toggleSelectedMods(null);
+                    return;
+                }
 
                 if(SwingUtilities.isLeftMouseButton(e) && ((JList<?>)e.getSource()).getModel().getSize() != 0) {
 
@@ -171,9 +178,13 @@ public class ModScene extends JPanel {
                                 null,
                                 null,
                                 mod.getReadableName());
-                        mod.setReadableName(newName);
-                        ModStore.updateModState(mod, mod.getState());
-                        ModStore.MODS.fireChangeToListeners("rename", mod, true);
+
+                        if(newName != null && !newName.isEmpty()) {
+
+                            mod.setReadableName(newName);
+                            ModStore.updateModState(mod, mod.getState());
+                            ModStore.MODS.fireChangeToListeners("rename", mod, true);
+                        }
                     });
                     menu.add(renameOption);
                     menu.show(list, e.getPoint().x, e.getPoint().y);
@@ -282,6 +293,7 @@ public class ModScene extends JPanel {
 
                     mod.setState(Mod.State.DISABLED);
                     ModStore.updateModState(mod, Mod.State.DISABLED);
+                    ModStore.MODS.fireChangeToListeners("uninstall", mod, true);
                 } else {
 
                     toInstall.add(mod);
@@ -347,7 +359,7 @@ public class ModScene extends JPanel {
 
     private void aboutClicked(ActionEvent e) {
 
-        AboutDialog dialog = new AboutDialog(WindowUtils.mainFrame);
+        AboutDialog dialog = new AboutDialog();
         dialog.setResizable(true);
         dialog.pack();
         dialog.setVisible(true);
@@ -389,6 +401,7 @@ public class ModScene extends JPanel {
         aboutMenu = new JMenu();
         aboutMenuItem = new JMenuItem();
         candorSettingButton = new JMenuItem();
+        toolsMenu = new JMenu();
 
         //======== this ========
         setLayout(new BorderLayout());
@@ -504,19 +517,28 @@ public class ModScene extends JPanel {
             //======== aboutMenu ========
             {
                 aboutMenu.setText("About");
+                aboutMenu.setMnemonic('A');
 
                 //---- aboutMenuItem ----
                 aboutMenuItem.setText("About Candor");
+                aboutMenuItem.setMnemonic('A');
                 aboutMenuItem.addActionListener(e -> aboutClicked(e));
                 aboutMenu.add(aboutMenuItem);
 
                 //---- candorSettingButton ----
                 candorSettingButton.setText("Open Candor Folder");
                 candorSettingButton.setActionCommand("candor");
+                candorSettingButton.setMnemonic('O');
                 candorSettingButton.addActionListener(e -> openFolder(e));
                 aboutMenu.add(candorSettingButton);
             }
             menuBar.add(aboutMenu);
+
+            //======== toolsMenu ========
+            {
+                toolsMenu.setText("Tools");
+            }
+            menuBar.add(toolsMenu);
         }
         add(menuBar, BorderLayout.NORTH);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
@@ -545,6 +567,7 @@ public class ModScene extends JPanel {
     private JMenu aboutMenu;
     private JMenuItem aboutMenuItem;
     private JMenuItem candorSettingButton;
+    private JMenu toolsMenu;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
     static class ListRenderer extends JCheckBox implements ListCellRenderer<Mod> {

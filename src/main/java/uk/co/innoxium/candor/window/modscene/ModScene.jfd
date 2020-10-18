@@ -118,17 +118,24 @@ new FormModel {
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "aboutMenu"
 					"text": "About"
+					"mnemonic": 65
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "aboutMenuItem"
 						"text": "About Candor"
+						"mnemonic": 65
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "aboutClicked", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "candorSettingButton"
 						"text": "Open Candor Folder"
 						"actionCommand": "candor"
+						"mnemonic": 79
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "openFolder", true ) )
 					} )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "toolsMenu"
+					"text": "Tools"
 				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "North"

@@ -6,7 +6,7 @@ import uk.co.innoxium.candor.game.Game;
 import uk.co.innoxium.candor.game.GamesList;
 import uk.co.innoxium.candor.window.EntryScene;
 import uk.co.innoxium.candor.window.GameSelectScene;
-import uk.co.innoxium.candor.window.ModScene;
+import uk.co.innoxium.candor.window.modscene.ModScene;
 import uk.co.innoxium.cybernize.util.ClassLoadUtil;
 
 import javax.swing.*;
