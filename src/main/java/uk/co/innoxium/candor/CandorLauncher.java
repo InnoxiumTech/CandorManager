@@ -1,6 +1,7 @@
 package uk.co.innoxium.candor;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import org.lwjgl.system.Platform;
 import uk.co.innoxium.candor.game.GamesList;
 import uk.co.innoxium.candor.module.ModuleSelector;
@@ -9,6 +10,7 @@ import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.candor.util.WindowUtils;
 import uk.co.innoxium.cybernize.zip.ZipUtils;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
@@ -54,8 +56,6 @@ public class CandorLauncher {
 			// Print stack if it fails.
 			e.printStackTrace();
 		}
-		// Install our Look and Feel.
-		FlatDarculaLaf.install();
 
 		try {
 
@@ -72,6 +72,16 @@ public class CandorLauncher {
 		}
 		// Handle our configurations
 		ConfigHandler.handleCore();
+		// Install our Look and Feel.
+		if(Settings.darkTheme) {
+
+			FlatDarculaLaf.install();
+		} else {
+
+			FlatIntelliJLaf.install();
+		}
+		//
+		setThemeCustomizations();
 		// Add our shutdown hook for saving configs
 		Runtime.getRuntime().addShutdownHook(new RuntimeHook());
 
@@ -80,6 +90,12 @@ public class CandorLauncher {
 
 		// We can now set up the frame.
 		WindowUtils.initialiseFrame();
+	}
+
+	private static void setThemeCustomizations() {
+
+		JFrame.setDefaultLookAndFeelDecorated(true);
+		JDialog.setDefaultLookAndFeelDecorated(true);
 	}
 
 	private static class RuntimeHook extends Thread {

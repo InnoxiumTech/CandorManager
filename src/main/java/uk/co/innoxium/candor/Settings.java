@@ -28,6 +28,10 @@ public class Settings {
     @Setting.Comment("The UUID of the last game loaded")
     public static String lastGameUuid = "";
 
+    @Setting(category = "gui")
+    @Setting.Comment("Show we display the Dark theme on startup?")
+    public static boolean darkTheme = true;
+
     /* The CommentedFileConfig instance to use to load, save the config from. */
     @Config
     public static CommentedFileConfig getConfig() {

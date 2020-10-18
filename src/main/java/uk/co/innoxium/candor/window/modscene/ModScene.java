@@ -4,9 +4,14 @@
 
 package uk.co.innoxium.candor.window.modscene;
 
+import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatIconColors;
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 import com.github.f4b6a3.uuid.util.UuidConverter;
 import net.miginfocom.swing.MigLayout;
+import uk.co.innoxium.candor.Settings;
 import uk.co.innoxium.candor.game.Game;
 import uk.co.innoxium.candor.game.GamesList;
 import uk.co.innoxium.candor.mod.Mod;
@@ -16,8 +21,8 @@ import uk.co.innoxium.candor.module.AbstractModule;
 import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.module.RunConfig;
 import uk.co.innoxium.candor.thread.ThreadModInstaller;
-import uk.co.innoxium.candor.util.NativeDialogs;
 import uk.co.innoxium.candor.util.Logger;
+import uk.co.innoxium.candor.util.NativeDialogs;
 import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.candor.util.WindowUtils;
 import uk.co.innoxium.candor.window.AboutDialog;
@@ -26,8 +31,6 @@ import uk.co.innoxium.swing.util.DesktopUtil;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -90,6 +93,8 @@ public class ModScene extends JPanel {
 
     private void createUIComponents() {
 
+        darkThemeRadioButton = new JRadioButtonMenuItem("Enable Dark Theme", Settings.darkTheme);
+
         installedModsJList = new JList(ModStore.MODS.toArray());
 
         installedModsJList.setCellRenderer(new ListRenderer());
@@ -142,55 +147,7 @@ public class ModScene extends JPanel {
 //                }
 //            }
 //        });
-        installedModsJList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-                if(SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2 && !e.isConsumed()) {
-
-                    toggleSelectedMods(null);
-                    return;
-                }
-
-                if(SwingUtilities.isLeftMouseButton(e) && ((JList<?>)e.getSource()).getModel().getSize() != 0) {
-
-                    JList<?> list = (JList<?>) e.getSource();
-                    int index = list.locationToIndex(e.getPoint());
-                    Mod mod = (Mod) list.getModel().getElementAt(index);
-//                    ((ListRenderer) list.getCellRenderer()).selected = !((ListRenderer) list.getCellRenderer()).selected;
-                    list.repaint(list.getCellBounds(index, index));
-                }
-                if(SwingUtilities.isRightMouseButton(e) && ((JList<?>)e.getSource()).getModel().getSize() != 0) {
-
-                    JList<?> list = (JList<?>) e.getSource();
-                    int index = list.locationToIndex(e.getPoint());
-                    list.setSelectedIndex(index);
-                    JPopupMenu menu = new JPopupMenu("Options");
-                    JMenuItem renameOption = new JMenuItem("Rename Mod");
-                    renameOption.addActionListener(event -> {
-
-                        Mod mod = (Mod) list.getModel().getElementAt(index);
-                        System.out.println("Rename clicked on mod: " + mod.getName());
-                        String newName = (String)JOptionPane.showInputDialog(WindowUtils.mainFrame,
-                                "Please input the new name for the Mod " + mod.getReadableName(),
-                                "Rename Mod",
-                                JOptionPane.QUESTION_MESSAGE,
-                                null,
-                                null,
-                                mod.getReadableName());
-
-                        if(newName != null && !newName.isEmpty()) {
-
-                            mod.setReadableName(newName);
-                            ModStore.updateModState(mod, mod.getState());
-                            ModStore.MODS.fireChangeToListeners("rename", mod, true);
-                        }
-                    });
-                    menu.add(renameOption);
-                    menu.show(list, e.getPoint().x, e.getPoint().y);
-                }
-            }
-        });
+        installedModsJList.addMouseListener(new ModSceneMouseAdapter(this));
     }
 
     private void settingsClicked(ActionEvent e) {
@@ -271,7 +228,7 @@ public class ModScene extends JPanel {
 
 
     // TODO: Add support for modules to determine how to toggle mods, e.g. via a plugin list for GameBryo games
-    private void toggleSelectedMods(ActionEvent e) {
+    public void toggleSelectedMods(ActionEvent e) {
 
         if(NativeDialogs.showConfirmDialog("Toggle Selected Mods")) {
 
@@ -374,6 +331,36 @@ public class ModScene extends JPanel {
             case "candor" -> DesktopUtil.openURL("", Resources.CANDOR_DATA_PATH.getAbsolutePath());
             default -> {}
         }
+    }
+
+    private void themeChangeButtonClicked(ActionEvent e) {
+
+        if(!darkThemeRadioButton.isSelected()) {
+
+            try {
+
+                FlatAnimatedLafChange.showSnapshot();
+                UIManager.setLookAndFeel(new FlatIntelliJLaf());
+                FlatLaf.updateUI();
+                FlatAnimatedLafChange.hideSnapshotWithAnimation();
+            } catch (UnsupportedLookAndFeelException exception) {
+
+                exception.printStackTrace();
+            }
+        } else {
+
+            try {
+
+                FlatAnimatedLafChange.showSnapshot();
+                UIManager.setLookAndFeel(new FlatDarculaLaf());
+                FlatLaf.updateUI();
+                FlatAnimatedLafChange.hideSnapshotWithAnimation();
+            } catch (UnsupportedLookAndFeelException exception) {
+
+                exception.printStackTrace();
+            }
+        }
+        Settings.darkTheme = darkThemeRadioButton.isSelected();
     }
 
     private void initComponents() {
@@ -482,6 +469,10 @@ public class ModScene extends JPanel {
                 settingsMenuItem.setMnemonic('S');
                 settingsMenuItem.addActionListener(e -> settingsClicked(e));
                 fileMenu.add(settingsMenuItem);
+
+                //---- darkThemeRadioButton ----
+                darkThemeRadioButton.addActionListener(e -> themeChangeButtonClicked(e));
+                fileMenu.add(darkThemeRadioButton);
             }
             menuBar.add(fileMenu);
 
@@ -559,6 +550,7 @@ public class ModScene extends JPanel {
     private JMenuItem applyModsMenuItem;
     private JMenuItem loadNewGameMenuItem;
     private JMenuItem settingsMenuItem;
+    private JRadioButtonMenuItem darkThemeRadioButton;
     private JMenu gameMenu;
     private JMenuItem openGameFolderMenuItem;
     private JMenuItem opemModsFolderMenuItem;
