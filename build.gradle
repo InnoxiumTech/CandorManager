@@ -236,7 +236,7 @@ publishing {
             artifact javadocJar
             groupId 'uk.co.innoxium.candor'
             artifactId 'candor-api'
-            version '0.2.8'
+            version '0.2.9'
         }
     }
 }
@@ -262,8 +262,8 @@ bintray {
         licenses = ['MIT']
         version {
 
-            name = '0.2.8'
-            desc = 'Implements an install queue, along with ability to rename mods'
+            name = '0.2.9'
+            desc = 'Implements Light Theme'
             released = new Date()
         }
     }
