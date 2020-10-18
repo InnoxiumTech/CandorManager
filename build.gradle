@@ -158,7 +158,7 @@ tasks.runtime.doLast {
 // TODO: add task to copy start executables
 task copyJars(type: Copy) {
 
-    dependsOn 'shadowJar'
+//    dependsOn 'shadowJar'
 
     from "$buildDir/libs"
     include "*.jar"
@@ -261,7 +261,7 @@ bintray {
         version {
 
             name = '0.2.8'
-            desc = 'Redirects any System.out call to our logger'
+            desc = 'Implements an install queue, along with ability to rename mods'
             released = new Date()
         }
     }

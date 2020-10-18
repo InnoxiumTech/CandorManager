@@ -4,7 +4,7 @@ import uk.co.innoxium.candor.Settings;
 import uk.co.innoxium.candor.game.Game;
 import uk.co.innoxium.candor.module.AbstractModule;
 import uk.co.innoxium.candor.module.ModuleSelector;
-import uk.co.innoxium.candor.util.Dialogs;
+import uk.co.innoxium.candor.util.NativeDialogs;
 import uk.co.innoxium.candor.util.WindowUtils;
 
 import javax.swing.*;
@@ -18,7 +18,7 @@ public class GameSelectScene extends JPanel {
 
     private void gameExeClicked(ActionEvent e) {
 
-        File gameExe = Dialogs.showSingleFileDialog("exe");
+        File gameExe = NativeDialogs.showSingleFileDialog("exe");
         try {
 
             gameField.setText(gameExe.getCanonicalPath());
@@ -40,7 +40,7 @@ public class GameSelectScene extends JPanel {
 
     private void modsFolderClicked(ActionEvent e) {
 
-        File modFolder = Dialogs.openPickFolder();
+        File modFolder = NativeDialogs.openPickFolder();
         try {
 
             modFolderField.setText(modFolder.getCanonicalPath());
@@ -52,7 +52,7 @@ public class GameSelectScene extends JPanel {
 
     private void cancelButtonClicked(ActionEvent e) {
 
-        boolean result = Dialogs.showInfoDialog(
+        boolean result = NativeDialogs.showInfoDialog(
                 "Candor Mod Manager",
                 "Are you sure you wish to exit?",
                 "yesno",
@@ -75,7 +75,7 @@ public class GameSelectScene extends JPanel {
             if (modFolderField.isEnabled() && folderEmpty) builder.append("-> Mods Folder\n");
             builder.append("Please fill out the fields!");
 
-            Dialogs.showInfoDialog(
+            NativeDialogs.showInfoDialog(
                     "Candor Mod Manager",
                     builder.toString(),
                     "ok",

@@ -197,6 +197,9 @@ public class ModStore {
 
                     newObj.remove("associatedFiles");
                     newObj.add("associatedFiles", mod.getAssociatedFiles());
+
+                    newObj.remove("readableName");
+                    newObj.addProperty("readableName", mod.getReadableName());
                 }
             }
 

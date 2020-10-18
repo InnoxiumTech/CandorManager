@@ -19,7 +19,7 @@ import static org.lwjgl.util.nfd.NativeFileDialog.*;
 /**
  * The dialogs class contains a few helper methods to communicate between NativeFileDialogs and TinyFileDialogs.
  */
-public class Dialogs {
+public class NativeDialogs {
 
     /**
      * Shows a native file dialog allowing you to choose a single file.

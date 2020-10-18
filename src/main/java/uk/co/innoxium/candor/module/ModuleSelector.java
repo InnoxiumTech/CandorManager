@@ -3,7 +3,7 @@ package uk.co.innoxium.candor.module;
 import ca.cgjennings.jvm.JarLoader;
 import org.apache.commons.io.FileUtils;
 import uk.co.innoxium.candor.game.Game;
-import uk.co.innoxium.candor.util.Dialogs;
+import uk.co.innoxium.candor.util.NativeDialogs;
 import uk.co.innoxium.candor.util.Logger;
 import uk.co.innoxium.cybernize.util.ClassLoadUtil;
 import uk.co.innoxium.cybernize.util.Download;
@@ -96,7 +96,7 @@ public class ModuleSelector {
 
             // If it fails, show stack trace and then shutdown.
             e.printStackTrace();
-            Dialogs.showCandorGenericFailure();
+            NativeDialogs.showCandorGenericFailure();
         }
     }
 
@@ -129,7 +129,7 @@ public class ModuleSelector {
         // If we should show the warning, do it now
         if(showWarning) {
 
-            Dialogs.showInfoDialog(
+            NativeDialogs.showInfoDialog(
                     "Candor Mod Manager",
                     "Warning, No module was found for this game.\n" +
                             "Defaulting to Generic Module, this may have unforseen consequences.\n" +

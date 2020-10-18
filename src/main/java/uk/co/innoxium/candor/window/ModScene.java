@@ -16,7 +16,7 @@ import uk.co.innoxium.candor.module.AbstractModule;
 import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.module.RunConfig;
 import uk.co.innoxium.candor.thread.ThreadModInstaller;
-import uk.co.innoxium.candor.util.Dialogs;
+import uk.co.innoxium.candor.util.NativeDialogs;
 import uk.co.innoxium.candor.util.Logger;
 import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.candor.util.WindowUtils;
@@ -145,13 +145,38 @@ public class ModScene extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                if(e.getButton() == MouseEvent.BUTTON1 && ((JList)e.getSource()).getModel().getSize() != 0) {
+                if(SwingUtilities.isLeftMouseButton(e) && ((JList<?>)e.getSource()).getModel().getSize() != 0) {
 
-                    JList list = (JList) e.getSource();
+                    JList<?> list = (JList<?>) e.getSource();
                     int index = list.locationToIndex(e.getPoint());
                     Mod mod = (Mod) list.getModel().getElementAt(index);
 //                    ((ListRenderer) list.getCellRenderer()).selected = !((ListRenderer) list.getCellRenderer()).selected;
                     list.repaint(list.getCellBounds(index, index));
+                }
+                if(SwingUtilities.isRightMouseButton(e) && ((JList<?>)e.getSource()).getModel().getSize() != 0) {
+
+                    JList<?> list = (JList<?>) e.getSource();
+                    int index = list.locationToIndex(e.getPoint());
+                    list.setSelectedIndex(index);
+                    JPopupMenu menu = new JPopupMenu("Options");
+                    JMenuItem renameOption = new JMenuItem("Rename Mod");
+                    renameOption.addActionListener(event -> {
+
+                        Mod mod = (Mod) list.getModel().getElementAt(index);
+                        System.out.println("Rename clicked on mod: " + mod.getName());
+                        String newName = (String)JOptionPane.showInputDialog(WindowUtils.mainFrame,
+                                "Please input the new name for the Mod " + mod.getReadableName(),
+                                "Rename Mod",
+                                JOptionPane.QUESTION_MESSAGE,
+                                null,
+                                null,
+                                mod.getReadableName());
+                        mod.setReadableName(newName);
+                        ModStore.updateModState(mod, mod.getState());
+                        ModStore.MODS.fireChangeToListeners("rename", mod, true);
+                    });
+                    menu.add(renameOption);
+                    menu.show(list, e.getPoint().x, e.getPoint().y);
                 }
             }
         });
@@ -168,14 +193,14 @@ public class ModScene extends JPanel {
 
     private void addModClicked(ActionEvent e) {
 
-        Dialogs.openMultiFileDialog(ModuleSelector.currentModule.getModFileFilterList()).forEach(file -> {
+        NativeDialogs.openMultiFileDialog(ModuleSelector.currentModule.getModFileFilterList()).forEach(file -> {
 
             ModStore.Result result = ModStore.addModFile(file);
 
             switch(result) {
 
-                case DUPLICATE -> Dialogs.showErrorMessage("Mod is a Duplicate and already installed.\nIf updating, please uninstall old file first.");
-                case FAIL -> Dialogs.showErrorMessage(String.format("Mod file %s could not be added.\nPlease try again.", file.getName()));
+                case DUPLICATE -> NativeDialogs.showErrorMessage("Mod is a Duplicate and already installed.\nIf updating, please uninstall old file first.");
+                case FAIL -> NativeDialogs.showErrorMessage(String.format("Mod file %s could not be added.\nPlease try again.", file.getName()));
                 // Fallthrough on default
                 default -> {}
             }
@@ -184,10 +209,10 @@ public class ModScene extends JPanel {
 
     private void removeModsSelected(ActionEvent e) {
 
-        if(Dialogs.showConfirmDialog("Remove Selected Mods")) {
+        if(NativeDialogs.showConfirmDialog("Remove Selected Mods")) {
 
             if(installedModsJList.getSelectedValuesList().isEmpty()) {
-                Dialogs.showInfoDialog(
+                NativeDialogs.showInfoDialog(
                         "Candor Mod Manager",
                         "You have not selected any mods to remove.",
                         "ok",
@@ -237,11 +262,11 @@ public class ModScene extends JPanel {
     // TODO: Add support for modules to determine how to toggle mods, e.g. via a plugin list for GameBryo games
     private void toggleSelectedMods(ActionEvent e) {
 
-        if(Dialogs.showConfirmDialog("Toggle Selected Mods")) {
+        if(NativeDialogs.showConfirmDialog("Toggle Selected Mods")) {
 
             if(installedModsJList.getSelectedValuesList().isEmpty()) {
 
-                Dialogs.showInfoDialog(
+                NativeDialogs.showInfoDialog(
                         "Candor Mod Manager",
                         "You have not selected any mods to toggle.",
                         "ok",
@@ -302,7 +327,7 @@ public class ModScene extends JPanel {
                 builder.append(badMod.getReadableName()).append("\n");
             }
 
-            Dialogs.showInfoDialog(
+            NativeDialogs.showInfoDialog(
                     "Candor Mod Manager",
                     builder.toString(),
                     "ok",

@@ -36,7 +36,7 @@ public class WindowUtils {
             @Override
             public void windowClosing(WindowEvent e) {
 
-                boolean result = Dialogs.showInfoDialog(
+                boolean result = NativeDialogs.showInfoDialog(
                         "Candor Mod Manager",
                         "Are you sure you wish to exit?",
                         "yesno",
