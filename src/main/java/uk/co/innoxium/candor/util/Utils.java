@@ -40,7 +40,7 @@ public class Utils {
      */
     public static String getExtension(File file) {
 
-        String filePath = null;
+        String filePath;
         try {
 
             filePath = file.getCanonicalPath();

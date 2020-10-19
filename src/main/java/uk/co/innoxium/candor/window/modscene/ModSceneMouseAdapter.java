@@ -62,17 +62,7 @@ public class ModSceneMouseAdapter extends MouseAdapter {
                     ModStore.MODS.fireChangeToListeners("rename", mod, true);
                 }
             });
-
-            JMenuItem potato = new JMenuItem("Potato");
-            potato.addActionListener(event -> {
-
-                Mod mod = (Mod) list.getModel().getElementAt(index);
-                mod.setReadableName(mod.getReadableName() + " Potatoes");
-                ModStore.updateModState(mod, mod.getState());
-                ModStore.MODS.fireChangeToListeners("rename", mod, true);
-            });
             menu.add(renameOption);
-            menu.add(potato);
             menu.show(list, e.getPoint().x, e.getPoint().y);
         }
     }
