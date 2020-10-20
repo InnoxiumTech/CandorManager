@@ -22,7 +22,7 @@ public class GameSelectScene extends JPanel {
         try {
 
             gameField.setText(gameExe.getCanonicalPath());
-            AbstractModule module = ModuleSelector.getModuleForGame(gameExe.getCanonicalPath(), true);
+            AbstractModule module = ModuleSelector.getModuleForGame(gameExe.getName(), true);
             if(module.requiresModFolderSelection()) {
 
                 modFolderField.setEnabled(true);

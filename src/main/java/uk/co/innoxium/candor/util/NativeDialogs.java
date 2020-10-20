@@ -2,6 +2,7 @@ package uk.co.innoxium.candor.util;
 
 import com.google.common.collect.Sets;
 import org.lwjgl.PointerBuffer;
+import org.lwjgl.system.MemoryUtil;
 import org.lwjgl.util.nfd.NFDPathSet;
 import org.lwjgl.util.tinyfd.TinyFileDialogs;
 import uk.co.innoxium.cybernize.net.Hastebin;
@@ -100,15 +101,31 @@ public class NativeDialogs {
      */
     public static File openPickFolder() {
 
+        return openPickFolder(null);
+    }
+
+    /**
+     *
+     * @param defaultPath - The default location to open to
+     * @return Returns the folder selected by the user, can be null
+     */
+    public static File openPickFolder(File defaultPath) {
+
         // Initialize the value we will return
         File ret = null;
 
         // Open the pick folder dialog
         PointerBuffer path = memAllocPointer(1);
+        ByteBuffer buffer = null;
+        if(defaultPath != null) {
+
+            String absolute = defaultPath.getAbsolutePath().replace("\\.", "");
+            buffer = MemoryUtil.memUTF8Safe(absolute);
+        }
 
         try {
 
-            int result = checkResult(NFD_PickFolder((ByteBuffer)null, path), path);
+            int result = checkResult(NFD_PickFolder(buffer, path), path);
             if(result == NFD_OKAY) ret = new File(path.getStringUTF8(0));
         } catch(NullPointerException e) {
 

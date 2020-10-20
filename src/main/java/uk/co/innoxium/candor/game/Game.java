@@ -2,8 +2,10 @@ package uk.co.innoxium.candor.game;
 
 import com.github.f4b6a3.uuid.UuidCreator;
 import com.google.gson.JsonObject;
+import uk.co.innoxium.candor.module.RunConfig;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -20,6 +22,8 @@ public class Game {
     private String modsFolder;
     // The module that game should use, not currently used.
     private String moduleClass;
+    // A list of Run Configs
+    public ArrayList<RunConfig> runConfigs = new ArrayList<>();
 
     /**
      * Creates a game instance
