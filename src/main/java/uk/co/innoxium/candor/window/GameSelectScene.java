@@ -84,8 +84,9 @@ public class GameSelectScene extends JPanel {
         } else {
 
             // TODO: Break window loading into utility class
-            AbstractModule module = ModuleSelector.getModuleForGame(gameField.getText());
-            module.setGame(new File(gameField.getText()));
+            File theGame = new File(gameField.getText());
+            AbstractModule module = ModuleSelector.getModuleForGame(theGame.getName());
+            module.setGame(theGame);
             module.setModsFolder(new File(modFolderField.getText()));
             Game game = new Game(module.getGame().getAbsolutePath(), module.getModsFolder().getAbsolutePath(), module.getModuleName());
             WindowUtils.setupModScene(game);

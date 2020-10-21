@@ -120,7 +120,7 @@ public class ModuleSelector {
                 if(s.toLowerCase().equals(gameString)) {
 
                     // Return the module instance
-                    Logger.info("Module is " + module.getModuleName());
+//                    Logger.info("Module is " + module.getModuleName());
                     currentModule = module;
                     return module;
                 }
@@ -140,7 +140,7 @@ public class ModuleSelector {
             );
         }
         // We have fallen back on the generic module
-        Logger.info("Module is " + GENERIC_MODULE.getModuleName());
+//        Logger.info("Module is " + GENERIC_MODULE.getModuleName());
         currentModule = GENERIC_MODULE;
         return GENERIC_MODULE;
     }

@@ -270,6 +270,7 @@ public class ModScene extends JPanel {
 
     public void doInstallMod(ArrayList<Mod> mods) {
 
+        queuedMods.clear();
         // Any mods in here will enable the message box saying it was installed
         ArrayList<Mod> badMods = new ArrayList<>();
 
@@ -305,7 +306,8 @@ public class ModScene extends JPanel {
         }
 
         // install the mods one by one
-        queuedMods.getFirst().start();
+        if(queuedMods.size() > 0)
+            queuedMods.getFirst().start();
     }
 
     private void newGameClicked(ActionEvent e) {

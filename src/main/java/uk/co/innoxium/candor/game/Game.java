@@ -2,6 +2,8 @@ package uk.co.innoxium.candor.game;
 
 import com.github.f4b6a3.uuid.UuidCreator;
 import com.google.gson.JsonObject;
+import uk.co.innoxium.candor.module.AbstractModule;
+import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.module.RunConfig;
 
 import java.io.File;
@@ -103,8 +105,15 @@ public class Game {
     @Override
     public String toString() {
 
-        File gameFile = new File(gameExe);
-        return gameFile.getName().substring(0, gameFile.getName().indexOf("."));
+        try {
+
+            AbstractModule module = ModuleSelector.getModuleForGame(this);
+            return module.getReadableGameName();
+        } catch(NullPointerException e) {
+
+            File gameFile = new File(gameExe);
+            return gameFile.getName().substring(0, gameFile.getName().indexOf("."));
+        }
     }
 
     /**
