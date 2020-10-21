@@ -236,7 +236,7 @@ publishing {
             artifact javadocJar
             groupId 'uk.co.innoxium.candor'
             artifactId 'candor-api'
-            version '0.2.11'
+            version '0.2.12'
         }
     }
 }
@@ -262,11 +262,9 @@ bintray {
         licenses = ['MIT']
         version {
 
-            name = '0.2.11'
-            desc = 'This update adds the ability to open a native pick folder dialog with a default path'
+            name = '0.2.12'
+            desc = 'Bug fixes'
             released = new Date()
         }
     }
 }
-
-
