@@ -36,6 +36,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'java'
 
 sourceCompatibility = 14
+targetCompatibility = 14
 
 mainClassName = 'uk.co.innoxium.candor.CandorLauncher'
 
@@ -139,10 +140,8 @@ runtime {
 
         if(org.gradle.internal.os.OperatingSystem.current() == org.gradle.internal.os.OperatingSystem.WINDOWS) {
 
-            imageOptions = ['--win-console']
+//            imageOptions = ['--win-console']
         }
-        imageOptions.add("--icon")
-        imageOptions.add("res/website_logo_transparent_background.ico")
         appVersion = "1.0"
         skipInstaller = true
     }
