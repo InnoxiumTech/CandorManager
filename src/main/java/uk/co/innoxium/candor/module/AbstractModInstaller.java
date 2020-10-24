@@ -1,5 +1,6 @@
 package uk.co.innoxium.candor.module;
 
+import uk.co.innoxium.candor.implement.FileMerger;
 import uk.co.innoxium.candor.mod.Mod;
 
 public abstract class AbstractModInstaller {
@@ -16,4 +17,19 @@ public abstract class AbstractModInstaller {
     public abstract boolean install(Mod mod);
 
     public abstract boolean uninstall(Mod mod);
+
+    // Asks the module if it has the ability to merge mod files, similar to w3 script merger
+    public boolean canMergeFiles() {
+
+        return false;
+    }
+
+    /**
+     * @param mod - The mod to get the merger for
+     * @return - An instance of a FileMerger to handle merging of files
+     */
+    public FileMerger getMergerForMod(Mod mod, String fileExtension) {
+
+        return null;
+    }
 }
