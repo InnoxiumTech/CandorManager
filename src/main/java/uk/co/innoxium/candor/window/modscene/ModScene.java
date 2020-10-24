@@ -202,7 +202,14 @@ public class ModScene extends JPanel {
 
     private void installModsClicked(ActionEvent e) {
 
-        doInstallMod((ArrayList<Mod>)installedModsJList.getSelectedValuesList());
+        if(installedModsJList.getSelectedValuesList().isEmpty())
+            doInstallMod((ArrayList<Mod>)installedModsJList.getSelectedValuesList());
+        else
+            NativeDialogs.showInfoDialog("Candor Mod Manager",
+                    "You have not selected any mods to install.",
+                    "ok",
+                    "info",
+                    true);
     }
 
     private void runGameClicked(ActionEvent e) {
