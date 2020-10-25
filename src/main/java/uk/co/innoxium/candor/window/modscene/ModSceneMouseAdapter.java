@@ -20,6 +20,7 @@ public class ModSceneMouseAdapter extends MouseAdapter {
     @Override
     public void mouseClicked(MouseEvent e) {
 
+        // Handle double click
         if(SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2 && !e.isConsumed()) {
 
             // Find way to toggle mods
@@ -28,6 +29,7 @@ public class ModSceneMouseAdapter extends MouseAdapter {
             return;
         }
 
+        // Handle single click
         if(SwingUtilities.isLeftMouseButton(e) && ((JList<?>)e.getSource()).getModel().getSize() != 0) {
 
             JList<?> list = (JList<?>) e.getSource();
@@ -36,11 +38,11 @@ public class ModSceneMouseAdapter extends MouseAdapter {
 //                    ((ListRenderer) list.getCellRenderer()).selected = !((ListRenderer) list.getCellRenderer()).selected;
             list.repaint(list.getCellBounds(index, index));
         }
+        // Handle right click to show menu
         if(SwingUtilities.isRightMouseButton(e) && ((JList<?>)e.getSource()).getModel().getSize() != 0) {
 
             JList<?> list = (JList<?>) e.getSource();
             int index = list.locationToIndex(e.getPoint());
-            list.setSelectedIndex(index);
             JPopupMenu menu = new JPopupMenu("Options");
             JMenuItem renameOption = new JMenuItem("Rename Mod");
             renameOption.addActionListener(event -> {
