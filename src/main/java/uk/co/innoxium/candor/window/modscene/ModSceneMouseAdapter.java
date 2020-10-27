@@ -35,6 +35,7 @@ public class ModSceneMouseAdapter extends MouseAdapter {
             JList<?> list = (JList<?>) e.getSource();
             int index = list.locationToIndex(e.getPoint());
             Mod mod = (Mod) list.getModel().getElementAt(index);
+            list.setSelectedIndex(index);
 //                    ((ListRenderer) list.getCellRenderer()).selected = !((ListRenderer) list.getCellRenderer()).selected;
             list.repaint(list.getCellBounds(index, index));
         }

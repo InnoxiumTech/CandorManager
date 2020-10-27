@@ -10,6 +10,7 @@ import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 import com.github.f4b6a3.uuid.util.UuidConverter;
+import com.google.common.collect.Lists;
 import net.miginfocom.swing.MigLayout;
 import uk.co.innoxium.candor.Settings;
 import uk.co.innoxium.candor.game.Game;
@@ -33,10 +34,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.*;
 
 
 public class ModScene extends JPanel {
@@ -100,53 +98,53 @@ public class ModScene extends JPanel {
         installedModsJList.setCellRenderer(new ListRenderer());
         installedModsJList.setFont(Resources.fantasque.deriveFont(24f));
         installedModsJList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        installedModsJList.setSelectionModel(new DefaultListSelectionModel() {
-
-            private static final long serialVersionUID = 1L;
-
-            boolean gestureStarted = false;
-
-            @Override
-            public void setSelectionInterval(int index0, int index1) {
-
-                if(!gestureStarted) {
-
-                    if (index0 == index1) {
-
-                        if (isSelectedIndex(index0)) {
-
-                            removeSelectionInterval(index0, index0);
-                            return;
-                        }
-                    }
-                    super.setSelectionInterval(index0, index1);
-                }
-                gestureStarted = true;
-            }
-
-            @Override
-            public void addSelectionInterval(int index0, int index1) {
-
-                if (index0==index1) {
-
-                    if (isSelectedIndex(index0)) {
-
-                        removeSelectionInterval(index0, index0);
-                        return;
-                    }
-                    super.addSelectionInterval(index0, index1);
-                }
-            }
-
-            @Override
-            public void setValueIsAdjusting(boolean isAdjusting) {
-
-                if (!isAdjusting) {
-
-                    gestureStarted = false;
-                }
-            }
-        });
+//        installedModsJList.setSelectionModel(new DefaultListSelectionModel() {
+//
+//            private static final long serialVersionUID = 1L;
+//
+//            boolean gestureStarted = false;
+//
+//            @Override
+//            public void setSelectionInterval(int index0, int index1) {
+//
+//                if(!gestureStarted) {
+//
+//                    if (index0 == index1) {
+//
+//                        if (isSelectedIndex(index0)) {
+//
+//                            removeSelectionInterval(index0, index0);
+//                            return;
+//                        }
+//                    }
+//                    super.setSelectionInterval(index0, index1);
+//                }
+//                gestureStarted = true;
+//            }
+//
+//            @Override
+//            public void addSelectionInterval(int index0, int index1) {
+//
+//                if (index0==index1) {
+//
+//                    if (isSelectedIndex(index0)) {
+//
+//                        removeSelectionInterval(index0, index0);
+//                        return;
+//                    }
+//                    super.addSelectionInterval(index0, index1);
+//                }
+//            }
+//
+//            @Override
+//            public void setValueIsAdjusting(boolean isAdjusting) {
+//
+//                if (!isAdjusting) {
+//
+//                    gestureStarted = false;
+//                }
+//            }
+//        });
         installedModsJList.addMouseListener(new ModSceneMouseAdapter(this));
     }
 
@@ -202,8 +200,8 @@ public class ModScene extends JPanel {
 
     private void installModsClicked(ActionEvent e) {
 
-        if(installedModsJList.getSelectedValuesList().isEmpty())
-            doInstallMod((ArrayList<Mod>)installedModsJList.getSelectedValuesList());
+        if(installedModsJList.getSelectedValue() != null)
+            doInstallMod(Lists.newArrayList((Mod)installedModsJList.getSelectedValue()));
         else
             NativeDialogs.showInfoDialog("Candor Mod Manager",
                     "You have not selected any mods to install.",
