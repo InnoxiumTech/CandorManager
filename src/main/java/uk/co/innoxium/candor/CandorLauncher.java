@@ -5,6 +5,7 @@ import com.formdev.flatlaf.FlatIntelliJLaf;
 import org.lwjgl.system.Platform;
 import uk.co.innoxium.candor.game.GamesList;
 import uk.co.innoxium.candor.module.ModuleSelector;
+import uk.co.innoxium.candor.tool.ToolsList;
 import uk.co.innoxium.candor.util.Logger;
 import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.candor.util.WindowUtils;
@@ -107,6 +108,7 @@ public class CandorLauncher {
 
 				// Write the games list to file
 				GamesList.writeToFile();
+				ToolsList.writeToJson();
 			} catch (IOException e) {
 
 				e.printStackTrace();

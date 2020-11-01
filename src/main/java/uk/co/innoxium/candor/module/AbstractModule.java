@@ -1,9 +1,11 @@
 package uk.co.innoxium.candor.module;
 
 import uk.co.innoxium.candor.implement.FileMerger;
+import uk.co.innoxium.candor.tool.Tool;
 import uk.co.innoxium.cybernize.archive.ArchiveItem;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public abstract class AbstractModule {
 
@@ -70,5 +72,19 @@ public abstract class AbstractModule {
     public FileMerger getFileMerger() {
 
         return null;
+    }
+
+    public ArrayList<Tool> getTools() {
+
+        ArrayList<Tool> ret = new ArrayList<>();
+
+        Tool tool = new Tool();
+        tool.name = "TestTool";
+        tool.icon = "pathToIcon";
+        tool.runConfig = new RunConfig("TestTool");
+
+        ret.add(tool);
+
+        return ret;
     }
 }

@@ -4,6 +4,7 @@ import com.github.f4b6a3.uuid.util.UuidConverter;
 import uk.co.innoxium.candor.Settings;
 import uk.co.innoxium.candor.game.Game;
 import uk.co.innoxium.candor.game.GamesList;
+import uk.co.innoxium.candor.tool.ToolsList;
 import uk.co.innoxium.candor.window.EntryScene;
 import uk.co.innoxium.candor.window.GameSelectScene;
 import uk.co.innoxium.candor.window.modscene.ModScene;
@@ -51,6 +52,7 @@ public class WindowUtils {
         // This check sets which scene would be loaded
         JPanel scene = showIntroCheck() ? new EntryScene() : new ModScene(Settings.defaultGameUuid);
         Resources.currentScene = scene;
+        ToolsList.determineDefinedTools();
         mainFrame.setContentPane(scene);
         // TODO: Allow the window to stay on the same screen it was used on
         mainFrame.pack();
@@ -66,6 +68,7 @@ public class WindowUtils {
         mainFrame.setResizable(true);
         ModScene modScene = new ModScene(game.getUUID().toString());
         Resources.currentScene = modScene;
+        ToolsList.determineDefinedTools();
         mainFrame.setContentPane(modScene);
         mainFrame.setMinimumSize(new Dimension(1200, 768));
         // TODO: Allow the window to stay on the same screen it was used on

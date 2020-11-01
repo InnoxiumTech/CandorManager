@@ -34,7 +34,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 
 
 public class ModScene extends JPanel {
@@ -590,5 +593,10 @@ public class ModScene extends JPanel {
 
             return this;
         }
+    }
+
+    public JMenu getToolsMenu() {
+
+        return toolsMenu;
     }
 }
