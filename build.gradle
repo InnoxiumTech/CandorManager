@@ -235,7 +235,7 @@ publishing {
             artifact javadocJar
             groupId 'uk.co.innoxium.candor'
             artifactId 'candor-api'
-            version '0.2.14'
+            version '0.2.16'
         }
     }
 }
@@ -261,8 +261,8 @@ bintray {
         licenses = ['MIT']
         version {
 
-            name = '0.2.14'
-            desc = 'Bug fixes'
+            name = '0.2.16'
+            desc = 'Adds Usable Tools, Still WIP'
             released = new Date()
         }
     }

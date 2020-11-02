@@ -27,6 +27,7 @@ import uk.co.innoxium.candor.util.NativeDialogs;
 import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.candor.util.WindowUtils;
 import uk.co.innoxium.candor.window.AboutDialog;
+import uk.co.innoxium.candor.window.tool.ToolAddWindow;
 import uk.co.innoxium.swing.util.DesktopUtil;
 
 import javax.swing.*;
@@ -373,6 +374,12 @@ public class ModScene extends JPanel {
         Settings.darkTheme = darkThemeRadioButton.isSelected();
     }
 
+    private void addToolClicked(ActionEvent e) {
+
+        ToolAddWindow window = new ToolAddWindow();
+        window.setVisible(true);
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         createUIComponents();
@@ -399,6 +406,7 @@ public class ModScene extends JPanel {
         aboutMenuItem = new JMenuItem();
         candorSettingButton = new JMenuItem();
         toolsMenu = new JMenu();
+        addToolItem = new JMenuItem();
 
         //======== this ========
         setLayout(new BorderLayout());
@@ -538,6 +546,11 @@ public class ModScene extends JPanel {
             //======== toolsMenu ========
             {
                 toolsMenu.setText("Tools");
+
+                //---- addToolItem ----
+                addToolItem.setText("Add Tool");
+                addToolItem.addActionListener(e -> addToolClicked(e));
+                toolsMenu.add(addToolItem);
             }
             menuBar.add(toolsMenu);
         }
@@ -570,6 +583,7 @@ public class ModScene extends JPanel {
     private JMenuItem aboutMenuItem;
     private JMenuItem candorSettingButton;
     private JMenu toolsMenu;
+    private JMenuItem addToolItem;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
     static class ListRenderer extends JCheckBox implements ListCellRenderer<Mod> {

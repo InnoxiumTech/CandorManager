@@ -78,12 +78,12 @@ public abstract class AbstractModule {
 
         ArrayList<Tool> ret = new ArrayList<>();
 
-        Tool tool = new Tool();
-        tool.name = "TestTool";
-        tool.icon = "pathToIcon";
-        tool.runConfig = new RunConfig("TestTool");
+//        Tool tool = new Tool();
+//        tool.name = "TestTool";
+//        tool.icon = "pathToIcon";
+//        tool.runConfig = new RunConfig("TestTool");
 
-        ret.add(tool);
+//        ret.add(tool);
 
         return ret;
     }

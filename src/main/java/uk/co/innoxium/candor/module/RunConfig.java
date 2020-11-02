@@ -9,15 +9,14 @@ public class RunConfig {
     }
 
     private final String runConfigName;
-    private String startCommand = "";
-    private String programArgs = "";
-    private String workingDir = "";
+    public String startCommand = "";
+    public String programArgs = "";
+    public String workingDir = "";
 
     /**
      * Gets the start command for the game, could be a protocol i.e. "steam://" or a file name
      * @return - The command to start the game
      */
-    @Deprecated
     public String getStartCommand() {
 
         return startCommand;
@@ -26,7 +25,6 @@ public class RunConfig {
     /**
      * @return - A string of arguments to pass to the game, works just like any other program arguments.
      */
-    @Deprecated
     public String getProgramArgs() {
 
         return programArgs;
@@ -35,7 +33,6 @@ public class RunConfig {
     /**
      * @return - The directory to start the game in, by default, this will be the directory that contains the executable.
      */
-    @Deprecated
     public String getWorkingDir() {
 
         return workingDir;

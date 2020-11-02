@@ -35,6 +35,7 @@ public class ToolsList {
                 if(Resources.currentScene instanceof ModScene) {
 
                     JMenuItem menuItem = new JMenuItem(tool.name);
+                    menuItem.addActionListener(new ToolActionListener(tool));
                     ((ModScene) Resources.currentScene).getToolsMenu().add(menuItem);
                 }
             }
@@ -51,11 +52,7 @@ public class ToolsList {
 
             if(Resources.currentScene instanceof ModScene) {
 
-                tools.forEach(tool -> {
-
-                    JMenuItem menuItem = new JMenuItem(tool.name);
-                    ((ModScene) Resources.currentScene).getToolsMenu().add(menuItem);
-                });
+                tools.forEach(ToolsList::addTool);
             }
         }
         return false;

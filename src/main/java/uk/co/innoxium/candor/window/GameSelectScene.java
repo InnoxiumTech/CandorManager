@@ -27,6 +27,9 @@ public class GameSelectScene extends JPanel {
 
                 modFolderField.setEnabled(true);
                 modFolderBrowse.setEnabled(true);
+            } else {
+
+                modFolderField.setText("Mods Folder Not Needed By Module.");
             }
             if(module.getEnableExtractOption()) {
 
@@ -87,7 +90,8 @@ public class GameSelectScene extends JPanel {
             File theGame = new File(gameField.getText());
             AbstractModule module = ModuleSelector.getModuleForGame(theGame.getName());
             module.setGame(theGame);
-            module.setModsFolder(new File(modFolderField.getText()));
+            if(module.requiresModFolderSelection())
+                module.setModsFolder(new File(modFolderField.getText()));
             Game game = new Game(module.getGame().getAbsolutePath(), module.getModsFolder().getAbsolutePath(), module.getModuleName());
             WindowUtils.setupModScene(game);
         }
