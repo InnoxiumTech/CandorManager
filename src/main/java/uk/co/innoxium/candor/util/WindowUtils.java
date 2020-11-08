@@ -52,7 +52,8 @@ public class WindowUtils {
         // This check sets which scene would be loaded
         JPanel scene = showIntroCheck() ? new EntryScene() : new ModScene(Settings.defaultGameUuid);
         Resources.currentScene = scene;
-        ToolsList.determineDefinedTools();
+        if(!showIntroCheck())
+            ToolsList.determineDefinedTools();
         mainFrame.setContentPane(scene);
         // TODO: Allow the window to stay on the same screen it was used on
         mainFrame.pack();

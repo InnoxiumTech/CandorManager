@@ -19,7 +19,7 @@ import java.util.Collection;
 public class ToolsList {
 
     private static final ArrayList<Tool> TOOL_LIST = new ArrayList<>();
-    private static final File toolsFile = new File(Resources.CONFIG_PATH, ModuleSelector.currentModule.getModuleName() + "/tools.json");
+    private static File toolsFile = null;
 
     public static ArrayList<Tool> getToolList() {
 
@@ -60,6 +60,11 @@ public class ToolsList {
 
     public static void determineDefinedTools() {
 
+        if(toolsFile == null) {
+
+            toolsFile = new File(Resources.CONFIG_PATH, ModuleSelector.currentModule.getModuleName() + "/tools.json");
+        }
+
         if(TOOL_LIST.size() > 0) {
 
             TOOL_LIST.clear();
@@ -98,6 +103,11 @@ public class ToolsList {
     }
 
     public static void writeToJson() throws IOException {
+
+        if(toolsFile == null) {
+
+            return;
+        }
 
         // Creates the file if it doesn't already exist
         File tools = JsonUtil.getJsonFile(toolsFile, false);
