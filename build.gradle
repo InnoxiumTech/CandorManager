@@ -81,7 +81,7 @@ dependencies {
 
     // Flat LAF
     implementation 'com.formdev:flatlaf:0.45'
-    implementation 'com.formdev:flatlaf-extras:0.44'
+    implementation 'com.formdev:flatlaf-extras:0.45'
     implementation 'com.formdev:svgSalamander:1.1.2.4'
 
     implementation platform("org.lwjgl:lwjgl-bom:3.2.4-SNAPSHOT")
