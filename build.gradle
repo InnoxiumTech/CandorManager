@@ -77,7 +77,7 @@ dependencies {
     // required for async log4j
     implementation "com.lmax:disruptor:3.4.2"
 
-    implementation "net.harawata:appdirs:1.2.0"
+    implementation "net.harawata:appdirs:1.2.1"
 
     // Flat LAF
     implementation 'com.formdev:flatlaf:0.46'
