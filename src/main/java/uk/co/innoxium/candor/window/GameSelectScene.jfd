@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.2.4.305" Java: "11.0.8" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.3.0.337" Java: "11.0.10" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -23,6 +23,10 @@ new FormModel {
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
 					add( new FormComponent( "javax.swing.JTextField" ) {
 						name: "gameField"
+						"dragEnabled": true
+						auxiliary() {
+							"JavaCodeGenerator.customCreate": true
+						}
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridy": 1
 					} )
@@ -43,6 +47,9 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JTextField" ) {
 						name: "modFolderField"
 						"enabled": false
+						auxiliary() {
+							"JavaCodeGenerator.customCreate": true
+						}
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 						"gridy": 3
 						"vAlign": 0
@@ -64,7 +71,7 @@ new FormModel {
 					"border": new javax.swing.border.EmptyBorder( 12, 0, 0, 0 )
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
 						name: "checkBox1"
-						"text": "Skip Intro?"
+						"text": "Set as Default"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JCheckBox" ) {

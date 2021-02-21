@@ -6,13 +6,17 @@ import uk.co.innoxium.candor.module.AbstractModule;
 import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.util.NativeDialogs;
 import uk.co.innoxium.candor.util.WindowUtils;
+import uk.co.innoxium.candor.window.dnd.GameSelectTransferHandler;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class GameSelectScene extends JPanel {
 
@@ -108,15 +112,24 @@ public class GameSelectScene extends JPanel {
         Settings.modExtract = checkbox.isSelected();
     }
 
+    private void createUIComponents() {
+
+        gameField = new JTextField();
+        gameField.setDragEnabled(true);
+
+
+        modFolderField = new JTextField();
+    }
+
     public void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
+        createUIComponents();
+
         dialogPane = new JPanel();
         contentPanel = new JPanel();
         gameLabel = new JLabel();
-        gameField = new JTextField();
         gameBrowse = new JButton();
         modFolderLabel = new JLabel();
-        modFolderField = new JTextField();
         modFolderBrowse = new JButton();
         buttonBar = new JPanel();
         checkBox1 = new JCheckBox();
@@ -145,6 +158,9 @@ public class GameSelectScene extends JPanel {
                 contentPanel.add(gameLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
                     GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                     new Insets(0, 0, 0, 0), 0, 0));
+
+                //---- gameField ----
+                gameField.setDragEnabled(true);
                 contentPanel.add(gameField, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
                     GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                     new Insets(0, 0, 0, 0), 0, 0));
@@ -184,7 +200,7 @@ public class GameSelectScene extends JPanel {
                 buttonBar.setLayout(new BoxLayout(buttonBar, BoxLayout.X_AXIS));
 
                 //---- checkBox1 ----
-                checkBox1.setText("Skip Intro?");
+                checkBox1.setText("Set as Default");
                 checkBox1.addActionListener(e -> checkBox(e));
                 buttonBar.add(checkBox1);
 
@@ -208,6 +224,13 @@ public class GameSelectScene extends JPanel {
         }
         add(dialogPane, BorderLayout.CENTER);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
+
+        postCreate();
+    }
+
+    private void postCreate() {
+
+        gameField.setTransferHandler(new GameSelectTransferHandler(modFolderField, modFolderBrowse, checkBox2));
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables

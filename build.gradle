@@ -86,6 +86,9 @@ dependencies {
 
     implementation platform("org.lwjgl:lwjgl-bom:3.2.4-SNAPSHOT")
 
+    // EA Async, adds async/await like .NET has
+    implementation 'com.ea.async:ea-async:1.2.3'
+
     // We want native file dialogs, lets use LWJGL for that
     implementation "org.lwjgl:lwjgl"
     implementation "org.lwjgl:lwjgl-nfd"
@@ -156,7 +159,6 @@ tasks.runtime.doLast {
     }
 }
 
-// TODO: add task to copy start executables
 task copyJars(type: Copy) {
 
 //    dependsOn 'shadowJar'
@@ -223,8 +225,6 @@ jar.finalizedBy sourcesJar
 //shadowJar.finalizedBy javadocJar
 //shadowJar.finalizedBy sourcesJar
 
-
-
 publishing {
 
     publications {
@@ -238,32 +238,16 @@ publishing {
             version '0.2.17'
         }
     }
-}
+    repositories {
 
-bintray {
+        maven {
 
-//    dryRun = true
-    user = props.get("username")
-    key = props.get("apiKey")
-    publications = ['CandorPublication']
-//    filesSpec {
-//
-//        from 'build/libs'
-//        exclude 'CandorManager-snapshot.jar'
-//        into '.'
-//    }
-    pkg {
+            url "https://repo.repsy.io/mvn/innoxium/innoxium"
+            credentials {
 
-        repo = 'candor-alpha'
-        name = 'candor-api'
-        userOrg = 'candor'
-        vcsUrl = 'https://github.com/InnoxiumTech/CandorManager.git'
-        licenses = ['MIT']
-        version {
-
-            name = '0.2.17'
-            desc = 'Adds Usable Tools, Still WIP'
-            released = new Date()
+                username repsyUser
+                password repsyPass
+            }
         }
     }
 }

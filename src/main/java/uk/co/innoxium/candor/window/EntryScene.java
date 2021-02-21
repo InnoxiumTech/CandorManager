@@ -8,6 +8,7 @@ import net.miginfocom.swing.MigLayout;
 import uk.co.innoxium.candor.Settings;
 import uk.co.innoxium.candor.game.Game;
 import uk.co.innoxium.candor.game.GamesList;
+import uk.co.innoxium.candor.util.NativeDialogs;
 import uk.co.innoxium.candor.util.Utils;
 import uk.co.innoxium.candor.util.WindowUtils;
 import uk.co.innoxium.cybernize.util.ClassLoadUtil;
@@ -54,6 +55,14 @@ public class EntryScene extends JPanel {
             Settings.lastGameUuid = game.getUUID().toString();
             // Set up the mod scene with the selected game.
             WindowUtils.setupModScene(game);
+        } else {
+
+            NativeDialogs.showInfoDialog(
+                    "Candor Mod Manager",
+                    "No game selected.\nPlease Select one before clicking this button.",
+                    "ok",
+                    "info",
+                    true);
         }
     }
 
