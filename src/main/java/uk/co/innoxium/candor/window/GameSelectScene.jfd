@@ -7,91 +7,85 @@ new FormModel {
 			name: "this"
 			"$locationPolicy": 1
 			"$sizePolicy": 1
-			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
-				name: "dialogPane"
-				"border": new javax.swing.border.EmptyBorder( 12, 12, 12, 12 )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-					"$columnSpecs": "0:1.0, 0"
-					"$rowSpecs": "0:1.0, center:39, 0:1.0, 0"
-					"$alignTop": true
-					"$alignLeft": true
-				} ) {
-					name: "contentPanel"
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "gameLabel"
-						"text": "Please Select the Game Executable."
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
-					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "gameField"
-						"dragEnabled": true
-						auxiliary() {
-							"JavaCodeGenerator.customCreate": true
-						}
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"gridy": 1
-					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "gameBrowse"
-						"text": "..."
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "gameExeClicked", true ) )
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"gridx": 1
-						"gridy": 1
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "modFolderLabel"
-						"text": "Please Locate the mods folder for this game."
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"gridy": 2
-					} )
-					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "modFolderField"
-						"enabled": false
-						auxiliary() {
-							"JavaCodeGenerator.customCreate": true
-						}
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"gridy": 3
-						"vAlign": 0
-					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "modFolderBrowse"
-						"text": "..."
-						"enabled": false
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "modsFolderClicked", true ) )
-					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-						"gridx": 1
-						"gridy": 3
-					} )
-				}, new FormLayoutConstraints( class java.lang.String ) {
-					"value": "Center"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "fill,novisualpadding,hidemode 3"
+				"$columnConstraints": "[fill][fill]"
+				"$rowConstraints": "[][][][][][]"
+			} ) {
+				name: "contentPanel"
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "gameLabel"
+					"text": "Please Select the Game Executable."
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0"
 				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
-					name: "buttonBar"
-					"border": new javax.swing.border.EmptyBorder( 12, 0, 0, 0 )
-					add( new FormComponent( "javax.swing.JCheckBox" ) {
-						name: "checkBox1"
-						"text": "Set as Default"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JCheckBox" ) {
-						name: "checkBox2"
-						"text": "Mod Requires Extracting?"
-						"enabled": false
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "extractorClicked", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "okButton"
-						"text": "OK"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "onButtonClicked", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "cancelButton"
-						"text": "Cancel"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cancelButtonClicked", true ) )
-					} )
-				}, new FormLayoutConstraints( class java.lang.String ) {
-					"value": "South"
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "gameField"
+					"dragEnabled": true
+					auxiliary() {
+						"JavaCodeGenerator.customCreate": true
+					}
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 1 2 1,growx"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "gameBrowse"
+					"text": "..."
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "gameExeClicked", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 1 2 1"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "modFolderLabel"
+					"text": "Please Locate the mods folder for this game."
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 2"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "modFolderField"
+					"enabled": false
+					auxiliary() {
+						"JavaCodeGenerator.customCreate": true
+					}
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 3 2 1,aligny center,grow 100 0"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "modFolderBrowse"
+					"text": "..."
+					"enabled": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "modsFolderClicked", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 3 2 1"
+				} )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "defaultGameCheckBox"
+					"text": "Set as Default"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 4 2 1,growx"
+				} )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "extractCheckBox"
+					"text": "Mod Requires Extracting?"
+					"enabled": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "extractorClicked", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 4 2 1,growx"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "okButton"
+					"text": "OK"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "onButtonClicked", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 5 2 1,growx"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "cancelButton"
+					"text": "Cancel"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cancelButtonClicked", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 5 2 1,growx"
 				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "Center"

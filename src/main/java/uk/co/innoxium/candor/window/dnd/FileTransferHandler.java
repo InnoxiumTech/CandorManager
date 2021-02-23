@@ -1,8 +1,8 @@
 package uk.co.innoxium.candor.window.dnd;
 
-import uk.co.innoxium.candor.module.AbstractModule;
-import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.util.NativeDialogs;
+import uk.co.innoxium.candor.util.Resources;
+import uk.co.innoxium.candor.window.GameSelectScene;
 
 import javax.swing.*;
 import java.awt.datatransfer.DataFlavor;
@@ -11,18 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class GameSelectTransferHandler extends TransferHandler {
-
-    JTextField modFolderField;
-    JButton modFolderBrowse;
-    JCheckBox extractCheckbox;
-
-    public GameSelectTransferHandler(JTextField modFolderField, JButton modFolderBrowse, JCheckBox extractCheckbox) {
-
-        this.modFolderField = modFolderField;
-        this.modFolderBrowse = modFolderBrowse;
-        this.extractCheckbox = extractCheckbox;
-    }
+public class FileTransferHandler extends TransferHandler {
 
     @Override
     public boolean canImport(TransferHandler.TransferSupport support) {
@@ -57,27 +46,16 @@ public class GameSelectTransferHandler extends TransferHandler {
             // We only have one
             File file = files.get(0);
 
-            JTextField field = (JTextField) support.getComponent();
+            if(Resources.currentScene instanceof GameSelectScene) {
 
-            try {
+                GameSelectScene scene = ((GameSelectScene)Resources.currentScene);
+                if(file.isFile()) {
 
-                field.setText(file.getCanonicalPath());
-                AbstractModule module = ModuleSelector.getModuleForGame(file.getName(), true);
-                if (module.requiresModFolderSelection()) {
+                    scene.setGame(file);
+                } else{
 
-                    modFolderField.setEnabled(true);
-                    modFolderBrowse.setEnabled(true);
-                } else {
-
-                    modFolderField.setText("Mods Folder Not Needed By Module.");
+                    scene.setModsFolder(file);
                 }
-                if (module.getEnableExtractOption()) {
-
-                    extractCheckbox.setEnabled(true);
-                }
-            } catch (IOException e) {
-
-                e.printStackTrace();
             }
         }
         return true;

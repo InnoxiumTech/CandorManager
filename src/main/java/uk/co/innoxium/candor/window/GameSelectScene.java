@@ -1,28 +1,26 @@
 package uk.co.innoxium.candor.window;
 
+import net.miginfocom.swing.*;
 import uk.co.innoxium.candor.Settings;
 import uk.co.innoxium.candor.game.Game;
+import uk.co.innoxium.candor.game.GamesList;
 import uk.co.innoxium.candor.module.AbstractModule;
 import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.util.NativeDialogs;
 import uk.co.innoxium.candor.util.WindowUtils;
-import uk.co.innoxium.candor.window.dnd.GameSelectTransferHandler;
+import uk.co.innoxium.candor.window.dnd.FileTransferHandler;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 public class GameSelectScene extends JPanel {
 
-    private void gameExeClicked(ActionEvent e) {
+    public void setGame(File gameExe) {
 
-        File gameExe = NativeDialogs.showSingleFileDialog("exe");
         try {
 
             gameField.setText(gameExe.getCanonicalPath());
@@ -37,24 +35,45 @@ public class GameSelectScene extends JPanel {
             }
             if(module.getEnableExtractOption()) {
 
-                checkBox2.setEnabled(true);
+                extractCheckBox.setEnabled(true);
             }
         } catch (IOException exception) {
-            
+
             exception.printStackTrace();
         }
     }
 
-    private void modsFolderClicked(ActionEvent e) {
+    public void setModsFolder(File modsFolder) {
 
-        File modFolder = NativeDialogs.openPickFolder();
         try {
 
-            modFolderField.setText(modFolder.getCanonicalPath());
+            modFolderField.setText(modsFolder.getCanonicalPath());
         } catch (IOException exception) {
 
             exception.printStackTrace();
         }
+    }
+
+    public JTextField getGameField() {
+
+        return gameField;
+    }
+
+    public JTextField getModFolderField() {
+
+        return modFolderField;
+    }
+
+    private void gameExeClicked(ActionEvent e) {
+
+        File gameExe = NativeDialogs.showSingleFileDialog("exe");
+        setGame(gameExe);
+    }
+
+    private void modsFolderClicked(ActionEvent e) {
+
+        File modsFolder = NativeDialogs.openPickFolder();
+        setModsFolder(modsFolder);
     }
 
     private void cancelButtonClicked(ActionEvent e) {
@@ -97,6 +116,11 @@ public class GameSelectScene extends JPanel {
             if(module.requiresModFolderSelection())
                 module.setModsFolder(new File(modFolderField.getText()));
             Game game = new Game(module.getGame().getAbsolutePath(), module.getModsFolder().getAbsolutePath(), module.getModuleName());
+            GamesList.addGame(game);
+            if(defaultGameCheckBox.isSelected()) {
+
+                Settings.defaultGameUuid = game.getUUID().toString();
+            }
             WindowUtils.setupModScene(game);
         }
     }
@@ -125,104 +149,83 @@ public class GameSelectScene extends JPanel {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         createUIComponents();
 
-        dialogPane = new JPanel();
         contentPanel = new JPanel();
         gameLabel = new JLabel();
         gameBrowse = new JButton();
         modFolderLabel = new JLabel();
         modFolderBrowse = new JButton();
-        buttonBar = new JPanel();
-        checkBox1 = new JCheckBox();
-        checkBox2 = new JCheckBox();
+        defaultGameCheckBox = new JCheckBox();
+        extractCheckBox = new JCheckBox();
         okButton = new JButton();
         cancelButton = new JButton();
 
         //======== this ========
         setLayout(new BorderLayout());
 
-        //======== dialogPane ========
+        //======== contentPanel ========
         {
-            dialogPane.setBorder(new EmptyBorder(12, 12, 12, 12));
-            dialogPane.setLayout(new BorderLayout());
+            contentPanel.setLayout(new MigLayout(
+                "fill,novisualpadding,hidemode 3",
+                // columns
+                "[fill]" +
+                "[fill]",
+                // rows
+                "[]" +
+                "[]" +
+                "[]" +
+                "[]" +
+                "[]" +
+                "[]"));
 
-            //======== contentPanel ========
-            {
-                contentPanel.setLayout(new GridBagLayout());
-                ((GridBagLayout)contentPanel.getLayout()).columnWidths = new int[] {0, 0, 0};
-                ((GridBagLayout)contentPanel.getLayout()).rowHeights = new int[] {0, 39, 0, 0, 0};
-                ((GridBagLayout)contentPanel.getLayout()).columnWeights = new double[] {1.0, 0.0, 1.0E-4};
-                ((GridBagLayout)contentPanel.getLayout()).rowWeights = new double[] {1.0, 0.0, 1.0, 0.0, 1.0E-4};
+            //---- gameLabel ----
+            gameLabel.setText("Please Select the Game Executable.");
+            contentPanel.add(gameLabel, "cell 0 0");
 
-                //---- gameLabel ----
-                gameLabel.setText("Please Select the Game Executable.");
-                contentPanel.add(gameLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+            //---- gameField ----
+            gameField.setDragEnabled(true);
+            contentPanel.add(gameField, "cell 0 1 2 1,growx");
 
-                //---- gameField ----
-                gameField.setDragEnabled(true);
-                contentPanel.add(gameField, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-                    new Insets(0, 0, 0, 0), 0, 0));
+            //---- gameBrowse ----
+            gameBrowse.setText("...");
+            gameBrowse.addActionListener(e -> gameExeClicked(e));
+            contentPanel.add(gameBrowse, "cell 0 1 2 1");
 
-                //---- gameBrowse ----
-                gameBrowse.setText("...");
-                gameBrowse.addActionListener(e -> gameExeClicked(e));
-                contentPanel.add(gameBrowse, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-                    new Insets(0, 0, 0, 0), 0, 0));
+            //---- modFolderLabel ----
+            modFolderLabel.setText("Please Locate the mods folder for this game.");
+            contentPanel.add(modFolderLabel, "cell 0 2");
 
-                //---- modFolderLabel ----
-                modFolderLabel.setText("Please Locate the mods folder for this game.");
-                contentPanel.add(modFolderLabel, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+            //---- modFolderField ----
+            modFolderField.setEnabled(false);
+            contentPanel.add(modFolderField, "cell 0 3 2 1,aligny center,grow 100 0");
 
-                //---- modFolderField ----
-                modFolderField.setEnabled(false);
-                contentPanel.add(modFolderField, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-                    new Insets(0, 0, 0, 0), 0, 0));
+            //---- modFolderBrowse ----
+            modFolderBrowse.setText("...");
+            modFolderBrowse.setEnabled(false);
+            modFolderBrowse.addActionListener(e -> modsFolderClicked(e));
+            contentPanel.add(modFolderBrowse, "cell 0 3 2 1");
 
-                //---- modFolderBrowse ----
-                modFolderBrowse.setText("...");
-                modFolderBrowse.setEnabled(false);
-                modFolderBrowse.addActionListener(e -> modsFolderClicked(e));
-                contentPanel.add(modFolderBrowse, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
-            }
-            dialogPane.add(contentPanel, BorderLayout.CENTER);
+            //---- defaultGameCheckBox ----
+            defaultGameCheckBox.setText("Set as Default");
+            defaultGameCheckBox.addActionListener(e -> checkBox(e));
+            contentPanel.add(defaultGameCheckBox, "cell 0 4 2 1,growx");
 
-            //======== buttonBar ========
-            {
-                buttonBar.setBorder(new EmptyBorder(12, 0, 0, 0));
-                buttonBar.setLayout(new BoxLayout(buttonBar, BoxLayout.X_AXIS));
+            //---- extractCheckBox ----
+            extractCheckBox.setText("Mod Requires Extracting?");
+            extractCheckBox.setEnabled(false);
+            extractCheckBox.addActionListener(e -> extractorClicked(e));
+            contentPanel.add(extractCheckBox, "cell 0 4 2 1,growx");
 
-                //---- checkBox1 ----
-                checkBox1.setText("Set as Default");
-                checkBox1.addActionListener(e -> checkBox(e));
-                buttonBar.add(checkBox1);
+            //---- okButton ----
+            okButton.setText("OK");
+            okButton.addActionListener(e -> onButtonClicked(e));
+            contentPanel.add(okButton, "cell 0 5 2 1,growx");
 
-                //---- checkBox2 ----
-                checkBox2.setText("Mod Requires Extracting?");
-                checkBox2.setEnabled(false);
-                checkBox2.addActionListener(e -> extractorClicked(e));
-                buttonBar.add(checkBox2);
-
-                //---- okButton ----
-                okButton.setText("OK");
-                okButton.addActionListener(e -> onButtonClicked(e));
-                buttonBar.add(okButton);
-
-                //---- cancelButton ----
-                cancelButton.setText("Cancel");
-                cancelButton.addActionListener(e -> cancelButtonClicked(e));
-                buttonBar.add(cancelButton);
-            }
-            dialogPane.add(buttonBar, BorderLayout.SOUTH);
+            //---- cancelButton ----
+            cancelButton.setText("Cancel");
+            cancelButton.addActionListener(e -> cancelButtonClicked(e));
+            contentPanel.add(cancelButton, "cell 0 5 2 1,growx");
         }
-        add(dialogPane, BorderLayout.CENTER);
+        add(contentPanel, BorderLayout.CENTER);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
 
         postCreate();
@@ -230,11 +233,11 @@ public class GameSelectScene extends JPanel {
 
     private void postCreate() {
 
-        gameField.setTransferHandler(new GameSelectTransferHandler(modFolderField, modFolderBrowse, checkBox2));
+        gameField.setTransferHandler(new FileTransferHandler());
+        modFolderField.setTransferHandler(new FileTransferHandler());
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    private JPanel dialogPane;
     private JPanel contentPanel;
     private JLabel gameLabel;
     private JTextField gameField;
@@ -242,9 +245,8 @@ public class GameSelectScene extends JPanel {
     private JLabel modFolderLabel;
     private JTextField modFolderField;
     private JButton modFolderBrowse;
-    private JPanel buttonBar;
-    private JCheckBox checkBox1;
-    private JCheckBox checkBox2;
+    private JCheckBox defaultGameCheckBox;
+    private JCheckBox extractCheckBox;
     private JButton okButton;
     private JButton cancelButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables

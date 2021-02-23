@@ -64,7 +64,6 @@ public class WindowUtils {
     // Sets up the frame for the mod scene, based on the game passed
     public static void setupModScene(Game game) {
 
-        GamesList.addGame(game);
         mainFrame.setVisible(false);
         mainFrame.setResizable(true);
         ModScene modScene = new ModScene(game.getUUID().toString());
