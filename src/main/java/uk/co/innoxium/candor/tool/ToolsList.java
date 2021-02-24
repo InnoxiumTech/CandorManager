@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+
 public class ToolsList {
 
     private static final ArrayList<Tool> TOOL_LIST = new ArrayList<>();
@@ -81,7 +82,7 @@ public class ToolsList {
         try {
 
             contents = JsonUtil.getObjectFromPath(tools.toPath());
-        } catch (IOException e) {
+        } catch(IOException e) {
 
             e.printStackTrace();
             NativeDialogs.showCandorGenericFailure(true);

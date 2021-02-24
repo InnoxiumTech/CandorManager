@@ -5,6 +5,7 @@ import uk.co.innoxium.candor.mod.store.ModStore;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+
 /**
  * This class has utility methods for Mods
  */
@@ -12,6 +13,7 @@ public class ModUtils {
 
     /**
      * Check fit he mod is already installed.
+     *
      * @param mod - The mod to check.
      * @return - true if already installed, false if not.
      */

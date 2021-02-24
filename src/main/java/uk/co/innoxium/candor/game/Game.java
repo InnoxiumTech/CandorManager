@@ -11,11 +11,14 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
+
 /**
  * An object to represent a "game".
  */
 public class Game {
 
+    // A list of Run Configs
+    public ArrayList<RunConfig> runConfigs = new ArrayList<>();
     // The UUID of the game
     private UUID uuid;
     // The path to the executable of the game
@@ -24,13 +27,12 @@ public class Game {
     private String modsFolder;
     // The module that game should use, not currently used.
     private String moduleClass;
-    // A list of Run Configs
-    public ArrayList<RunConfig> runConfigs = new ArrayList<>();
 
     /**
      * Creates a game instance
-     * @param gameExe - The executable of the game
-     * @param modsFolder - The mods folder for the game
+     *
+     * @param gameExe     - The executable of the game
+     * @param modsFolder  - The mods folder for the game
      * @param moduleClass - The module class
      */
     public Game(String gameExe, String modsFolder, String moduleClass) {
@@ -68,6 +70,7 @@ public class Game {
 
     /**
      * Converts the object to a json object
+     *
      * @return - A JSON Object representing the game.
      */
     public JsonObject toJson() {
@@ -82,21 +85,21 @@ public class Game {
         return ret;
     }
 
-    // Will only return true UUID's match.
-    @Override
-    public boolean equals(Object o) {
-
-        if (this == o) return true;
-        if (!(o instanceof Game)) return false;
-        Game game = (Game) o;
-        return uuid.equals(game.getUUID());
-    }
-
     // returns a hashcode to match the equals, here in case the games are even used in a hashmap
     @Override
     public int hashCode() {
 
         return Objects.hash(uuid);
+    }
+
+    // Will only return true UUID's match.
+    @Override
+    public boolean equals(Object o) {
+
+        if(this == o) return true;
+        if(!(o instanceof Game)) return false;
+        Game game = (Game) o;
+        return uuid.equals(game.getUUID());
     }
 
     /**

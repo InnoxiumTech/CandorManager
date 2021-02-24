@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+
 public class ModSceneMouseAdapter extends MouseAdapter {
 
     private final ModScene modScene;
@@ -30,7 +31,7 @@ public class ModSceneMouseAdapter extends MouseAdapter {
         }
 
         // Handle single click
-        if(SwingUtilities.isLeftMouseButton(e) && ((JList<?>)e.getSource()).getModel().getSize() != 0) {
+        if(SwingUtilities.isLeftMouseButton(e) && ((JList<?>) e.getSource()).getModel().getSize() != 0) {
 
             JList<?> list = (JList<?>) e.getSource();
             int index = list.locationToIndex(e.getPoint());
@@ -40,7 +41,7 @@ public class ModSceneMouseAdapter extends MouseAdapter {
             list.repaint(list.getCellBounds(index, index));
         }
         // Handle right click to show menu
-        if(SwingUtilities.isRightMouseButton(e) && ((JList<?>)e.getSource()).getModel().getSize() != 0) {
+        if(SwingUtilities.isRightMouseButton(e) && ((JList<?>) e.getSource()).getModel().getSize() != 0) {
 
             JList<?> list = (JList<?>) e.getSource();
             int index = list.locationToIndex(e.getPoint());

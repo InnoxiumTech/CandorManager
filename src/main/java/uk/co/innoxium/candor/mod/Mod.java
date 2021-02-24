@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
+
 /**
  * An object representing a mod file.
  */
@@ -41,48 +42,9 @@ public class Mod {
         this.associatedFiles = associatedFiles;
     }
 
-    public File getFile() {
-
-        return file;
-    }
-
-    public String getName() {
-
-        return name;
-    }
-
-    public void setState(State state) {
-
-        this.state = state;
-    }
-
-    public State getState() {
-
-        return state;
-    }
-
-    public void setReadableName(String readableName) {
-
-        this.readableName = readableName;
-    }
-
-    public String getReadableName() {
-
-        return readableName;
-    }
-
-    public JsonArray getAssociatedFiles() {
-
-        return associatedFiles;
-    }
-
-    public void setAssociatedFiles(JsonArray associatedFiles) {
-
-        this.associatedFiles = associatedFiles;
-    }
-
     /**
      * Creates a Mod object from a file.
+     *
      * @param file - The File to create a mod of.
      * @return - A mod instance representing the mod file.
      */
@@ -114,7 +76,7 @@ public class Mod {
                         array.add(archiveItem.getFilePath());
                     }
                 }
-            } catch (IOException e) {
+            } catch(IOException e) {
 
                 e.printStackTrace();
             }
@@ -130,6 +92,7 @@ public class Mod {
 
     /**
      * Creates a Mod object from a JSON Object
+     *
      * @param obj - The JSON object to convert
      * @return - A mod object from the JSON object provided.
      */
@@ -147,6 +110,7 @@ public class Mod {
 
     /**
      * Converts a Mod object, to a JSON object
+     *
      * @param mod - The mod object to convert
      * @return - A JSON Object representing the Mod object
      * @throws IOException - if the is an error with the file name.
@@ -160,6 +124,46 @@ public class Mod {
         obj.addProperty("readableName", mod.getReadableName());
         obj.add("associatedFiles", mod.getAssociatedFiles());
         return obj;
+    }
+
+    public File getFile() {
+
+        return file;
+    }
+
+    public String getName() {
+
+        return name;
+    }
+
+    public State getState() {
+
+        return state;
+    }
+
+    public void setState(State state) {
+
+        this.state = state;
+    }
+
+    public String getReadableName() {
+
+        return readableName;
+    }
+
+    public void setReadableName(String readableName) {
+
+        this.readableName = readableName;
+    }
+
+    public JsonArray getAssociatedFiles() {
+
+        return associatedFiles;
+    }
+
+    public void setAssociatedFiles(JsonArray associatedFiles) {
+
+        this.associatedFiles = associatedFiles;
     }
 
     /* Create a hash code based on the equals criteria, here in case Mod's are used in a hashmap */

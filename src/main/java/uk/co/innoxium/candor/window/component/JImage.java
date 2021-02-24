@@ -5,6 +5,7 @@ import uk.co.innoxium.cybernize.util.ClassLoadUtil;
 import javax.swing.*;
 import java.util.Objects;
 
+
 /**
  * Creates a new JLabel set up for only displaying an image.
  * TODO: Merge in to @Link{github.com/InnoxiumTech/SwingExtensions}

@@ -15,105 +15,106 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
+
 /**
  * The entry point for candor!
  */
 public class CandorLauncher {
-	
-	public static void main(String[] args) {
 
-		// Initialise our Logger
-		Logger.initialise();
+    public static void main(String[] args) {
 
-		Logger.info("Candor Initialising");
-		// Ensure the 7zip natives are loaded
-		ZipUtils.setUpSevenZip();
+        // Initialise our Logger
+        Logger.initialise();
 
-		if(Platform.get() == Platform.MACOSX) {
+        Logger.info("Candor Initialising");
+        // Ensure the 7zip natives are loaded
+        ZipUtils.setUpSevenZip();
 
-			// We want to restart the application here with the -XstartOnFirstThread JVM argument
-			// This is slightly more difficult for us as we have the java agent to deal with
-		}
+        if(Platform.get() == Platform.MACOSX) {
 
-		// Get a plash screen instance, currently, we don't do any manipulation, this may be increased in the future.
-		SplashScreen splash = SplashScreen.getSplashScreen();
-		if(splash != null) {
+            // We want to restart the application here with the -XstartOnFirstThread JVM argument
+            // This is slightly more difficult for us as we have the java agent to deal with
+        }
 
-			Graphics2D g = splash.createGraphics();
+        // Get a plash screen instance, currently, we don't do any manipulation, this may be increased in the future.
+        SplashScreen splash = SplashScreen.getSplashScreen();
+        if(splash != null) {
 
-			g.setPaintMode();
-			g.setFont(new Font("Calibri", Font.PLAIN, 25));
-			g.drawString("Loading Candor Resources", splash.getBounds().width / 2, splash.getBounds().height / 2);
+            Graphics2D g = splash.createGraphics();
 
-			splash.update();
-		}
+            g.setPaintMode();
+            g.setFont(new Font("Calibri", Font.PLAIN, 25));
+            g.drawString("Loading Candor Resources", splash.getBounds().width / 2, splash.getBounds().height / 2);
 
-		try {
+            splash.update();
+        }
 
-			// We next want to install our fonts,
-			Resources.installFonts();
-		} catch (IOException | FontFormatException e) {
+        try {
 
-			// Print stack if it fails.
-			e.printStackTrace();
-		}
+            // We next want to install our fonts,
+            Resources.installFonts();
+        } catch(IOException | FontFormatException e) {
 
-		try {
+            // Print stack if it fails.
+            e.printStackTrace();
+        }
 
-			// Check if the generic module exists, if not download it.
-			ModuleSelector.checkGenericModule();
-			// Load modules from disk.
-			ModuleSelector.initModules();
-			// Load the lists of user set up games.
-			GamesList.loadFromFile();
-		} catch (Exception e) {
+        try {
 
-			// Probably from IDE, ignore for now
-			e.printStackTrace();
-		}
-		// Handle our configurations
-		ConfigHandler.handleCore();
-		// Install our Look and Feel.
-		if(Settings.darkTheme) {
+            // Check if the generic module exists, if not download it.
+            ModuleSelector.checkGenericModule();
+            // Load modules from disk.
+            ModuleSelector.initModules();
+            // Load the lists of user set up games.
+            GamesList.loadFromFile();
+        } catch(Exception e) {
 
-			FlatDarculaLaf.install();
-		} else {
+            // Probably from IDE, ignore for now
+            e.printStackTrace();
+        }
+        // Handle our configurations
+        ConfigHandler.handleCore();
+        // Install our Look and Feel.
+        if(Settings.darkTheme) {
 
-			FlatIntelliJLaf.install();
-		}
-		//
-		setThemeCustomizations();
-		// Add our shutdown hook for saving configs
-		Runtime.getRuntime().addShutdownHook(new RuntimeHook());
+            FlatDarculaLaf.install();
+        } else {
 
-		// Close the splash screen now
-		if(splash != null) splash.close();
+            FlatIntelliJLaf.install();
+        }
+        //
+        setThemeCustomizations();
+        // Add our shutdown hook for saving configs
+        Runtime.getRuntime().addShutdownHook(new RuntimeHook());
 
-		// We can now set up the frame.
-		WindowUtils.initialiseFrame();
-	}
+        // Close the splash screen now
+        if(splash != null) splash.close();
 
-	private static void setThemeCustomizations() {
+        // We can now set up the frame.
+        WindowUtils.initialiseFrame();
+    }
 
-		JFrame.setDefaultLookAndFeelDecorated(true);
-		JDialog.setDefaultLookAndFeelDecorated(true);
-	}
+    private static void setThemeCustomizations() {
 
-	private static class RuntimeHook extends Thread {
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        JDialog.setDefaultLookAndFeelDecorated(true);
+    }
 
-		@Override
-		public void run() {
+    private static class RuntimeHook extends Thread {
 
-			try {
+        @Override
+        public void run() {
 
-				// Write the games list to file
-				GamesList.writeToFile();
-				ToolsList.writeToJson();
-			} catch (IOException e) {
+            try {
 
-				e.printStackTrace();
-			}
-			Logger.info("Candor shutting down.");
-		}
-	}
+                // Write the games list to file
+                GamesList.writeToFile();
+                ToolsList.writeToJson();
+            } catch(IOException e) {
+
+                e.printStackTrace();
+            }
+            Logger.info("Candor shutting down.");
+        }
+    }
 }

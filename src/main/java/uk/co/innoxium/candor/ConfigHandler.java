@@ -4,6 +4,7 @@ package uk.co.innoxium.candor;
 import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.cybernize.setting.SettingsHandler;
 
+
 /**
  * Handles all our configs, We currently only have one.
  */
@@ -19,7 +20,7 @@ public class ConfigHandler {
 
             // Load the settings!
             SettingsHandler.load();
-        } catch (IllegalAccessException e) {
+        } catch(IllegalAccessException e) {
 
             e.printStackTrace();
         }

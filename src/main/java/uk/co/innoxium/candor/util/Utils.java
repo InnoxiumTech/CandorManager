@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.Vector;
 
+
 /**
  * This class contains a bunch of misc helper methods.
  */
@@ -17,6 +18,7 @@ public class Utils {
 
     /**
      * checks if the file is an archive - to be improved in the future.
+     *
      * @param file - The file to check.
      * @return - true if it is an archive, false if not.
      */
@@ -35,6 +37,7 @@ public class Utils {
 
     /**
      * Gets the extension of the file passed.
+     *
      * @param file - The file to get the extension of.
      * @return - A string of the file extension. returns an empty string or null on error.
      */
@@ -44,7 +47,7 @@ public class Utils {
         try {
 
             filePath = file.getCanonicalPath();
-        } catch (IOException e) {
+        } catch(IOException e) {
 
             e.printStackTrace();
             return "";
@@ -54,8 +57,9 @@ public class Utils {
 
     /**
      * Creates a vector array from an arraylist.
+     *
      * @param list - the list to convert
-     * @param <T> - the object type
+     * @param <T>  - the object type
      * @return - A Vector list with a copy from the arraylist.
      */
     public static <T> Vector<T> getVectorArrayFromList(ArrayList<T> list) {

@@ -5,6 +5,7 @@ import uk.co.innoxium.candor.mod.store.ModStore;
 import uk.co.innoxium.candor.module.AbstractModInstaller;
 import uk.co.innoxium.candor.module.ModuleSelector;
 
+
 /**
  * This thread controls how the mod is installed, it will send the mod to the module for installation or removal
  */
@@ -17,6 +18,7 @@ public class ThreadModInstaller extends Thread {
 
     /**
      * Creates an Installing thread
+     *
      * @param mod - The mod to install
      */
     public ThreadModInstaller(Mod mod) {
@@ -26,7 +28,8 @@ public class ThreadModInstaller extends Thread {
 
     /**
      * Creates a thread with the option to uninstall
-     * @param mod - The mod to install/uninstall
+     *
+     * @param mod        - The mod to install/uninstall
      * @param installing - Are we installing or uninstalling?
      */
     public ThreadModInstaller(Mod mod, boolean installing) {

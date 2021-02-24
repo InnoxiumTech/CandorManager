@@ -7,6 +7,7 @@ import uk.co.innoxium.cybernize.archive.ArchiveItem;
 import java.io.File;
 import java.util.ArrayList;
 
+
 public abstract class AbstractModule {
 
     protected File game;
@@ -21,14 +22,14 @@ public abstract class AbstractModule {
         return this.game;
     }
 
-    public File getModsFolder() {
-
-        return this.modsFolder;
-    }
-
     public void setGame(File file) {
 
         this.game = file;
+    }
+
+    public File getModsFolder() {
+
+        return this.modsFolder;
     }
 
     public void setModsFolder(File file) {

@@ -14,12 +14,28 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
+
 /**
  * The about dialogs shows the various links and logos connected with Candor.
  */
 public class AboutDialog extends JDialog {
 
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    private JPanel dialogPane;
+    private JPanel contentPanel;
+    private JPanel linksPanel;
+    private JLabel discordLink;
+    private JLabel githubLink;
+    private JLabel websiteLink;
+    private JLabel twitterLink;
+    private JLabel itchLink;
+    private JPanel imagePanel;
+    private JLabel candorLogo;
+    private JLabel innoxiumLogo;
+    private JPanel buttonBar;
+    private JButton okButton;
     public AboutDialog() {
+
         super(WindowUtils.mainFrame);
         initComponents();
     }
@@ -117,15 +133,15 @@ public class AboutDialog extends JDialog {
             {
                 buttonBar.setBorder(new EmptyBorder(12, 0, 0, 0));
                 buttonBar.setLayout(new GridBagLayout());
-                ((GridBagLayout)buttonBar.getLayout()).columnWidths = new int[] {0, 80};
-                ((GridBagLayout)buttonBar.getLayout()).columnWeights = new double[] {1.0, 0.0};
+                ((GridBagLayout) buttonBar.getLayout()).columnWidths = new int[] { 0, 80 };
+                ((GridBagLayout) buttonBar.getLayout()).columnWeights = new double[] { 1.0, 0.0 };
 
                 //---- okButton ----
                 okButton.setText("OK");
-                okButton.addActionListener(e -> okClicked(e));
+                okButton.addActionListener(this::okClicked);
                 buttonBar.add(okButton, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
             }
             dialogPane.add(buttonBar, BorderLayout.PAGE_END);
         }
@@ -134,20 +150,5 @@ public class AboutDialog extends JDialog {
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    private JPanel dialogPane;
-    private JPanel contentPanel;
-    private JPanel linksPanel;
-    private JLabel discordLink;
-    private JLabel githubLink;
-    private JLabel websiteLink;
-    private JLabel twitterLink;
-    private JLabel itchLink;
-    private JPanel imagePanel;
-    private JLabel candorLogo;
-    private JLabel innoxiumLogo;
-    private JPanel buttonBar;
-    private JButton okButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

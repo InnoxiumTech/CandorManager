@@ -1,6 +1,6 @@
 package uk.co.innoxium.candor.window;
 
-import net.miginfocom.swing.*;
+import net.miginfocom.swing.MigLayout;
 import uk.co.innoxium.candor.Settings;
 import uk.co.innoxium.candor.game.Game;
 import uk.co.innoxium.candor.game.GamesList;
@@ -11,13 +11,26 @@ import uk.co.innoxium.candor.util.WindowUtils;
 import uk.co.innoxium.candor.window.dnd.FileTransferHandler;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 
+
 public class GameSelectScene extends JPanel {
+
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    private JPanel contentPanel;
+    private JLabel gameLabel;
+    private JTextField gameField;
+    private JButton gameBrowse;
+    private JLabel modFolderLabel;
+    private JTextField modFolderField;
+    private JButton modFolderBrowse;
+    private JCheckBox defaultGameCheckBox;
+    private JCheckBox extractCheckBox;
+    private JButton okButton;
+    private JButton cancelButton;
 
     public void setGame(File gameExe) {
 
@@ -37,7 +50,7 @@ public class GameSelectScene extends JPanel {
 
                 extractCheckBox.setEnabled(true);
             }
-        } catch (IOException exception) {
+        } catch(IOException exception) {
 
             exception.printStackTrace();
         }
@@ -48,7 +61,7 @@ public class GameSelectScene extends JPanel {
         try {
 
             modFolderField.setText(modsFolder.getCanonicalPath());
-        } catch (IOException exception) {
+        } catch(IOException exception) {
 
             exception.printStackTrace();
         }
@@ -88,7 +101,7 @@ public class GameSelectScene extends JPanel {
     }
 
     private void onButtonClicked(ActionEvent e) {
-        
+
         boolean gameEmpty = gameField.getText().isEmpty();
         boolean folderEmpty = modFolderField.getText().isEmpty();
         boolean folderCondition = modFolderField.isEnabled() && (folderEmpty);
@@ -98,7 +111,7 @@ public class GameSelectScene extends JPanel {
             StringBuilder builder = new StringBuilder();
             builder.append("You have not specified a:\n");
             if(gameEmpty) builder.append("-> Game Executable\n");
-            if (modFolderField.isEnabled() && folderEmpty) builder.append("-> Mods Folder\n");
+            if(modFolderField.isEnabled() && folderEmpty) builder.append("-> Mods Folder\n");
             builder.append("Please fill out the fields!");
 
             NativeDialogs.showInfoDialog(
@@ -127,12 +140,12 @@ public class GameSelectScene extends JPanel {
 
     private void checkBox(ActionEvent e) {
 
-        JCheckBox checkbox = (JCheckBox)e.getSource();
+        JCheckBox checkbox = (JCheckBox) e.getSource();
     }
 
     private void extractorClicked(ActionEvent e) {
 
-        JCheckBox checkbox = (JCheckBox)e.getSource();
+        JCheckBox checkbox = (JCheckBox) e.getSource();
         Settings.modExtract = checkbox.isSelected();
     }
 
@@ -165,17 +178,17 @@ public class GameSelectScene extends JPanel {
         //======== contentPanel ========
         {
             contentPanel.setLayout(new MigLayout(
-                "fill,novisualpadding,hidemode 3",
-                // columns
-                "[fill]" +
-                "[fill]",
-                // rows
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]"));
+                    "fill,novisualpadding,hidemode 3",
+                    // columns
+                    "[fill]" +
+                            "[fill]",
+                    // rows
+                    "[]" +
+                            "[]" +
+                            "[]" +
+                            "[]" +
+                            "[]" +
+                            "[]"));
 
             //---- gameLabel ----
             gameLabel.setText("Please Select the Game Executable.");
@@ -187,7 +200,7 @@ public class GameSelectScene extends JPanel {
 
             //---- gameBrowse ----
             gameBrowse.setText("...");
-            gameBrowse.addActionListener(e -> gameExeClicked(e));
+            gameBrowse.addActionListener(this::gameExeClicked);
             contentPanel.add(gameBrowse, "cell 0 1 2 1");
 
             //---- modFolderLabel ----
@@ -201,28 +214,28 @@ public class GameSelectScene extends JPanel {
             //---- modFolderBrowse ----
             modFolderBrowse.setText("...");
             modFolderBrowse.setEnabled(false);
-            modFolderBrowse.addActionListener(e -> modsFolderClicked(e));
+            modFolderBrowse.addActionListener(this::modsFolderClicked);
             contentPanel.add(modFolderBrowse, "cell 0 3 2 1");
 
             //---- defaultGameCheckBox ----
             defaultGameCheckBox.setText("Set as Default");
-            defaultGameCheckBox.addActionListener(e -> checkBox(e));
+            defaultGameCheckBox.addActionListener(this::checkBox);
             contentPanel.add(defaultGameCheckBox, "cell 0 4 2 1,growx");
 
             //---- extractCheckBox ----
             extractCheckBox.setText("Mod Requires Extracting?");
             extractCheckBox.setEnabled(false);
-            extractCheckBox.addActionListener(e -> extractorClicked(e));
+            extractCheckBox.addActionListener(this::extractorClicked);
             contentPanel.add(extractCheckBox, "cell 0 4 2 1,growx");
 
             //---- okButton ----
             okButton.setText("OK");
-            okButton.addActionListener(e -> onButtonClicked(e));
+            okButton.addActionListener(this::onButtonClicked);
             contentPanel.add(okButton, "cell 0 5 2 1,growx");
 
             //---- cancelButton ----
             cancelButton.setText("Cancel");
-            cancelButton.addActionListener(e -> cancelButtonClicked(e));
+            cancelButton.addActionListener(this::cancelButtonClicked);
             contentPanel.add(cancelButton, "cell 0 5 2 1,growx");
         }
         add(contentPanel, BorderLayout.CENTER);
@@ -236,18 +249,5 @@ public class GameSelectScene extends JPanel {
         gameField.setTransferHandler(new FileTransferHandler());
         modFolderField.setTransferHandler(new FileTransferHandler());
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    private JPanel contentPanel;
-    private JLabel gameLabel;
-    private JTextField gameField;
-    private JButton gameBrowse;
-    private JLabel modFolderLabel;
-    private JTextField modFolderField;
-    private JButton modFolderBrowse;
-    private JCheckBox defaultGameCheckBox;
-    private JCheckBox extractCheckBox;
-    private JButton okButton;
-    private JButton cancelButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

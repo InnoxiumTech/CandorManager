@@ -7,6 +7,7 @@ import uk.co.innoxium.candor.CandorLauncher;
 
 import java.io.PrintStream;
 
+
 public class Logger {
 
     public static org.apache.logging.log4j.Logger LOGGER;

@@ -3,6 +3,7 @@ package uk.co.innoxium.candor.module;
 import uk.co.innoxium.candor.implement.FileMerger;
 import uk.co.innoxium.candor.mod.Mod;
 
+
 public abstract class AbstractModInstaller {
 
     protected AbstractModule module;

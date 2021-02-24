@@ -4,6 +4,7 @@ import uk.co.innoxium.candor.module.RunConfig;
 
 import java.util.Objects;
 
+
 public class Tool {
 
     public String name;
@@ -20,6 +21,6 @@ public class Tool {
     public boolean equals(Object obj) {
 
         assert obj instanceof Tool;
-        return name.equals(((Tool)obj).name);
+        return name.equals(((Tool) obj).name);
     }
 }

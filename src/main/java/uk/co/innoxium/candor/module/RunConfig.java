@@ -3,18 +3,18 @@ package uk.co.innoxium.candor.module;
 // TODO: Migrate to Record once it is a release feature
 public class RunConfig {
 
+    private final String runConfigName;
+    public String startCommand = "";
+    public String programArgs = "";
+    public String workingDir = "";
     public RunConfig(String runConfigName) {
 
         this.runConfigName = runConfigName;
     }
 
-    private final String runConfigName;
-    public String startCommand = "";
-    public String programArgs = "";
-    public String workingDir = "";
-
     /**
      * Gets the start command for the game, could be a protocol i.e. "steam://" or a file name
+     *
      * @return - The command to start the game
      */
     public String getStartCommand() {

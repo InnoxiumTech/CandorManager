@@ -3,6 +3,7 @@ package uk.co.innoxium.candor.window.setting;
 import javax.swing.*;
 import java.awt.*;
 
+
 public class SettingsFrame extends JDialog {
 
     public SettingsFrame() {

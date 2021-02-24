@@ -16,6 +16,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.UUID;
 
+
 /**
  * Contains a bunch of helper methods for setting up the scenes.
  * Not for outside use, without proper knowledge.
@@ -99,7 +100,7 @@ public class WindowUtils {
         // If the default uuid is set, we can continue
         if(Settings.defaultGameUuid.isBlank()) return true;
 
-        UUID  uuid = UuidConverter.fromString(Settings.defaultGameUuid);
+        UUID uuid = UuidConverter.fromString(Settings.defaultGameUuid);
         Game game = GamesList.getGameFromUUID(uuid);
         // If game is null, no game was found, so show the entry screen
         boolean ret = game == null;

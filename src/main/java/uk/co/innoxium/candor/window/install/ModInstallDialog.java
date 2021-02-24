@@ -7,11 +7,19 @@ package uk.co.innoxium.candor.window.install;
 import javax.swing.*;
 import java.awt.*;
 
+
 /**
  * @author Zach Piddock
  */
 public class ModInstallDialog extends JDialog {
 
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    private JPanel panel1;
+    private JProgressBar installProgress;
+    private JButton hideButton;
+    private JPanel panel2;
+    private JLabel modLabel;
+    private JLabel modStateLabel;
     public ModInstallDialog(Window owner) {
 
         super(owner);
@@ -65,13 +73,5 @@ public class ModInstallDialog extends JDialog {
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    private JPanel panel1;
-    private JProgressBar installProgress;
-    private JButton hideButton;
-    private JPanel panel2;
-    private JLabel modLabel;
-    private JLabel modStateLabel;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

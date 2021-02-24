@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
+
 /**
  * This class handles the games list logic, such as adding, removing.
  */
@@ -25,6 +26,7 @@ public class GamesList {
 
     /**
      * Adds a game to the games list, only if the game is not already in it.
+     *
      * @param game - The game to add.
      */
     public static void addGame(Game game) {
@@ -37,6 +39,7 @@ public class GamesList {
 
     /**
      * Gets a game instance from a UUID
+     *
      * @param uuid - The UUID of the game to get.
      * @return - A game instance if the games list contains it, else null.
      */
@@ -63,6 +66,7 @@ public class GamesList {
 
     /**
      * Loads the games list from file, converts the JSON objects to Game objects and adds them to the games list.
+     *
      * @throws IOException - If there is an error loading the file.
      */
     public static void loadFromFile() throws IOException {
@@ -87,7 +91,7 @@ public class GamesList {
             gamesArray.forEach(e -> {
 
                 assert e instanceof JsonObject;
-                JsonObject obj = (JsonObject)e;
+                JsonObject obj = (JsonObject) e;
 
                 Game g = JsonUtil.getGson().fromJson(obj, Game.class);
                 GAMES_LIST.add(g);
@@ -97,6 +101,7 @@ public class GamesList {
 
     /**
      * Saves the list to file.
+     *
      * @throws IOException - If there is an error writing to file.
      */
     public static void writeToFile() throws IOException {

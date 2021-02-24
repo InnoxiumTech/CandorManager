@@ -12,8 +12,22 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 
+
 public class ToolAddWindow extends JDialog {
 
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    private JLabel toolExeLabel;
+    private JTextField toolExeField;
+    private JButton toolFieldSearch;
+    private JLabel argsLabel;
+    private JTextField argsField;
+    private JLabel workingDirLabel;
+    private JTextField workingDirField;
+    private JButton workingDirSearch;
+    private JLabel nameLabel;
+    private JTextField nameField;
+    private JButton confirmButton;
+    private JButton cancelButton;
     public ToolAddWindow() {
 
         this.setResizable(false);
@@ -30,7 +44,7 @@ public class ToolAddWindow extends JDialog {
             try {
 
                 toolExeField.setText(toolExe.getCanonicalPath());
-            } catch (IOException ioException) {
+            } catch(IOException ioException) {
 
                 ioException.printStackTrace();
             }
@@ -45,7 +59,7 @@ public class ToolAddWindow extends JDialog {
             try {
 
                 workingDirField.setText(workingDir.getCanonicalPath());
-            } catch (IOException ioException) {
+            } catch(IOException ioException) {
 
                 ioException.printStackTrace();
             }
@@ -115,20 +129,20 @@ public class ToolAddWindow extends JDialog {
         setTitle("Add Tool!");
         var contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
-            "hidemode 3",
-            // columns
-            "[fill]" +
-            "[fill]",
-            // rows
-            "[]" +
-            "[]" +
-            "[]" +
-            "[]" +
-            "[]" +
-            "[]" +
-            "[]" +
-            "[]" +
-            "[]"));
+                "hidemode 3",
+                // columns
+                "[fill]" +
+                        "[fill]",
+                // rows
+                "[]" +
+                        "[]" +
+                        "[]" +
+                        "[]" +
+                        "[]" +
+                        "[]" +
+                        "[]" +
+                        "[]" +
+                        "[]"));
 
         //---- toolExeLabel ----
         toolExeLabel.setText("Please Select The Tool Executable");
@@ -137,7 +151,7 @@ public class ToolAddWindow extends JDialog {
 
         //---- toolFieldSearch ----
         toolFieldSearch.setText("...");
-        toolFieldSearch.addActionListener(e -> toolSearchClicked(e));
+        toolFieldSearch.addActionListener(this::toolSearchClicked);
         contentPane.add(toolFieldSearch, "cell 1 1");
 
         //---- argsLabel ----
@@ -152,7 +166,7 @@ public class ToolAddWindow extends JDialog {
 
         //---- workingDirSearch ----
         workingDirSearch.setText("...");
-        workingDirSearch.addActionListener(e -> workingDirClicked(e));
+        workingDirSearch.addActionListener(this::workingDirClicked);
         contentPane.add(workingDirSearch, "cell 1 5");
 
         //---- nameLabel ----
@@ -162,30 +176,16 @@ public class ToolAddWindow extends JDialog {
 
         //---- confirmButton ----
         confirmButton.setText("Confirm!");
-        confirmButton.addActionListener(e -> confirmClicked(e));
+        confirmButton.addActionListener(this::confirmClicked);
         contentPane.add(confirmButton, "cell 0 8 2 1");
 
         //---- cancelButton ----
         cancelButton.setText("Cancel");
-        cancelButton.addActionListener(e -> cancelClicked(e));
+        cancelButton.addActionListener(this::cancelClicked);
         contentPane.add(cancelButton, "cell 0 8 2 1");
         pack();
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    private JLabel toolExeLabel;
-    private JTextField toolExeField;
-    private JButton toolFieldSearch;
-    private JLabel argsLabel;
-    private JTextField argsField;
-    private JLabel workingDirLabel;
-    private JTextField workingDirField;
-    private JButton workingDirSearch;
-    private JLabel nameLabel;
-    private JTextField nameField;
-    private JButton confirmButton;
-    private JButton cancelButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

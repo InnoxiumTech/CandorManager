@@ -18,17 +18,16 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+
 /**
  * A class that handles how the mod files are stored, and handled.
  */
 public class ModStore {
 
-    // is the mod store already initialised?
-    private static boolean initialised = false;
-
     // Our ModsList instance
     public static final ModList<Mod> MODS = new ModList<>();
-
+    // is the mod store already initialised?
+    private static boolean initialised = false;
     // The folder to store the mod files
     private static File modStoreFolder = new File(Resources.STORE_PATH, ModuleSelector.currentModule.getExeName() + "/mods");
     // The file that holds the mod store data
@@ -57,6 +56,7 @@ public class ModStore {
 
     /**
      * Determines which mods are installed, regardless of state.
+     *
      * @throws IOException - If there is an error loading from the file.
      */
     public static void determineInstalledMods() throws IOException {
@@ -80,6 +80,7 @@ public class ModStore {
 
     /**
      * Adds a mod file to the list
+     *
      * @param file - The file to add
      * @return - Will return a result, either OK, FAIL, or DUPLICATE
      */
@@ -92,7 +93,7 @@ public class ModStore {
         try {
 
             FileUtils.copyFileToDirectory(file, modStoreFolder);
-        } catch (IOException e) {
+        } catch(IOException e) {
 
             Logger.info("Could not copy Mod to the mod store, please retry");
             e.printStackTrace();
@@ -117,7 +118,7 @@ public class ModStore {
 
             // ALWAYS close your writers.
             writer.close();
-        } catch (IOException e) {
+        } catch(IOException e) {
 
             e.printStackTrace();
             return Result.FAIL;
@@ -128,7 +129,8 @@ public class ModStore {
 
     /**
      * Remove the mod from the store.
-     * @param mod - The mod to remove from the store
+     *
+     * @param mod                - The mod to remove from the store
      * @param removeFromModsList - should it also be removed from the mods list?
      * @return - true if it was removed, false if not.
      * @throws IOException - If there was an error reading/writing to file.
@@ -146,7 +148,7 @@ public class ModStore {
             // Attempt to remove the mod from the mods array
             modsArray.forEach(element -> {
 
-                JsonObject obj = (JsonObject)element;
+                JsonObject obj = (JsonObject) element;
                 if(mod.getName().equals(obj.get("name").getAsString())) {
 
                     newModArray.remove(obj);
@@ -172,7 +174,8 @@ public class ModStore {
 
     /**
      * Change the state of a mod
-     * @param mod - The mod whose state will change
+     *
+     * @param mod   - The mod whose state will change
      * @param state - The state to change it to.
      */
     public static void updateModState(Mod mod, Mod.State state) {
@@ -186,7 +189,7 @@ public class ModStore {
             JsonArray newArray = array.deepCopy();
 
             // for each object in the array, check if it's the right mod, and if so, change the state
-            for (int i = 0; i < array.size(); i++) {
+            for(int i = 0; i < array.size(); i++) {
 
                 JsonObject obj = array.get(i).getAsJsonObject();
                 JsonObject newObj = newArray.get(i).getAsJsonObject();
@@ -214,7 +217,7 @@ public class ModStore {
 
             // ALWAYS close your writers.
             writer.close();
-        } catch (IOException e) {
+        } catch(IOException e) {
 
             e.printStackTrace();
         }

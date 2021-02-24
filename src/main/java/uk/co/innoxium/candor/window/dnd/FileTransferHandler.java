@@ -11,34 +11,26 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class FileTransferHandler extends TransferHandler {
 
-    @Override
-    public boolean canImport(TransferHandler.TransferSupport support) {
-        for (DataFlavor flavor : support.getDataFlavors()) {
-            if (flavor.isFlavorJavaFileListType()) {
-                return true;
-            }
-        }
-        return false;
-    }
+public class FileTransferHandler extends TransferHandler {
 
     @Override
     @SuppressWarnings("unchecked")
     public boolean importData(TransferHandler.TransferSupport support) {
-        if (!this.canImport(support))
+
+        if(!this.canImport(support))
             return false;
 
         List<File> files;
         try {
             files = (List<File>) support.getTransferable()
                     .getTransferData(DataFlavor.javaFileListFlavor);
-        } catch (UnsupportedFlavorException | IOException ex) {
+        } catch(UnsupportedFlavorException | IOException ex) {
             // should never happen (or JDK is buggy)
             return false;
         }
 
-        if (files.size() > 1) {
+        if(files.size() > 1) {
 
             NativeDialogs.showErrorMessage("Only drag one file to this location.");
         } else {
@@ -48,16 +40,27 @@ public class FileTransferHandler extends TransferHandler {
 
             if(Resources.currentScene instanceof GameSelectScene) {
 
-                GameSelectScene scene = ((GameSelectScene)Resources.currentScene);
+                GameSelectScene scene = ((GameSelectScene) Resources.currentScene);
                 if(file.isFile()) {
 
                     scene.setGame(file);
-                } else{
+                } else {
 
                     scene.setModsFolder(file);
                 }
             }
         }
         return true;
+    }
+
+    @Override
+    public boolean canImport(TransferHandler.TransferSupport support) {
+
+        for(DataFlavor flavor : support.getDataFlavors()) {
+            if(flavor.isFlavorJavaFileListType()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

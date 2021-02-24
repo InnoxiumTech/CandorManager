@@ -8,7 +8,10 @@ import org.lwjgl.util.tinyfd.TinyFileDialogs;
 import uk.co.innoxium.cybernize.net.Hastebin;
 import uk.co.innoxium.swing.util.DesktopUtil;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -17,6 +20,7 @@ import static org.lwjgl.system.MemoryUtil.memAllocPointer;
 import static org.lwjgl.system.MemoryUtil.memFree;
 import static org.lwjgl.util.nfd.NativeFileDialog.*;
 
+
 /**
  * The dialogs class contains a few helper methods to communicate between NativeFileDialogs and TinyFileDialogs.
  */
@@ -24,6 +28,7 @@ public class NativeDialogs {
 
     /**
      * Shows a native file dialog allowing you to choose a single file.
+     *
      * @param filterList - will show only files in the filter list, they should be comma separated without spaces. i.e. "png,jpg,svg".
      * @return - Will return a file instance if a file was chosen, else will return null.
      */
@@ -59,7 +64,6 @@ public class NativeDialogs {
     }
 
     /**
-     *
      * @param filterList - a list of strings for the file extensions to filter
      * @return - a list of all files selected by the user, can be null
      */
@@ -69,15 +73,15 @@ public class NativeDialogs {
         Set<File> ret = Sets.newHashSet();
 
         // Open the file dialog
-        try (NFDPathSet pathSet = NFDPathSet.calloc()) {
+        try(NFDPathSet pathSet = NFDPathSet.calloc()) {
 
             int result = NFD_OpenDialogMultiple(filterList, null, pathSet);
-            switch (result) {
+            switch(result) {
 
                 case NFD_OKAY -> {
 
                     long count = NFD_PathSet_GetCount(pathSet);
-                    for (long i = 0; i < count; i++) {
+                    for(long i = 0; i < count; i++) {
 
                         String path = NFD_PathSet_GetPath(pathSet, i);
                         File file = new File(path);
@@ -96,7 +100,6 @@ public class NativeDialogs {
     }
 
     /**
-     *
      * @return Returns the folder selected by the user, can be null
      */
     public static File openPickFolder() {
@@ -105,7 +108,6 @@ public class NativeDialogs {
     }
 
     /**
-     *
      * @param defaultPath - The default location to open to
      * @return Returns the folder selected by the user, can be null
      */
@@ -143,7 +145,7 @@ public class NativeDialogs {
      */
     private static int checkResult(int result, PointerBuffer path) {
 
-        switch (result) {
+        switch(result) {
 
             case NFD_OKAY -> {
 
@@ -169,6 +171,7 @@ public class NativeDialogs {
 
     /**
      * A tiny wrapper method to TinyFileDialogs, see @Link{TinyFileDialogs.tinyfd_messagebox} for more info.
+     *
      * @return - true for ok, false for cancel.
      */
     public static boolean showInfoDialog(String title, String message, String dialogType, String iconType, boolean defaultOption) {
@@ -178,6 +181,7 @@ public class NativeDialogs {
 
     /**
      * Shows an error message, see {showInfoDialog} for more info.
+     *
      * @param message - The message to show.
      * @return - true for ok, false for cancel.
      */
@@ -204,7 +208,7 @@ public class NativeDialogs {
 
         try {
             String message = "Candor experienced an error.\nPlease restart or contact us at:\nhttps://discord.gg/CMG9ZtS";
-            if (hastebinUpload) {
+            if(hastebinUpload) {
 
                 File log = new File("./debug.log");
                 FileReader fr = new FileReader(log);
@@ -218,7 +222,7 @@ public class NativeDialogs {
                     message
             );
             System.exit(2);
-        } catch (IOException e) {
+        } catch(IOException e) {
 
             e.printStackTrace();
             System.exit(2);
@@ -227,6 +231,7 @@ public class NativeDialogs {
 
     /**
      * Asks the user to confirm an action to be taken.
+     *
      * @param action - A description of the action about to be taken, for example, "Remove Mod(s)"
      * @return - true for ok, false for cancel.
      */

@@ -44,7 +44,32 @@ import java.util.LinkedList;
 public class ModScene extends JPanel {
 
     private final LinkedList<ThreadModInstaller> queuedMods = new LinkedList<>();
-
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    private JPanel managerPanel;
+    private JPanel managerPaneMenu;
+    private JLabel gameLabel;
+    private JButton addModButton;
+    private JButton removeModsButton;
+    private JButton installModsButton;
+    private JButton toggleButton;
+    private JScrollPane listScrollPane;
+    private JList installedModsJList;
+    private JMenuBar menuBar;
+    private JMenu fileMenu;
+    private JMenuItem applyModsMenuItem;
+    private JMenuItem loadNewGameMenuItem;
+    private JMenuItem settingsMenuItem;
+    private JRadioButtonMenuItem darkThemeRadioButton;
+    private JMenu gameMenu;
+    private JMenuItem openGameFolderMenuItem;
+    private JMenuItem opemModsFolderMenuItem;
+    private JMenuItem launchGameMenuItem;
+    private JMenuItem runConfigsMenuItem;
+    private JMenu aboutMenu;
+    private JMenuItem aboutMenuItem;
+    private JMenuItem candorSettingButton;
+    private JMenu toolsMenu;
+    private JMenuItem addToolItem;
     public ModScene(String gameUuid) {
 
         // Set game stuff
@@ -59,14 +84,14 @@ public class ModScene extends JPanel {
 
             WindowUtils.mainFrame.setMinimumSize(new Dimension(1200, 768));
             ModStore.determineInstalledMods();
-        } catch (IOException e) {
+        } catch(IOException e) {
 
             Logger.info("This shouldn't happen, likely a corrupt mods.json :(");
             e.printStackTrace();
             System.exit(-1);
         }
         initComponents();
-        ModStore.MODS.addListener(new ModList.ListChangeListener<Mod>() {
+        ModStore.MODS.addListener(new ModList.ListChangeListener<>() {
 
             @Override
             public void handleChange(String identifier, Mod mod, boolean result) {
@@ -172,7 +197,8 @@ public class ModScene extends JPanel {
                 case DUPLICATE -> NativeDialogs.showErrorMessage("Mod is a Duplicate and already installed.\nIf updating, please uninstall old file first.");
                 case FAIL -> NativeDialogs.showErrorMessage(String.format("Mod file %s could not be added.\nPlease try again.", file.getName()));
                 // Fallthrough on default
-                default -> {}
+                default -> {
+                }
             }
         });
     }
@@ -194,7 +220,7 @@ public class ModScene extends JPanel {
                 try {
 
                     ModStore.removeModFile((Mod) o, true);
-                } catch (IOException exception) {
+                } catch(IOException exception) {
 
                     exception.printStackTrace();
                 }
@@ -205,7 +231,7 @@ public class ModScene extends JPanel {
     private void installModsClicked(ActionEvent e) {
 
         if(installedModsJList.getSelectedValue() != null)
-            doInstallMod(Lists.newArrayList((Mod)installedModsJList.getSelectedValue()));
+            doInstallMod(Lists.newArrayList((Mod) installedModsJList.getSelectedValue()));
         else
             NativeDialogs.showInfoDialog("Candor Mod Manager",
                     "You have not selected any mods to install.",
@@ -215,9 +241,9 @@ public class ModScene extends JPanel {
     }
 
     private void runGameClicked(ActionEvent e) {
-        
+
         RunConfig runConfig = ModuleSelector.currentModule.getDefaultRunConfig();
-        
+
         ProcessBuilder builder = new ProcessBuilder();
         builder.command(runConfig.getStartCommand() + " " + runConfig.getProgramArgs());
         String workingDir = runConfig.getWorkingDir();
@@ -229,12 +255,11 @@ public class ModScene extends JPanel {
 
             Logger.info(builder.command().toString());
             Process process = builder.start();
-        } catch (IOException ioException) {
+        } catch(IOException ioException) {
 
             ioException.printStackTrace();
         }
     }
-
 
     // TODO: Add support for modules to determine how to toggle mods, e.g. via a plugin list for GameBryo games
     public void toggleSelectedMods(ActionEvent e) {
@@ -253,7 +278,7 @@ public class ModScene extends JPanel {
             ArrayList<Mod> toInstall = new ArrayList<>();
             installedModsJList.getSelectedValuesList().forEach(o -> {
 
-                Mod mod = (Mod)o;
+                Mod mod = (Mod) o;
 
                 if(mod.getState() == Mod.State.ENABLED && ModuleSelector.currentModule.getModInstaller().uninstall(mod)) {
 
@@ -301,7 +326,7 @@ public class ModScene extends JPanel {
 
             StringBuilder builder = new StringBuilder();
             builder.append("The following mods are already installed and will be ignored: \n");
-            for (Mod badMod : badMods) {
+            for(Mod badMod : badMods) {
 
                 builder.append(badMod.getReadableName()).append("\n");
             }
@@ -340,7 +365,8 @@ public class ModScene extends JPanel {
             case "game" -> DesktopUtil.openURL("", ModuleSelector.currentModule.getGame().getParent());
             case "mods" -> DesktopUtil.openURL("", ModuleSelector.currentModule.getModsFolder().getAbsolutePath());
             case "candor" -> DesktopUtil.openURL("", Resources.CANDOR_DATA_PATH.getAbsolutePath());
-            default -> {}
+            default -> {
+            }
         }
     }
 
@@ -354,7 +380,7 @@ public class ModScene extends JPanel {
                 UIManager.setLookAndFeel(new FlatIntelliJLaf());
                 FlatLaf.updateUI();
                 FlatAnimatedLafChange.hideSnapshotWithAnimation();
-            } catch (UnsupportedLookAndFeelException exception) {
+            } catch(UnsupportedLookAndFeelException exception) {
 
                 exception.printStackTrace();
             }
@@ -366,7 +392,7 @@ public class ModScene extends JPanel {
                 UIManager.setLookAndFeel(new FlatDarculaLaf());
                 FlatLaf.updateUI();
                 FlatAnimatedLafChange.hideSnapshotWithAnimation();
-            } catch (UnsupportedLookAndFeelException exception) {
+            } catch(UnsupportedLookAndFeelException exception) {
 
                 exception.printStackTrace();
             }
@@ -414,12 +440,12 @@ public class ModScene extends JPanel {
         //======== managerPanel ========
         {
             managerPanel.setLayout(new MigLayout(
-                "fill,insets panel,hidemode 3",
-                // columns
-                "[fill]",
-                // rows
-                "[]" +
-                "[]"));
+                    "fill,insets panel,hidemode 3",
+                    // columns
+                    "[fill]",
+                    // rows
+                    "[]" +
+                            "[]"));
 
             //======== managerPaneMenu ========
             {
@@ -433,24 +459,24 @@ public class ModScene extends JPanel {
                 //---- addModButton ----
                 addModButton.setText("Add Mod(s)");
                 addModButton.setIcon(UIManager.getIcon("Tree.leafIcon"));
-                addModButton.addActionListener(e -> addModClicked(e));
+                addModButton.addActionListener(this::addModClicked);
                 managerPaneMenu.add(addModButton);
 
                 //---- removeModsButton ----
                 removeModsButton.setText("Remove Selected");
                 removeModsButton.setIcon(null);
-                removeModsButton.addActionListener(e -> removeModsSelected(e));
+                removeModsButton.addActionListener(this::removeModsSelected);
                 managerPaneMenu.add(removeModsButton);
 
                 //---- installModsButton ----
                 installModsButton.setText("Install Selected Mod(s)");
                 installModsButton.setIcon(UIManager.getIcon("FileView.floppyDriveIcon"));
-                installModsButton.addActionListener(e -> installModsClicked(e));
+                installModsButton.addActionListener(this::installModsClicked);
                 managerPaneMenu.add(installModsButton);
 
                 //---- toggleButton ----
                 toggleButton.setText("Toggle Enabled");
-                toggleButton.addActionListener(e -> toggleSelectedMods(e));
+                toggleButton.addActionListener(this::toggleSelectedMods);
                 managerPaneMenu.add(toggleButton);
             }
             managerPanel.add(managerPaneMenu, "cell 0 0");
@@ -479,17 +505,17 @@ public class ModScene extends JPanel {
                 //---- loadNewGameMenuItem ----
                 loadNewGameMenuItem.setText("Load New Game");
                 loadNewGameMenuItem.setMnemonic('L');
-                loadNewGameMenuItem.addActionListener(e -> newGameClicked(e));
+                loadNewGameMenuItem.addActionListener(this::newGameClicked);
                 fileMenu.add(loadNewGameMenuItem);
 
                 //---- settingsMenuItem ----
                 settingsMenuItem.setText("Settings");
                 settingsMenuItem.setMnemonic('S');
-                settingsMenuItem.addActionListener(e -> settingsClicked(e));
+                settingsMenuItem.addActionListener(this::settingsClicked);
                 fileMenu.add(settingsMenuItem);
 
                 //---- darkThemeRadioButton ----
-                darkThemeRadioButton.addActionListener(e -> themeChangeButtonClicked(e));
+                darkThemeRadioButton.addActionListener(this::themeChangeButtonClicked);
                 fileMenu.add(darkThemeRadioButton);
             }
             menuBar.add(fileMenu);
@@ -502,18 +528,18 @@ public class ModScene extends JPanel {
                 //---- openGameFolderMenuItem ----
                 openGameFolderMenuItem.setText("Open Game Folder");
                 openGameFolderMenuItem.setActionCommand("game");
-                openGameFolderMenuItem.addActionListener(e -> openFolder(e));
+                openGameFolderMenuItem.addActionListener(this::openFolder);
                 gameMenu.add(openGameFolderMenuItem);
 
                 //---- opemModsFolderMenuItem ----
                 opemModsFolderMenuItem.setText("Open Mods Folder");
                 opemModsFolderMenuItem.setActionCommand("mods");
-                opemModsFolderMenuItem.addActionListener(e -> openFolder(e));
+                opemModsFolderMenuItem.addActionListener(this::openFolder);
                 gameMenu.add(opemModsFolderMenuItem);
 
                 //---- launchGameMenuItem ----
                 launchGameMenuItem.setText("Launch Game");
-                launchGameMenuItem.addActionListener(e -> runGameClicked(e));
+                launchGameMenuItem.addActionListener(this::runGameClicked);
                 gameMenu.add(launchGameMenuItem);
                 gameMenu.addSeparator();
 
@@ -531,14 +557,14 @@ public class ModScene extends JPanel {
                 //---- aboutMenuItem ----
                 aboutMenuItem.setText("About Candor");
                 aboutMenuItem.setMnemonic('A');
-                aboutMenuItem.addActionListener(e -> aboutClicked(e));
+                aboutMenuItem.addActionListener(this::aboutClicked);
                 aboutMenu.add(aboutMenuItem);
 
                 //---- candorSettingButton ----
                 candorSettingButton.setText("Open Candor Folder");
                 candorSettingButton.setActionCommand("candor");
                 candorSettingButton.setMnemonic('O');
-                candorSettingButton.addActionListener(e -> openFolder(e));
+                candorSettingButton.addActionListener(this::openFolder);
                 aboutMenu.add(candorSettingButton);
             }
             menuBar.add(aboutMenu);
@@ -549,7 +575,7 @@ public class ModScene extends JPanel {
 
                 //---- addToolItem ----
                 addToolItem.setText("Add Tool");
-                addToolItem.addActionListener(e -> addToolClicked(e));
+                addToolItem.addActionListener(this::addToolClicked);
                 toolsMenu.add(addToolItem);
             }
             menuBar.add(toolsMenu);
@@ -557,34 +583,12 @@ public class ModScene extends JPanel {
         add(menuBar, BorderLayout.NORTH);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    private JPanel managerPanel;
-    private JPanel managerPaneMenu;
-    private JLabel gameLabel;
-    private JButton addModButton;
-    private JButton removeModsButton;
-    private JButton installModsButton;
-    private JButton toggleButton;
-    private JScrollPane listScrollPane;
-    private JList installedModsJList;
-    private JMenuBar menuBar;
-    private JMenu fileMenu;
-    private JMenuItem applyModsMenuItem;
-    private JMenuItem loadNewGameMenuItem;
-    private JMenuItem settingsMenuItem;
-    private JRadioButtonMenuItem darkThemeRadioButton;
-    private JMenu gameMenu;
-    private JMenuItem openGameFolderMenuItem;
-    private JMenuItem opemModsFolderMenuItem;
-    private JMenuItem launchGameMenuItem;
-    private JMenuItem runConfigsMenuItem;
-    private JMenu aboutMenu;
-    private JMenuItem aboutMenuItem;
-    private JMenuItem candorSettingButton;
-    private JMenu toolsMenu;
-    private JMenuItem addToolItem;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
+
+    public JMenu getToolsMenu() {
+
+        return toolsMenu;
+    }
 
     static class ListRenderer extends JCheckBox implements ListCellRenderer<Mod> {
 
@@ -607,10 +611,5 @@ public class ModScene extends JPanel {
 
             return this;
         }
-    }
-
-    public JMenu getToolsMenu() {
-
-        return toolsMenu;
     }
 }

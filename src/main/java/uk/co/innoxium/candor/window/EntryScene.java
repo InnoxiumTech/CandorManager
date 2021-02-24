@@ -16,11 +16,21 @@ import uk.co.innoxium.cybernize.util.ClassLoadUtil;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
+
 /**
  * The entry scene, to set up a game, or load game.
  */
 public class EntryScene extends JPanel {
+
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    private JLabel candoLogo;
+    private JComboBox gamesList;
+    private JCheckBox defaultCheck;
+    private JButton newGameButton;
+    private JButton loadGameButton;
+
     public EntryScene() {
+
         initComponents();
     }
 
@@ -40,7 +50,7 @@ public class EntryScene extends JPanel {
     private void loadGameClicked(ActionEvent e) {
 
         // get the selected game from the list.
-        Game game = (Game)gamesList.getSelectedItem();
+        Game game = (Game) gamesList.getSelectedItem();
 
         // if it's not null, we can load the mod scene from the game.
         if(game != null) {
@@ -69,7 +79,7 @@ public class EntryScene extends JPanel {
     // TODO: Remove as we set the default game once the load game button is clicked.
     private void defaultClicked(ActionEvent e) {
 
-        Game game = (Game)gamesList.getSelectedItem();
+        Game game = (Game) gamesList.getSelectedItem();
         if(game != null) {
 
             Settings.defaultGameUuid = game.getUUID().toString();
@@ -86,38 +96,31 @@ public class EntryScene extends JPanel {
 
         //======== this ========
         setLayout(new MigLayout(
-            "hidemode 3",
-            // columns
-            "[fill]",
-            // rows
-            "[]" +
-            "[]" +
-            "[]"));
+                "hidemode 3",
+                // columns
+                "[fill]",
+                // rows
+                "[]" +
+                        "[]" +
+                        "[]"));
         add(candoLogo, "cell 0 0,dock center");
         add(gamesList, "cell 0 1,growx");
 
         //---- defaultCheck ----
         defaultCheck.setText("Default?");
-        defaultCheck.addActionListener(e -> defaultClicked(e));
+        defaultCheck.addActionListener(this::defaultClicked);
         add(defaultCheck, "cell 0 1,alignx trailing,growx 0");
 
         //---- newGameButton ----
         newGameButton.setText("Load New Game");
-        newGameButton.addActionListener(e -> newGameClicked(e));
+        newGameButton.addActionListener(this::newGameClicked);
         add(newGameButton, "cell 0 2,alignx center,growx 0");
 
         //---- loadGameButton ----
         loadGameButton.setText("Load Selected Game");
-        loadGameButton.addActionListener(e -> loadGameClicked(e));
+        loadGameButton.addActionListener(this::loadGameClicked);
         add(loadGameButton, "cell 0 2,alignx center,growx 0");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    private JLabel candoLogo;
-    private JComboBox gamesList;
-    private JCheckBox defaultCheck;
-    private JButton newGameButton;
-    private JButton loadGameButton;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

@@ -3,8 +3,8 @@ package uk.co.innoxium.candor.module;
 import ca.cgjennings.jvm.JarLoader;
 import org.apache.commons.io.FileUtils;
 import uk.co.innoxium.candor.game.Game;
-import uk.co.innoxium.candor.util.NativeDialogs;
 import uk.co.innoxium.candor.util.Logger;
+import uk.co.innoxium.candor.util.NativeDialogs;
 import uk.co.innoxium.cybernize.util.ClassLoadUtil;
 import uk.co.innoxium.cybernize.util.Download;
 import uk.co.innoxium.cybernize.util.MathUtils;
@@ -19,6 +19,7 @@ import java.util.Observer;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
+
 
 /**
  * This class handles everything to do with modules.
@@ -47,6 +48,7 @@ public class ModuleSelector {
 
     /**
      * Loads all modules from a directory
+     *
      * @param file - The folder to load the modules from
      * @throws Exception - If there was an error loading the module
      */
@@ -92,7 +94,7 @@ public class ModuleSelector {
             // Try to load the generic class in to the classpath and instantiate it
             Class<? extends AbstractModule> clazz = ClassLoadUtil.loadClass("uk.co.innoxium.candor.generic.GenericModule");
             GENERIC_MODULE = clazz.getDeclaredConstructor().newInstance();
-        } catch (Exception e) {
+        } catch(Exception e) {
 
             // If it fails, show stack trace and then shutdown.
             e.printStackTrace();
@@ -102,7 +104,8 @@ public class ModuleSelector {
 
     /**
      * Gets a module instance form the specified game
-     * @param gameExe - the game executable to check against the modules
+     *
+     * @param gameExe     - the game executable to check against the modules
      * @param showWarning - Should we show a warning if it falls back on the generic module
      * @return - An instance of a module to handle mod tasks
      */
@@ -147,7 +150,8 @@ public class ModuleSelector {
 
     /**
      * Gets a module instance form the specified game
-     * @param game - the game executable to check against the modules
+     *
+     * @param game        - the game executable to check against the modules
      * @param showWarning - Should we show a warning if it falls back on the generic module
      * @return - An instance of a module to handle mod tasks
      */
@@ -159,6 +163,7 @@ public class ModuleSelector {
 
     /**
      * Gets a module instance form the specified game without the option for showing a warning
+     *
      * @param game - the game executable to check against the modules
      * @return - An instance of a module to handle mod tasks
      */
@@ -169,6 +174,7 @@ public class ModuleSelector {
 
     /**
      * Gets a module instance form the specified game without the option for showing a warning
+     *
      * @param gameExe - the game executable to check against the modules
      * @return - An instance of a module to handle mod tasks
      */
@@ -179,6 +185,7 @@ public class ModuleSelector {
 
     /**
      * Checks to see if the generic module is installed, if not, downloads it.
+     *
      * @throws IOException - If there is an error downloading the generic module.
      */
     public static void checkGenericModule() throws IOException {
@@ -202,7 +209,7 @@ public class ModuleSelector {
             try {
 
                 Thread.sleep(20);
-            } catch (InterruptedException e) {
+            } catch(InterruptedException e) {
 
                 e.printStackTrace();
             }
@@ -226,9 +233,9 @@ public class ModuleSelector {
         @Override
         public void update(Observable o, Object arg) {
 
-            Download dl = (Download)o;
+            Download dl = (Download) o;
 
-            switch (dl.getStatus()) {
+            switch(dl.getStatus()) {
 
                 // If downloading, print the progress of it
                 case Download.DOWNLOADING -> Logger.info("Progress = " + dl.getProgress() + ", " +
@@ -240,7 +247,7 @@ public class ModuleSelector {
                     try {
 
                         FileUtils.copyFile(new File("./module", dl.getUrl().substring(dl.getUrl().lastIndexOf("/"))), new File("./module", "GenericModule.jar"));
-                    } catch (IOException e) {
+                    } catch(IOException e) {
 
                         e.printStackTrace();
                     }

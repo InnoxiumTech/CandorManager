@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+
 public class ToolActionListener implements ActionListener {
 
     private final Tool theTool;
@@ -33,7 +34,7 @@ public class ToolActionListener implements ActionListener {
 
             Logger.info(builder.command().toString());
             Process process = builder.start();
-        } catch (IOException ioException) {
+        } catch(IOException ioException) {
 
             ioException.printStackTrace();
         }
