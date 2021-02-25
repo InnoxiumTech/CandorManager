@@ -19,7 +19,8 @@ import java.io.IOException;
 
 public class GameSelectScene extends JPanel {
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // JFormDesigner - Variables declaration - DO NOT MODIFY
+    // GEN-BEGIN:variables
     private JPanel contentPanel;
     private JLabel gameLabel;
     private JTextField gameField;
@@ -31,6 +32,8 @@ public class GameSelectScene extends JPanel {
     private JCheckBox extractCheckBox;
     private JButton okButton;
     private JButton cancelButton;
+    //GEN-END:variables
+    // JFormDesigner - End of variables declaration
 
     public void setGame(File gameExe) {
 
@@ -178,17 +181,17 @@ public class GameSelectScene extends JPanel {
         //======== contentPanel ========
         {
             contentPanel.setLayout(new MigLayout(
-                    "fill,novisualpadding,hidemode 3",
-                    // columns
-                    "[fill]" +
-                            "[fill]",
-                    // rows
-                    "[]" +
-                            "[]" +
-                            "[]" +
-                            "[]" +
-                            "[]" +
-                            "[]"));
+                "fill,novisualpadding,hidemode 3",
+                // columns
+                "[fill]" +
+                "[fill]",
+                // rows
+                "[]" +
+                "[]" +
+                "[]" +
+                "[]" +
+                "[]" +
+                "[]"));
 
             //---- gameLabel ----
             gameLabel.setText("Please Select the Game Executable.");
@@ -200,7 +203,7 @@ public class GameSelectScene extends JPanel {
 
             //---- gameBrowse ----
             gameBrowse.setText("...");
-            gameBrowse.addActionListener(this::gameExeClicked);
+            gameBrowse.addActionListener(e -> gameExeClicked(e));
             contentPanel.add(gameBrowse, "cell 0 1 2 1");
 
             //---- modFolderLabel ----
@@ -214,28 +217,28 @@ public class GameSelectScene extends JPanel {
             //---- modFolderBrowse ----
             modFolderBrowse.setText("...");
             modFolderBrowse.setEnabled(false);
-            modFolderBrowse.addActionListener(this::modsFolderClicked);
+            modFolderBrowse.addActionListener(e -> modsFolderClicked(e));
             contentPanel.add(modFolderBrowse, "cell 0 3 2 1");
 
             //---- defaultGameCheckBox ----
             defaultGameCheckBox.setText("Set as Default");
-            defaultGameCheckBox.addActionListener(this::checkBox);
+            defaultGameCheckBox.addActionListener(e -> checkBox(e));
             contentPanel.add(defaultGameCheckBox, "cell 0 4 2 1,growx");
 
             //---- extractCheckBox ----
             extractCheckBox.setText("Mod Requires Extracting?");
             extractCheckBox.setEnabled(false);
-            extractCheckBox.addActionListener(this::extractorClicked);
+            extractCheckBox.addActionListener(e -> extractorClicked(e));
             contentPanel.add(extractCheckBox, "cell 0 4 2 1,growx");
 
             //---- okButton ----
             okButton.setText("OK");
-            okButton.addActionListener(this::onButtonClicked);
+            okButton.addActionListener(e -> onButtonClicked(e));
             contentPanel.add(okButton, "cell 0 5 2 1,growx");
 
             //---- cancelButton ----
             cancelButton.setText("Cancel");
-            cancelButton.addActionListener(this::cancelButtonClicked);
+            cancelButton.addActionListener(e -> cancelButtonClicked(e));
             contentPanel.add(cancelButton, "cell 0 5 2 1,growx");
         }
         add(contentPanel, BorderLayout.CENTER);
@@ -249,5 +252,4 @@ public class GameSelectScene extends JPanel {
         gameField.setTransferHandler(new FileTransferHandler());
         modFolderField.setTransferHandler(new FileTransferHandler());
     }
-    // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
