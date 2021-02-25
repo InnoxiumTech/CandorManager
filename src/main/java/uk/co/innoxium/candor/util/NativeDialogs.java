@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -222,7 +223,7 @@ public class NativeDialogs {
                     message
             );
             System.exit(2);
-        } catch(IOException e) {
+        } catch(IOException | URISyntaxException e) {
 
             e.printStackTrace();
             System.exit(2);

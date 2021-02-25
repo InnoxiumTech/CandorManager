@@ -90,10 +90,15 @@ public class GenericModule extends AbstractModule {
     @Override
     public RunConfig getDefaultRunConfig() {
 
-        return new DefaultRunConfig();
+        return new DefaultRunConfig("default");
     }
 
     public class DefaultRunConfig extends RunConfig {
+
+        public DefaultRunConfig(String runConfigName) {
+
+            super(runConfigName);
+        }
 
         @Override
         public String getStartCommand() {

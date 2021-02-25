@@ -3,14 +3,6 @@ plugins {
     id 'java'
 //    id 'com.github.johnrengelman.shadow' version '6.1.0'
     id 'org.beryx.runtime' version '1.12.1'
-    id "com.jfrog.bintray" version '1.8.5'
-}
-
-def props = new Properties()
-File bintrayProps = new File("bintray.properties")
-if(bintrayProps.exists()) {
-
-    file("bintray.properties").withInputStream { props.load(it) }
 }
 
 switch (org.gradle.internal.os.OperatingSystem.current()) {
@@ -35,29 +27,30 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'java'
 
-sourceCompatibility = 14
-targetCompatibility = 14
-
 mainClassName = 'uk.co.innoxium.candor.CandorLauncher'
 
 def repsyUser = "user"
 def repsyPass = "passw"
 
+java {
+
+    toolchain {
+
+        languageVersion = JavaLanguageVersion.of(14)
+        vendor = JvmVendorSpec.ADOPTOPENJDK
+    }
+}
+
 repositories {
 
     jcenter()
     mavenCentral()
-    maven { url 'https://jitpack.io' }
+    maven { url "https://jitpack.io" }
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven {
 
-        name 'Cybernize Bintray Repo'
-        url 'https://dl.bintray.com/candor/cybernize'
-    }
-    maven {
-
-        name 'Swing Extensions repo'
-        url 'https://dl.bintray.com/innoxium/SwingExtensions'
+        name 'Innoxium Repo'
+        url "https://repo.repsy.io/mvn/innoxium/innoxium/"
     }
 }
 
@@ -146,7 +139,7 @@ runtime {
 
         if(org.gradle.internal.os.OperatingSystem.current() == org.gradle.internal.os.OperatingSystem.WINDOWS) {
 
-            imageOptions = ['--win-console']
+//            imageOptions = ['--win-console']
         }
         appVersion = "1.0"
         skipInstaller = true
@@ -178,12 +171,13 @@ task copyScripts(type: Copy) {
     from "$buildDir/jpackage"
 
     // Exclude api-ms dll's from the main directory, they aren't needed
-//    exclude {
-//
-//        FileTreeElement details ->
-//            !details.file.getAbsolutePath().contains("runtime\\bin") &&
-//                    details.file.name.contains("api-ms")
-//    }
+    // This only happens on jdk14
+    exclude {
+
+        FileTreeElement details ->
+            !details.file.getAbsolutePath().contains("runtime\\bin") &&
+                    details.file.name.contains("api-ms")
+    }
     into "$buildDir/packaged"
 }
 

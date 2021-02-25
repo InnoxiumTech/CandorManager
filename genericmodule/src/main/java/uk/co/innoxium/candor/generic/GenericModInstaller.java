@@ -5,6 +5,7 @@ import uk.co.innoxium.candor.Settings;
 import uk.co.innoxium.candor.mod.Mod;
 import uk.co.innoxium.candor.module.AbstractModInstaller;
 import uk.co.innoxium.candor.module.AbstractModule;
+import uk.co.innoxium.candor.util.Logger;
 import uk.co.innoxium.cybernize.archive.Archive;
 import uk.co.innoxium.cybernize.archive.ArchiveBuilder;
 
