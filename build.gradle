@@ -40,8 +40,8 @@ targetCompatibility = 14
 
 mainClassName = 'uk.co.innoxium.candor.CandorLauncher'
 
-repsyUser
-repsyPass
+repsyUser = "user"
+repsyPass = "passw"
 
 repositories {
 
