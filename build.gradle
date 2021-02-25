@@ -40,6 +40,9 @@ targetCompatibility = 14
 
 mainClassName = 'uk.co.innoxium.candor.CandorLauncher'
 
+repsyUser
+repsyPass
+
 repositories {
 
     jcenter()
@@ -245,8 +248,8 @@ publishing {
             url "https://repo.repsy.io/mvn/innoxium/innoxium"
             credentials {
 
-                username project.ext.repsyUser
-                password project.ext.repsyPass
+                username repsyUser
+                password repsyPass
             }
         }
     }
