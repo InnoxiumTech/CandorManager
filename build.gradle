@@ -56,7 +56,7 @@ repositories {
 
 dependencies {
 
-    implementation 'uk.co.innoxium.cybernize:cybernize:1.1.5'
+    implementation 'uk.co.innoxium.cybernize:cybernize:1.1.6'
     implementation 'uk.co.innoxium.swing:swingext:0.1'
     implementation 'com.electronwill.night-config:toml:3.6.3'
     implementation 'com.miglayout:miglayout:3.7.4'
@@ -232,7 +232,7 @@ publishing {
             artifact javadocJar
             groupId 'uk.co.innoxium.candor'
             artifactId 'candor-api'
-            version '0.2.17'
+            version '0.2.18'
         }
     }
     repositories {

@@ -5,7 +5,7 @@ While I currently do not have a startup script ready, you can load Candor by usi
 `java -javaagent:<candorJar> -jar <candorJar>`
 
 # Creating a module
-Currently to create a module you will need to extends the `AbstractModule` class,
+Currently, to create a module you will need to extend the `AbstractModule` class,
 this wil give your class access to the module functionality.
 
 You will also be required to add the following to your modules Manifest file:
@@ -19,8 +19,8 @@ You may also view the [Sims 4](https://github.com/shadowchild/candor-sims4) Modu
 # Loading Candor in IDE
 you will need to add the follwoing to your run configuration:
 
-`-javaagent:<explicit path to lib/jar-loader.jar>`
+`-javaagent:<relative path to lib/jar-loader.jar>`
 
 for Example, for me it is 
 
-`-javaagent:"H:\Development\ModManager\libs\jar-loader.jar"`
+`-javaagent:lib\jar-loader.jar`

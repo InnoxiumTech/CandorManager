@@ -222,7 +222,7 @@ public class ModuleSelector {
     private static String findGenericModuleUrl() {
 
 
-        return "https://dl.bintray.com/candor/candor-alpha/uk/co/innoxium/candor/candor-genericmodule/0.2.0/candor-genericmodule-0.2.0.jar";
+        return "https://repo.repsy.io/mvn/innoxium/innoxium/uk/co/innoxium/candor/candor-genericmodule/0.2.0/candor-genericmodule-0.2.0.jar";
     }
 
     /**

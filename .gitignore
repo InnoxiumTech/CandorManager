@@ -16,3 +16,4 @@ run/
 src/test/
 compileLibs/
 debug.log
+test/

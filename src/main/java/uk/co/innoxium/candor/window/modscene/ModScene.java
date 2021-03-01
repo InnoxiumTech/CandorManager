@@ -79,6 +79,7 @@ public class ModScene extends JPanel {
         module.setGame(new File(game.getGameExe()));
         module.setModsFolder(new File(game.getModsFolder()));
         ModStore.initialise();
+        Settings.lastGameUuid = gameUuid;
 
         try {
 

@@ -197,6 +197,31 @@ public class NativeDialogs {
         );
     }
 
+    public static boolean showErrorWithUpload(String message) {
+
+        try {
+
+            File log = new File("./debug.log");
+            FileReader fr = new FileReader(log);
+            BufferedReader reader = new BufferedReader(fr);
+            String hastebinContent = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+            String hastebinurl = Hastebin.post(hastebinContent, false);
+            message += "\nA log has been uploaded, please copy the link for help: " + hastebinurl;
+            DesktopUtil.openURL(hastebinurl.replace("https://", ""));
+        } catch(IOException | URISyntaxException e) {
+
+            e.printStackTrace();
+        }
+
+        return showInfoDialog(
+                "Candor Mod Manager",
+                message,
+                "ok",
+                "error",
+                true
+        );
+    }
+
     /**
      * Shows a generic failure dialog.
      */
