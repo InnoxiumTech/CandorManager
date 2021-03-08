@@ -80,7 +80,7 @@ dependencies {
     implementation 'com.formdev:flatlaf-extras:1.0'
     implementation 'com.formdev:svgSalamander:1.1.2.4'
 
-    implementation platform("org.lwjgl:lwjgl-bom:3.2.4-SNAPSHOT")
+    implementation platform("org.lwjgl:lwjgl-bom:3.3.0-SNAPSHOT")
 
     // EA Async, adds async/await like .NET has
     implementation 'com.ea.async:ea-async:1.2.3'
