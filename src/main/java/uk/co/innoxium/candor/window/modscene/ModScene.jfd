@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.3.0.337" Java: "11.0.10" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -25,19 +25,21 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "addModButton"
 						"text": "Add Mod(s)"
-						"icon": new com.jformdesigner.model.SwingIcon( 2, "Tree.leafIcon" )
+						"icon": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "addModClicked", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "removeModsButton"
 						"text": "Remove Selected"
 						"icon": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"maximumSize": new java.awt.Dimension( 173, 30 )
+						"minimumSize": new java.awt.Dimension( 173, 30 )
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "removeModsSelected", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "installModsButton"
 						"text": "Install Selected Mod(s)"
-						"icon": new com.jformdesigner.model.SwingIcon( 2, "FileView.floppyDriveIcon" )
+						"icon": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "installModsClicked", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
@@ -83,6 +85,8 @@ new FormModel {
 						name: "settingsMenuItem"
 						"text": "Settings"
 						"mnemonic": 83
+						"enabled": false
+						"toolTipText": "Feature disabled currently, unfinished"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "settingsClicked", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JRadioButtonMenuItem" ) {
@@ -120,6 +124,8 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "runConfigsMenuItem"
 						"text": "Custom Run Config(s)"
+						"enabled": false
+						"toolTipText": "Feature disabled currently, unfinished"
 					} )
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
@@ -146,6 +152,8 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "addToolItem"
 						"text": "Add Tool"
+						"enabled": false
+						"toolTipText": "Disabled for now, feature unfinished"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "addToolClicked", true ) )
 					} )
 				} )

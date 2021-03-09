@@ -96,8 +96,12 @@ public class CandorLauncher {
 
     private static void setThemeCustomizations() {
 
+        // The following only works on Windows 10 currently, due it only being implemented on that platform
         JFrame.setDefaultLookAndFeelDecorated(true);
         JDialog.setDefaultLookAndFeelDecorated(true);
+
+        // Set the default font to ORBITRON
+        UIManager.getLookAndFeelDefaults().put("defaultFont", Resources.orbitron.deriveFont(Font.PLAIN, 14));
     }
 
     private static class RuntimeHook extends Thread {
@@ -107,7 +111,7 @@ public class CandorLauncher {
 
             try {
 
-                // Write the games list to file
+                // Write the games and tools list to file
                 GamesList.writeToFile();
                 ToolsList.writeToJson();
             } catch(IOException e) {

@@ -32,6 +32,7 @@ mainClassName = 'uk.co.innoxium.candor.CandorLauncher'
 def repsyUser = "user"
 def repsyPass = "passw"
 
+// Enforce java 14 toolchain, as jpackage breaks log4j2 on jkd15+
 java {
 
     toolchain {

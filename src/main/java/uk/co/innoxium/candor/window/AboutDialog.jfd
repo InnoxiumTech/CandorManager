@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.3.0.337" Java: "11.0.10" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -17,37 +17,30 @@ new FormModel {
 						"hgap": 15
 					} ) {
 						name: "linksPanel"
-						add( new FormComponent( "javax.swing.JLabel" ) {
+						add( new FormComponent( "uk.co.innoxium.swing.component.JHyperlink" ) {
 							name: "discordLink"
 							"text": "Discord"
 							auxiliary() {
 								"JavaCodeGenerator.customCreate": true
 							}
 						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
+						add( new FormComponent( "uk.co.innoxium.swing.component.JHyperlink" ) {
 							name: "githubLink"
 							"text": "Github"
 							auxiliary() {
 								"JavaCodeGenerator.customCreate": true
 							}
 						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
+						add( new FormComponent( "uk.co.innoxium.swing.component.JHyperlink" ) {
 							name: "websiteLink"
 							"text": "Website"
 							auxiliary() {
 								"JavaCodeGenerator.customCreate": true
 							}
 						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
+						add( new FormComponent( "uk.co.innoxium.swing.component.JHyperlink" ) {
 							name: "twitterLink"
 							"text": "Twitter"
-							auxiliary() {
-								"JavaCodeGenerator.customCreate": true
-							}
-						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "itchLink"
-							"text": "Itch.io"
 							auxiliary() {
 								"JavaCodeGenerator.customCreate": true
 							}

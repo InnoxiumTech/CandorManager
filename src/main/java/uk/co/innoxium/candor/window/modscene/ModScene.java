@@ -70,6 +70,8 @@ public class ModScene extends JPanel {
     private JMenuItem candorSettingButton;
     private JMenu toolsMenu;
     private JMenuItem addToolItem;
+    // JFormDesigner - End of variables declaration  //GEN-END:variables
+
     public ModScene(String gameUuid) {
 
         // Set game stuff
@@ -243,10 +245,11 @@ public class ModScene extends JPanel {
 
     private void runGameClicked(ActionEvent e) {
 
+        // Todo: Move in to run config
         RunConfig runConfig = ModuleSelector.currentModule.getDefaultRunConfig();
 
         ProcessBuilder builder = new ProcessBuilder();
-        builder.command(runConfig.getStartCommand() + " " + runConfig.getProgramArgs());
+        builder.command(runConfig.getStartCommand(), runConfig.getProgramArgs());
         String workingDir = runConfig.getWorkingDir();
         if(workingDir != null && !workingDir.isEmpty()) {
 
@@ -379,6 +382,7 @@ public class ModScene extends JPanel {
 
                 FlatAnimatedLafChange.showSnapshot();
                 UIManager.setLookAndFeel(new FlatIntelliJLaf());
+                UIManager.getLookAndFeelDefaults().put("defaultFont", Resources.orbitron.deriveFont(Font.PLAIN, 14));
                 FlatLaf.updateUI();
                 FlatAnimatedLafChange.hideSnapshotWithAnimation();
             } catch(UnsupportedLookAndFeelException exception) {
@@ -391,6 +395,7 @@ public class ModScene extends JPanel {
 
                 FlatAnimatedLafChange.showSnapshot();
                 UIManager.setLookAndFeel(new FlatDarculaLaf());
+                UIManager.getLookAndFeelDefaults().put("defaultFont", Resources.orbitron.deriveFont(Font.PLAIN, 14));
                 FlatLaf.updateUI();
                 FlatAnimatedLafChange.hideSnapshotWithAnimation();
             } catch(UnsupportedLookAndFeelException exception) {
@@ -441,12 +446,12 @@ public class ModScene extends JPanel {
         //======== managerPanel ========
         {
             managerPanel.setLayout(new MigLayout(
-                    "fill,insets panel,hidemode 3",
-                    // columns
-                    "[fill]",
-                    // rows
-                    "[]" +
-                            "[]"));
+                "fill,insets panel,hidemode 3",
+                // columns
+                "[fill]",
+                // rows
+                "[]" +
+                "[]"));
 
             //======== managerPaneMenu ========
             {
@@ -459,25 +464,27 @@ public class ModScene extends JPanel {
 
                 //---- addModButton ----
                 addModButton.setText("Add Mod(s)");
-                addModButton.setIcon(UIManager.getIcon("Tree.leafIcon"));
-                addModButton.addActionListener(this::addModClicked);
+                addModButton.setIcon(null);
+                addModButton.addActionListener(e -> addModClicked(e));
                 managerPaneMenu.add(addModButton);
 
                 //---- removeModsButton ----
                 removeModsButton.setText("Remove Selected");
                 removeModsButton.setIcon(null);
-                removeModsButton.addActionListener(this::removeModsSelected);
+                removeModsButton.setMaximumSize(new Dimension(173, 30));
+                removeModsButton.setMinimumSize(new Dimension(173, 30));
+                removeModsButton.addActionListener(e -> removeModsSelected(e));
                 managerPaneMenu.add(removeModsButton);
 
                 //---- installModsButton ----
                 installModsButton.setText("Install Selected Mod(s)");
-                installModsButton.setIcon(UIManager.getIcon("FileView.floppyDriveIcon"));
-                installModsButton.addActionListener(this::installModsClicked);
+                installModsButton.setIcon(null);
+                installModsButton.addActionListener(e -> installModsClicked(e));
                 managerPaneMenu.add(installModsButton);
 
                 //---- toggleButton ----
                 toggleButton.setText("Toggle Enabled");
-                toggleButton.addActionListener(this::toggleSelectedMods);
+                toggleButton.addActionListener(e -> toggleSelectedMods(e));
                 managerPaneMenu.add(toggleButton);
             }
             managerPanel.add(managerPaneMenu, "cell 0 0");
@@ -506,17 +513,19 @@ public class ModScene extends JPanel {
                 //---- loadNewGameMenuItem ----
                 loadNewGameMenuItem.setText("Load New Game");
                 loadNewGameMenuItem.setMnemonic('L');
-                loadNewGameMenuItem.addActionListener(this::newGameClicked);
+                loadNewGameMenuItem.addActionListener(e -> newGameClicked(e));
                 fileMenu.add(loadNewGameMenuItem);
 
                 //---- settingsMenuItem ----
                 settingsMenuItem.setText("Settings");
                 settingsMenuItem.setMnemonic('S');
-                settingsMenuItem.addActionListener(this::settingsClicked);
+                settingsMenuItem.setEnabled(false);
+                settingsMenuItem.setToolTipText("Feature disabled currently, unfinished");
+                settingsMenuItem.addActionListener(e -> settingsClicked(e));
                 fileMenu.add(settingsMenuItem);
 
                 //---- darkThemeRadioButton ----
-                darkThemeRadioButton.addActionListener(this::themeChangeButtonClicked);
+                darkThemeRadioButton.addActionListener(e -> themeChangeButtonClicked(e));
                 fileMenu.add(darkThemeRadioButton);
             }
             menuBar.add(fileMenu);
@@ -529,23 +538,25 @@ public class ModScene extends JPanel {
                 //---- openGameFolderMenuItem ----
                 openGameFolderMenuItem.setText("Open Game Folder");
                 openGameFolderMenuItem.setActionCommand("game");
-                openGameFolderMenuItem.addActionListener(this::openFolder);
+                openGameFolderMenuItem.addActionListener(e -> openFolder(e));
                 gameMenu.add(openGameFolderMenuItem);
 
                 //---- opemModsFolderMenuItem ----
                 opemModsFolderMenuItem.setText("Open Mods Folder");
                 opemModsFolderMenuItem.setActionCommand("mods");
-                opemModsFolderMenuItem.addActionListener(this::openFolder);
+                opemModsFolderMenuItem.addActionListener(e -> openFolder(e));
                 gameMenu.add(opemModsFolderMenuItem);
 
                 //---- launchGameMenuItem ----
                 launchGameMenuItem.setText("Launch Game");
-                launchGameMenuItem.addActionListener(this::runGameClicked);
+                launchGameMenuItem.addActionListener(e -> runGameClicked(e));
                 gameMenu.add(launchGameMenuItem);
                 gameMenu.addSeparator();
 
                 //---- runConfigsMenuItem ----
                 runConfigsMenuItem.setText("Custom Run Config(s)");
+                runConfigsMenuItem.setEnabled(false);
+                runConfigsMenuItem.setToolTipText("Feature disabled currently, unfinished");
                 gameMenu.add(runConfigsMenuItem);
             }
             menuBar.add(gameMenu);
@@ -558,14 +569,14 @@ public class ModScene extends JPanel {
                 //---- aboutMenuItem ----
                 aboutMenuItem.setText("About Candor");
                 aboutMenuItem.setMnemonic('A');
-                aboutMenuItem.addActionListener(this::aboutClicked);
+                aboutMenuItem.addActionListener(e -> aboutClicked(e));
                 aboutMenu.add(aboutMenuItem);
 
                 //---- candorSettingButton ----
                 candorSettingButton.setText("Open Candor Folder");
                 candorSettingButton.setActionCommand("candor");
                 candorSettingButton.setMnemonic('O');
-                candorSettingButton.addActionListener(this::openFolder);
+                candorSettingButton.addActionListener(e -> openFolder(e));
                 aboutMenu.add(candorSettingButton);
             }
             menuBar.add(aboutMenu);
@@ -576,7 +587,9 @@ public class ModScene extends JPanel {
 
                 //---- addToolItem ----
                 addToolItem.setText("Add Tool");
-                addToolItem.addActionListener(this::addToolClicked);
+                addToolItem.setEnabled(false);
+                addToolItem.setToolTipText("Disabled for now, feature unfinished");
+                addToolItem.addActionListener(e -> addToolClicked(e));
                 toolsMenu.add(addToolItem);
             }
             menuBar.add(toolsMenu);
@@ -584,7 +597,6 @@ public class ModScene extends JPanel {
         add(menuBar, BorderLayout.NORTH);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-    // JFormDesigner - End of variables declaration  //GEN-END:variables
 
     public JMenu getToolsMenu() {
 

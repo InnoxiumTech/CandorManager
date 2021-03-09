@@ -4,6 +4,7 @@
 
 package uk.co.innoxium.candor.window;
 
+import com.formdev.flatlaf.FlatIconColors;
 import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.candor.util.WindowUtils;
 import uk.co.innoxium.candor.window.component.JImage;
@@ -20,20 +21,22 @@ import java.awt.event.ActionEvent;
  */
 public class AboutDialog extends JDialog {
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // JFormDesigner - Variables declaration - DO NOT MODIFY
+    // GEN-BEGIN:variables
     private JPanel dialogPane;
     private JPanel contentPanel;
     private JPanel linksPanel;
-    private JLabel discordLink;
-    private JLabel githubLink;
-    private JLabel websiteLink;
-    private JLabel twitterLink;
-    private JLabel itchLink;
+    private JHyperlink discordLink;
+    private JHyperlink githubLink;
+    private JHyperlink websiteLink;
+    private JHyperlink twitterLink;
     private JPanel imagePanel;
     private JLabel candorLogo;
     private JLabel innoxiumLogo;
     private JPanel buttonBar;
     private JButton okButton;
+    // JFormDesigner - End of variables declaration  //GEN-END:variables
+
     public AboutDialog() {
 
         super(WindowUtils.mainFrame);
@@ -43,21 +46,23 @@ public class AboutDialog extends JDialog {
     /* Create our components away from JFormDesigner code. */
     private void createUIComponents() {
 
-        Font linkFont = Resources.getFantasque(24f);
+        Font linkFont = Resources.orbitron.deriveFont(24f);
 
         candorLogo = new JImage(Resources.CANDOR_LOGO);
         innoxiumLogo = new JImage(Resources.INNOXIUM_LOGO);
 
         discordLink = new JHyperlink("Discord", "discord.gg/CMG9ZtS");
         discordLink.setFont(linkFont);
+        discordLink.setClickedColour(Color.decode(String.valueOf(FlatIconColors.ACTIONS_GREY_DARK.rgb)));
         githubLink = new JHyperlink("Github", "github.com/InnoxiumTech/CandorManager");
         githubLink.setFont(linkFont);
+        discordLink.setClickedColour(Color.decode(String.valueOf(FlatIconColors.ACTIONS_GREY_DARK.rgb)));
         websiteLink = new JHyperlink("Website", "innoxium.co.uk");
         websiteLink.setFont(linkFont);
+        discordLink.setClickedColour(Color.decode(String.valueOf(FlatIconColors.ACTIONS_GREY_DARK.rgb)));
         twitterLink = new JHyperlink("Twitter", "twitter.com/InnoxiumTech");
         twitterLink.setFont(linkFont);
-        itchLink = new JHyperlink("Itch.io", "innoxium.itch.io/candor-mod-manager");
-        itchLink.setFont(linkFont);
+        discordLink.setClickedColour(Color.decode(String.valueOf(FlatIconColors.ACTIONS_GREY_DARK.rgb)));
     }
 
     private void okClicked(ActionEvent e) {
@@ -112,10 +117,6 @@ public class AboutDialog extends JDialog {
                     //---- twitterLink ----
                     twitterLink.setText("Twitter");
                     linksPanel.add(twitterLink);
-
-                    //---- itchLink ----
-                    itchLink.setText("Itch.io");
-                    linksPanel.add(itchLink);
                 }
                 contentPanel.add(linksPanel, BorderLayout.SOUTH);
 
@@ -133,15 +134,15 @@ public class AboutDialog extends JDialog {
             {
                 buttonBar.setBorder(new EmptyBorder(12, 0, 0, 0));
                 buttonBar.setLayout(new GridBagLayout());
-                ((GridBagLayout) buttonBar.getLayout()).columnWidths = new int[] { 0, 80 };
-                ((GridBagLayout) buttonBar.getLayout()).columnWeights = new double[] { 1.0, 0.0 };
+                ((GridBagLayout)buttonBar.getLayout()).columnWidths = new int[] {0, 80};
+                ((GridBagLayout)buttonBar.getLayout()).columnWeights = new double[] {1.0, 0.0};
 
                 //---- okButton ----
                 okButton.setText("OK");
-                okButton.addActionListener(this::okClicked);
+                okButton.addActionListener(e -> okClicked(e));
                 buttonBar.add(okButton, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0));
             }
             dialogPane.add(buttonBar, BorderLayout.PAGE_END);
         }
@@ -150,5 +151,4 @@ public class AboutDialog extends JDialog {
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-    // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

@@ -33,23 +33,40 @@ public class Resources {
     public static JComponent currentScene;
     // The font we use for the mods list.
     public static Font fantasque;
+    // The Orbitron font we will use
+    public static Font orbitron;
 
     /**
-     * Installs the Fantasque Font that we use for the Mods list.
+     * Installs all the fonts we wits to use
      *
      * @throws IOException
      * @throws FontFormatException
      */
     public static void installFonts() throws IOException, FontFormatException {
 
-        String fontResource = "fonts/FantasqueSansMono-Regular.ttf";
+        fantasque = installFont("fonts/FantasqueSansMono-Regular.ttf");
+        orbitron = installFont("fonts/Orbitron Light.ttf");
+    }
+
+    /**
+     * Installs a font to the Graphics environment from a given ttf file.
+     *
+     * @param fontResource - The path of the font to attempt installation
+     * @return - The installed font instance
+     * @throws IOException
+     * @throws FontFormatException
+     */
+    private static Font installFont(String fontResource) throws IOException, FontFormatException {
+
+        // Register Font
+        Font ret;
         InputStream is = ClassLoadUtil.getCL().getResourceAsStream(fontResource);
         assert is != null;
-        fantasque = Font.createFont(Font.TRUETYPE_FONT, is);
-        GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(fantasque);
-        Logger.info(fantasque.getFamily());
-        Logger.info(fantasque.getFontName());
+        ret = Font.createFont(Font.TRUETYPE_FONT, is);
+        boolean registered = GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(ret);
+        if(registered) Logger.info("Installed new font: '" + ret.getFontName() + "' from family '" + ret.getFamily() + "'");
         is.close();
+        return ret;
     }
 
     /**
