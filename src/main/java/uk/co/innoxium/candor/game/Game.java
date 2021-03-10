@@ -111,6 +111,11 @@ public class Game {
         try {
 
             AbstractModule module = ModuleSelector.getModuleForGame(this);
+            if(module.getReadableGameName() == null) {
+
+                File gameFile = new File(gameExe);
+                return gameFile.getName().substring(0, gameFile.getName().indexOf("."));
+            }
             return module.getReadableGameName();
         } catch(NullPointerException e) {
 

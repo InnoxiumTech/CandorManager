@@ -60,27 +60,30 @@ public class ModuleSelector {
         // For each file in the directory, try to load it as a module
         for(File jar : file.listFiles()) {
 
-            // Create a JarFile instance for the file
-            JarFile jarFile = new JarFile(jar);
-            // Get the manifest from the jar
-            Manifest mf = jarFile.getManifest();
-            // If the manifest isn't null, try to get the module data from it
-            if(mf != null) {
+            // First check if the file is in fact a jar file
+            if(uk.co.innoxium.candor.util.Utils.getExtension(jar).equalsIgnoreCase("jar")) {
+                // Create a JarFile instance for the file
+                JarFile jarFile = new JarFile(jar);
+                // Get the manifest from the jar
+                Manifest mf = jarFile.getManifest();
+                // If the manifest isn't null, try to get the module data from it
+                if(mf != null) {
 
-                // Get the manifest attributes
-                Attributes attrib = mf.getMainAttributes();
-                // Get the module attribute
-                String clazz = attrib.getValue("Candor-Module-Class");
-                Logger.info(clazz);
+                    // Get the manifest attributes
+                    Attributes attrib = mf.getMainAttributes();
+                    // Get the module attribute
+                    String clazz = attrib.getValue("Candor-Module-Class");
+                    Logger.info(clazz);
 
-                // Use JarLoader to add the jar in to our classpath
-                JarLoader.addToClassPath(jar);
-                // We can now load the class in to the runtime
-                Class<? extends AbstractModule> theClazz = ClassLoadUtil.loadClass(clazz);
-                // And now create an instance of the module, and add it to the module list.
-                MODULES.add(theClazz.getDeclaredConstructor().newInstance());
+                    // Use JarLoader to add the jar in to our classpath
+                    JarLoader.addToClassPath(jar);
+                    // We can now load the class in to the runtime
+                    Class<? extends AbstractModule> theClazz = ClassLoadUtil.loadClass(clazz);
+                    // And now create an instance of the module, and add it to the module list.
+                    MODULES.add(theClazz.getDeclaredConstructor().newInstance());
+                }
+                // Jar has no manifest, this means we cannot load a module from it
             }
-            // Jar has no manifest, this means we cannot load a module from it
         }
     }
 
@@ -221,8 +224,7 @@ public class ModuleSelector {
     /* Currently returns a url, hope to add a way to find the latest version eventually */
     private static String findGenericModuleUrl() {
 
-
-        return "https://repo.repsy.io/mvn/innoxium/innoxium/uk/co/innoxium/candor/candor-genericmodule/0.2.0/candor-genericmodule-0.2.0.jar";
+        return "https://innoxium.co.uk/files/candor-genericmodule-0.2.0.jar";
     }
 
     /**

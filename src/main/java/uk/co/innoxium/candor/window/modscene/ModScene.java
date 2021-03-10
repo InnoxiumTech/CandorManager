@@ -27,6 +27,7 @@ import uk.co.innoxium.candor.util.NativeDialogs;
 import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.candor.util.WindowUtils;
 import uk.co.innoxium.candor.window.AboutDialog;
+import uk.co.innoxium.candor.window.dnd.mod.ModListFileTransferHandler;
 import uk.co.innoxium.candor.window.tool.ToolAddWindow;
 import uk.co.innoxium.swing.util.DesktopUtil;
 
@@ -129,6 +130,7 @@ public class ModScene extends JPanel {
 
         installedModsJList.setCellRenderer(new ListRenderer());
         installedModsJList.setFont(Resources.fantasque.deriveFont(24f));
+        installedModsJList.setDragEnabled(true);
         installedModsJList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 //        installedModsJList.setSelectionModel(new DefaultListSelectionModel() {
 //
@@ -596,6 +598,13 @@ public class ModScene extends JPanel {
         }
         add(menuBar, BorderLayout.NORTH);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
+
+        postCreate();
+    }
+
+    private void postCreate() {
+
+        installedModsJList.setTransferHandler(new ModListFileTransferHandler());
     }
 
     public JMenu getToolsMenu() {

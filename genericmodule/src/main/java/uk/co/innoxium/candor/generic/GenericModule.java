@@ -59,7 +59,7 @@ public class GenericModule extends AbstractModule {
     public String getReadableGameName() {
 
         // Return the executable without the file extension
-        return game.getName().substring(0, game.getName().lastIndexOf("."));
+        return null;
     }
 
     @Override

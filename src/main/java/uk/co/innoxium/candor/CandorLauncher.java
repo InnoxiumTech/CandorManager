@@ -82,7 +82,7 @@ public class CandorLauncher {
 
             FlatIntelliJLaf.install();
         }
-        //
+        // Set our theme customizations
         setThemeCustomizations();
         // Add our shutdown hook for saving configs
         Runtime.getRuntime().addShutdownHook(new RuntimeHook());

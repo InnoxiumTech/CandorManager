@@ -51,9 +51,10 @@ public class WindowUtils {
         mainFrame.setTitle("Candor Mod Manager");
         mainFrame.setIconImage(new ImageIcon(ClassLoadUtil.getCL().getResource("logo.png")).getImage());
         // This check sets which scene would be loaded
-        JPanel scene = showIntroCheck() ? new EntryScene() : new ModScene(Settings.defaultGameUuid);
+        boolean showIntro = showIntroCheck();
+        JPanel scene = showIntro ? new EntryScene() : new ModScene(Settings.defaultGameUuid);
         Resources.currentScene = scene;
-        if(!showIntroCheck())
+        if(!showIntro)
             ToolsList.determineDefinedTools();
         mainFrame.setContentPane(scene);
         // TODO: Allow the window to stay on the same screen it was used on

@@ -8,7 +8,7 @@ import uk.co.innoxium.candor.module.AbstractModule;
 import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.util.NativeDialogs;
 import uk.co.innoxium.candor.util.WindowUtils;
-import uk.co.innoxium.candor.window.dnd.FileTransferHandler;
+import uk.co.innoxium.candor.window.dnd.gameselect.GameSelectFileTransferHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -249,7 +249,7 @@ public class GameSelectScene extends JPanel {
 
     private void postCreate() {
 
-        gameField.setTransferHandler(new FileTransferHandler());
-        modFolderField.setTransferHandler(new FileTransferHandler());
+        gameField.setTransferHandler(new GameSelectFileTransferHandler());
+        modFolderField.setTransferHandler(new GameSelectFileTransferHandler());
     }
 }

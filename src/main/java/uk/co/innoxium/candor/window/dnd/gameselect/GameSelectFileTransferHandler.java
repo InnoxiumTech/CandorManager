@@ -1,4 +1,4 @@
-package uk.co.innoxium.candor.window.dnd;
+package uk.co.innoxium.candor.window.dnd.gameselect;
 
 import uk.co.innoxium.candor.util.NativeDialogs;
 import uk.co.innoxium.candor.util.Resources;
@@ -12,11 +12,11 @@ import java.io.IOException;
 import java.util.List;
 
 
-public class FileTransferHandler extends TransferHandler {
+public class GameSelectFileTransferHandler extends TransferHandler {
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean importData(TransferHandler.TransferSupport support) {
+    public boolean importData(TransferSupport support) {
 
         if(!this.canImport(support))
             return false;
@@ -40,7 +40,7 @@ public class FileTransferHandler extends TransferHandler {
 
             if(Resources.currentScene instanceof GameSelectScene) {
 
-                GameSelectScene scene = ((GameSelectScene) Resources.currentScene);
+                GameSelectScene scene = (GameSelectScene) Resources.currentScene;
                 if(file.isFile()) {
 
                     scene.setGame(file);
@@ -57,7 +57,9 @@ public class FileTransferHandler extends TransferHandler {
     public boolean canImport(TransferHandler.TransferSupport support) {
 
         for(DataFlavor flavor : support.getDataFlavors()) {
+
             if(flavor.isFlavorJavaFileListType()) {
+
                 return true;
             }
         }

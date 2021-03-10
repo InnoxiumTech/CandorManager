@@ -29,6 +29,8 @@ public class EntryScene extends JPanel {
     private JButton newGameButton;
     private JButton loadGameButton;
 
+    // JFormDesigner - End of variables declaration  //GEN-END:variables
+
     public EntryScene() {
 
         initComponents();
@@ -122,5 +124,4 @@ public class EntryScene extends JPanel {
         add(loadGameButton, "cell 0 2,alignx center,growx 0");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-    // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

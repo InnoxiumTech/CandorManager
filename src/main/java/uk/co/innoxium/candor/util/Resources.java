@@ -8,6 +8,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Objects;
 
 
@@ -60,13 +61,36 @@ public class Resources {
 
         // Register Font
         Font ret;
-        InputStream is = ClassLoadUtil.getCL().getResourceAsStream(fontResource);
+        // Get the font from the resource
+        InputStream is = ClassLoadUtil.getSafeCL().getResourceAsStream(fontResource);
+        // assert we have an instream
         assert is != null;
+        // Create the font
         ret = Font.createFont(Font.TRUETYPE_FONT, is);
-        boolean registered = GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(ret);
-        if(registered) Logger.info("Installed new font: '" + ret.getFontName() + "' from family '" + ret.getFamily() + "'");
+
+        // Check if the font is already installed on the local machine (it shouldn't be)
+        if(!checkFontInstalled(ret)) {
+
+            boolean registered = GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(ret);
+            if(registered)
+                Logger.info("Installed new font: '" + ret.getFontName() + "' from family '" + ret.getFamily() + "'");
+        } else {
+
+            Logger.info("Font '" + ret.getFontName() + "' from family '" + ret.getFamily() + "' was already found, and thus not double registered");
+        }
         is.close();
         return ret;
+    }
+
+    /**
+     * Check whether a font is found in the Local Graphics Environment
+     * @param font - The font to check
+     * @return true if font is found, false if not found
+     */
+    private static boolean checkFontInstalled(Font font) {
+
+        return Arrays.stream(GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts())
+                .anyMatch(font1 -> font1.getFontName().equalsIgnoreCase(font.getFontName()));
     }
 
     /**
