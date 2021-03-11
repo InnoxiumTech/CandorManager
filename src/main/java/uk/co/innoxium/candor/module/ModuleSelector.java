@@ -25,6 +25,7 @@ import java.util.jar.Manifest;
  * This class handles everything to do with modules.
  * This means loading, checking, setting, etc.
  */
+// TODO: Move the MODULES array to a map, allows for better checking handling
 public class ModuleSelector {
 
     // Our list of Modules
@@ -95,7 +96,7 @@ public class ModuleSelector {
         try {
 
             // Try to load the generic class in to the classpath and instantiate it
-            Class<? extends AbstractModule> clazz = ClassLoadUtil.loadClass("uk.co.innoxium.candor.generic.GenericModule");
+            Class<? extends AbstractModule> clazz = ClassLoadUtil.loadClass("uk.co.innoxium.candor.module.generic.GenericModule");
             GENERIC_MODULE = clazz.getDeclaredConstructor().newInstance();
         } catch(Exception e) {
 

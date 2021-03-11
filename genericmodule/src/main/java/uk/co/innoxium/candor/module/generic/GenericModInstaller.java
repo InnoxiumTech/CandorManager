@@ -1,4 +1,4 @@
-package uk.co.innoxium.candor.generic;
+package uk.co.innoxium.candor.module.generic;
 
 import org.apache.commons.io.FileUtils;
 import uk.co.innoxium.candor.Settings;

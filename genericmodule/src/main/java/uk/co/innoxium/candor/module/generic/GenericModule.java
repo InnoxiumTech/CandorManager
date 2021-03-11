@@ -1,4 +1,4 @@
-package uk.co.innoxium.candor.generic;
+package uk.co.innoxium.candor.module.generic;
 
 import com.github.f4b6a3.uuid.util.UuidConverter;
 import uk.co.innoxium.candor.Settings;

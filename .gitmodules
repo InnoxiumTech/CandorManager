@@ -1,3 +1,6 @@
 [submodule "Cybernize"]
 	path = Cybernize
 	url = https://github.com/ShadowChild/Cybernize2.git
+[submodule "CandorModules"]
+	path = CandorModules
+	url = https://github.com/InnoxiumTech/CandorModules.git

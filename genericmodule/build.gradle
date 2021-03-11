@@ -52,7 +52,7 @@ jar {
 
         // Candor will look for this to find your modules' AbstractModule class
         // Absolutely required to function correctly
-        attributes 'Candor-Module-Class': 'uk.co.innoxium.candor.generic.GenericModule'
+        attributes 'Candor-Module-Class': 'uk.co.innoxium.candor.module.generic.GenericModule'
     }
 }
 
