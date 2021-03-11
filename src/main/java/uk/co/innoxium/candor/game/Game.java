@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import uk.co.innoxium.candor.module.AbstractModule;
 import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.module.RunConfig;
+import uk.co.innoxium.candor.module.generic.GenericModule;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -111,12 +112,12 @@ public class Game {
         try {
 
             AbstractModule module = ModuleSelector.getModuleForGame(this);
-            if(module.getReadableGameName() == null) {
+            if(module instanceof GenericModule) {
 
                 File gameFile = new File(gameExe);
                 return gameFile.getName().substring(0, gameFile.getName().indexOf("."));
             }
-            return module.getReadableGameName();
+            return module.getReadableGameName(this);
         } catch(NullPointerException e) {
 
             File gameFile = new File(gameExe);
