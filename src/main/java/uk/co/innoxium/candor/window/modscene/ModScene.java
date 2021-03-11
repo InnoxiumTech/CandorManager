@@ -22,10 +22,7 @@ import uk.co.innoxium.candor.module.AbstractModule;
 import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.module.RunConfig;
 import uk.co.innoxium.candor.thread.ThreadModInstaller;
-import uk.co.innoxium.candor.util.Logger;
-import uk.co.innoxium.candor.util.NativeDialogs;
-import uk.co.innoxium.candor.util.Resources;
-import uk.co.innoxium.candor.util.WindowUtils;
+import uk.co.innoxium.candor.util.*;
 import uk.co.innoxium.candor.window.AboutDialog;
 import uk.co.innoxium.candor.window.dnd.mod.ModListFileTransferHandler;
 import uk.co.innoxium.candor.window.tool.ToolAddWindow;
@@ -36,10 +33,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.*;
 
 
 public class ModScene extends JPanel {
@@ -461,7 +455,6 @@ public class ModScene extends JPanel {
 
                 //---- gameLabel ----
                 gameLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-                gameLabel.setText(ModuleSelector.currentModule.getReadableGameName().toUpperCase());
                 managerPaneMenu.add(gameLabel);
 
                 //---- addModButton ----
@@ -604,6 +597,7 @@ public class ModScene extends JPanel {
 
     private void postCreate() {
 
+        gameLabel.setText(ModuleSelector.currentModule.getReadableGameName(GamesList.getGameFromUUID(UuidConverter.fromString(Settings.lastGameUuid))).toUpperCase(Locale.ROOT));
         installedModsJList.setTransferHandler(new ModListFileTransferHandler());
     }
 
@@ -613,8 +607,6 @@ public class ModScene extends JPanel {
     }
 
     static class ListRenderer extends JCheckBox implements ListCellRenderer<Mod> {
-
-//        public boolean selected = false;
 
         @Override
         public Component getListCellRendererComponent(JList<? extends Mod> list, Mod value, int index, boolean isSelected, boolean cellHasFocus) {

@@ -1,5 +1,6 @@
 package uk.co.innoxium.candor.module;
 
+import uk.co.innoxium.candor.game.Game;
 import uk.co.innoxium.candor.implement.FileMerger;
 import uk.co.innoxium.candor.tool.Tool;
 import uk.co.innoxium.cybernize.archive.ArchiveItem;
@@ -48,7 +49,10 @@ public abstract class AbstractModule {
         return exeName;
     }
 
+    @Deprecated
     public abstract String getReadableGameName();
+
+    public abstract String getReadableGameName(Game game);
 
     public abstract AbstractModInstaller getModInstaller();
 

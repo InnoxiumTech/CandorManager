@@ -18,32 +18,6 @@ import java.io.File;
  */
 public class GenericModule extends AbstractModule {
 
-    public File game, modsFolder;
-
-    @Override
-    public File getGame() {
-
-        return game;
-    }
-
-    @Override
-    public File getModsFolder() {
-
-        return modsFolder;
-    }
-
-    @Override
-    public void setGame(File file) {
-
-        game = file;
-    }
-
-    @Override
-    public void setModsFolder(File file) {
-
-        modsFolder = file;
-    }
-
     @Override
     public String getModuleName() {
 
@@ -60,7 +34,14 @@ public class GenericModule extends AbstractModule {
     public String getReadableGameName() {
 
         // Return the executable without the file extension
-        return null;
+        return "";
+    }
+
+    @Override
+    public String getReadableGameName(Game game) {
+
+        String gameExe = new File(game.getGameExe()).getName();
+        return gameExe.substring(0, gameExe.indexOf("."));
     }
 
     @Override

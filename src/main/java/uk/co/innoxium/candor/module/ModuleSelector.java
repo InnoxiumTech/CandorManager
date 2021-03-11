@@ -41,10 +41,10 @@ public class ModuleSelector {
      */
     public static void initModules() throws Exception {
 
+        instanceGenericModule();
         loadFromDir(new File("./module"));
         Logger.info("Modules Found: " + MODULES.size());
         for(AbstractModule module : MODULES) Logger.info("Loaded Module: " + module.getModuleName());
-        instanceGenericModule();
     }
 
     /**

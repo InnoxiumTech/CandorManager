@@ -18,9 +18,6 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "gameLabel"
 						"font": new java.awt.Font( "Segoe UI", 1, 16 )
-						auxiliary() {
-							"JavaCodeGenerator.postInitCode": "gameLabel.setText(ModuleSelector.currentModule.getReadableGameName().toUpperCase());"
-						}
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "addModButton"
