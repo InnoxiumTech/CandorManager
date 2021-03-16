@@ -187,18 +187,10 @@ task copyScripts(type: Copy) {
     into "$buildDir/packaged"
 }
 
-task copyGenericModule(type: Copy) {
-
-    dependsOn 'copyScripts'
-
-    from "$projectDir/test"
-    into "$buildDir/packaged/CandorManager/module"
-}
-
 
 task zipCandor(type: Zip) {
 
-    dependsOn 'copyGenericModule'
+    dependsOn 'copyScripts'
 
     from "$buildDir/packaged"
 //    include '*'
@@ -247,7 +239,7 @@ publishing {
             artifact javadocJar
             groupId 'uk.co.innoxium.candor'
             artifactId 'candor-api'
-            version '0.2.18'
+            version '0.2.20'
         }
     }
     repositories {

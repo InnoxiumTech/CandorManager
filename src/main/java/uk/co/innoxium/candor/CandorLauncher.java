@@ -32,8 +32,10 @@ public class CandorLauncher {
 
         if(Platform.get() == Platform.MACOSX) {
 
+            // This is due to LWJGL being a bit finicky on OSX
             // We want to restart the application here with the -XstartOnFirstThread JVM argument
             // This is slightly more difficult for us as we have the java agent to deal with
+            // TODO: this will be in the candor launcher as part of the launch rather than here
         }
 
         // Get a plash screen instance, currently, we don't do any manipulation, this may be increased in the future.
@@ -62,7 +64,7 @@ public class CandorLauncher {
         try {
 
             // Check if the generic module exists, if not download it.
-            ModuleSelector.checkGenericModule();
+//            ModuleSelector.checkGenericModule();
             // Load modules from disk.
             ModuleSelector.initModules();
             // Load the lists of user set up games.
@@ -97,6 +99,7 @@ public class CandorLauncher {
     private static void setThemeCustomizations() {
 
         // The following only works on Windows 10 currently, due it only being implemented on that platform
+        // TODO: move our menubar in to the JFrame menubar
         JFrame.setDefaultLookAndFeelDecorated(true);
         JDialog.setDefaultLookAndFeelDecorated(true);
 
@@ -111,6 +114,7 @@ public class CandorLauncher {
 
             try {
 
+                // TODO: move to a new safeExit method which is called before a System.exit call
                 // Write the games and tools list to file
                 GamesList.writeToFile();
                 ToolsList.writeToJson();

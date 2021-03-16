@@ -15,6 +15,8 @@ import uk.co.innoxium.cybernize.util.ClassLoadUtil;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 
 /**
@@ -34,6 +36,7 @@ public class EntryScene extends JPanel {
     public EntryScene() {
 
         initComponents();
+        postCreate();
     }
 
     private void createUIComponents() {
@@ -41,6 +44,11 @@ public class EntryScene extends JPanel {
         // Create our components separate from JFormDesigner code.
         candoLogo = new JLabel(new ImageIcon(ClassLoadUtil.getCL().getResource("logo.png")));
         gamesList = new JComboBox<>(Utils.getVectorArrayFromList(GamesList.getGamesList()));
+    }
+
+    private void postCreate() {
+
+        gamesList.addItemListener(new ChangeListener(defaultCheck));
     }
 
     private void newGameClicked(ActionEvent e) {
@@ -62,6 +70,10 @@ public class EntryScene extends JPanel {
 
                 Settings.defaultGameUuid = game.getUUID().toString();
 
+            } else {
+
+                // Empty it, the user may want to launch the entry screen on next load rather than go to the previous default game
+                Settings.defaultGameUuid = "";
             }
             // The last game we loaded is now this one.
             Settings.lastGameUuid = game.getUUID().toString();
@@ -123,5 +135,23 @@ public class EntryScene extends JPanel {
         loadGameButton.addActionListener(this::loadGameClicked);
         add(loadGameButton, "cell 0 2,alignx center,growx 0");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
+    }
+
+    class ChangeListener implements ItemListener {
+
+        final JCheckBox defaultCheckbox;
+
+        public ChangeListener(JCheckBox defaultCheckbox) {
+
+            this.defaultCheckbox = defaultCheckbox;
+        }
+
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+
+            Game game = (Game)e.getItem();
+
+            defaultCheckbox.setSelected(game.getUUID().toString().equals(Settings.defaultGameUuid));
+        }
     }
 }

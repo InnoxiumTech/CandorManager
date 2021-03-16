@@ -15,6 +15,7 @@ import java.util.UUID;
 
 /**
  * An object to represent a "game".
+ * TODO: remove to/fromJson and have gson handle it, it's rather good
  */
 public class Game {
 

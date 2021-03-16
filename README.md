@@ -1,6 +1,5 @@
 # CandorManager 
-[ ![CI Build](https://github.com/InnoxiumTech/CandorManager/workflows/Java%20CI%20with%20Gradle/badge.svg) ](https://github.com/InnoxiumTech/CandorManager)
-[ ![Download](https://api.bintray.com/packages/candor/candor-alpha/candor-api/images/download.svg) ](https://bintray.com/candor/candor-alpha/candor-api/_latestVersion)<br>
+[ ![CI Build](https://github.com/InnoxiumTech/CandorManager/workflows/Java%20CI%20with%20Gradle/badge.svg) ](https://github.com/InnoxiumTech/CandorManager) <br>
 A new breed of mod manager
 
 # Thanks
@@ -21,7 +20,7 @@ it will also be able to uninstal them without leaving any traces
 Candor will achieve this by having modules that be added or removed at any time.
 Each module should only support one game.
 Modules _could_ support more than one game, but only if those games have the same mod installation method.
-Each module will be a JAR file that can be loaded from the "modules" folder in the Candor instal location.
+Each module will be a JAR file that can be loaded from the "modules" folder in the Candor install location.
 Candor will provide a robust API for developers to create new modules, via maven
 
 # What isn't Candor?

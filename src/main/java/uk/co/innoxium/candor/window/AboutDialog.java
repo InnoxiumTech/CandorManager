@@ -53,15 +53,23 @@ public class AboutDialog extends JDialog {
 
         discordLink = new JHyperlink("Discord", "discord.gg/CMG9ZtS");
         discordLink.setFont(linkFont);
+        discordLink.setColour(Color.decode(String.valueOf(FlatIconColors.ACTIONS_GREY_DARK.rgb)).darker());
+        discordLink.setHighlightedColour(Color.decode(String.valueOf(FlatIconColors.ACTIONS_GREY_DARK.rgb)).darker()); // requires update to SwingExt to function correctly, will be in 0.3.x
         discordLink.setClickedColour(Color.decode(String.valueOf(FlatIconColors.ACTIONS_GREY_DARK.rgb)));
         githubLink = new JHyperlink("Github", "github.com/InnoxiumTech/CandorManager");
         githubLink.setFont(linkFont);
+        discordLink.setColour(Color.decode(String.valueOf(FlatIconColors.ACTIONS_GREY_DARK.rgb)).darker());
+        discordLink.setHighlightedColour(Color.decode(String.valueOf(FlatIconColors.ACTIONS_GREY_DARK.rgb)).darker());
         discordLink.setClickedColour(Color.decode(String.valueOf(FlatIconColors.ACTIONS_GREY_DARK.rgb)));
         websiteLink = new JHyperlink("Website", "innoxium.co.uk");
         websiteLink.setFont(linkFont);
+        discordLink.setColour(Color.decode(String.valueOf(FlatIconColors.ACTIONS_GREY_DARK.rgb)).darker());
+        discordLink.setHighlightedColour(Color.decode(String.valueOf(FlatIconColors.ACTIONS_GREY_DARK.rgb)).darker());
         discordLink.setClickedColour(Color.decode(String.valueOf(FlatIconColors.ACTIONS_GREY_DARK.rgb)));
         twitterLink = new JHyperlink("Twitter", "twitter.com/InnoxiumTech");
         twitterLink.setFont(linkFont);
+        discordLink.setColour(Color.decode(String.valueOf(FlatIconColors.ACTIONS_GREY_DARK.rgb)).darker());
+        discordLink.setHighlightedColour(Color.decode(String.valueOf(FlatIconColors.ACTIONS_GREY_DARK.rgb)).darker());
         discordLink.setClickedColour(Color.decode(String.valueOf(FlatIconColors.ACTIONS_GREY_DARK.rgb)));
     }
 
