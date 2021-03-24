@@ -61,7 +61,7 @@ dependencies {
     implementation 'uk.co.innoxium.cybernize:cybernize:1.1.6'
     implementation 'uk.co.innoxium.swing:swingext:0.1'
     implementation 'com.electronwill.night-config:toml:3.6.3'
-    implementation 'com.miglayout:miglayout:3.7.4'
+    implementation 'com.miglayout:miglayout-swing:5.2'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.google.guava:guava:30.1.1-jre'
     implementation "org.apache.commons:commons-lang3:3.12.0"

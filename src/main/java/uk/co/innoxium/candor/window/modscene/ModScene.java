@@ -89,6 +89,7 @@ public class ModScene extends JPanel {
             System.exit(-1);
         }
         initComponents();
+        WindowUtils.mainFrame.setJMenuBar(menuBar);
         ModStore.MODS.addListener(new ModList.ListChangeListener<>() {
 
             @Override

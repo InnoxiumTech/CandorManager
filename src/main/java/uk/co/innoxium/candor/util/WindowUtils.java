@@ -90,6 +90,7 @@ public class WindowUtils {
         scene.initComponents();
         Resources.currentScene = scene;
         mainFrame.setContentPane(scene);
+        mainFrame.setJMenuBar(null);
         mainFrame.pack();
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
@@ -115,6 +116,7 @@ public class WindowUtils {
         mainFrame.setMinimumSize(new Dimension(0, 0));
         JPanel scene = new EntryScene();
         Resources.currentScene = scene;
+        mainFrame.setJMenuBar(null);
         mainFrame.setContentPane(scene);
         // TODO: Allow the window to stay on the same screen it was used on
         mainFrame.pack();
