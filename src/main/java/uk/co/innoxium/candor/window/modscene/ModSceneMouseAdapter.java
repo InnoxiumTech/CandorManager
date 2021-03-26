@@ -35,6 +35,17 @@ public class ModSceneMouseAdapter extends MouseAdapter {
 
             JList<?> list = (JList<?>) e.getSource();
             int index = list.locationToIndex(e.getPoint());
+
+            // If ctrl is down, we can select or deselect the clicked item
+            if(e.isControlDown()) {
+
+                if(list.isSelectedIndex(index)) {
+
+//                    list.setSelectedIndex();
+                }
+            }
+
+            // Handle non shift click
             Mod mod = (Mod) list.getModel().getElementAt(index);
             list.setSelectedIndex(index);
 //                    ((ListRenderer) list.getCellRenderer()).selected = !((ListRenderer) list.getCellRenderer()).selected;

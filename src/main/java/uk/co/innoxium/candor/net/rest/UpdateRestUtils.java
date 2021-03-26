@@ -19,6 +19,6 @@ public class UpdateRestUtils {
 
     public ListenableFuture<Response> getCandorLatest() {
 
-        return client.prepareGet("http://localhost:8080/download/candor/latest").execute();
+        return client.prepareGet("http://innoxium.co.uk/download/candor/latest").execute();
     }
 }

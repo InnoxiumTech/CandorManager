@@ -23,7 +23,7 @@ switch (org.gradle.internal.os.OperatingSystem.current()) {
 group 'uk.co.innoxium.candor'
 version 'snapshot'
 
-apply plugin: 'maven'
+//apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'java'
 

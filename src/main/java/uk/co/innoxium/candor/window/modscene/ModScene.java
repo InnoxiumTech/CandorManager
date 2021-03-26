@@ -48,7 +48,7 @@ public class ModScene extends JPanel {
     private JButton installModsButton;
     private JButton toggleButton;
     private JScrollPane listScrollPane;
-    private JList installedModsJList;
+    private JList<Mod> installedModsJList;
     private JMenuBar menuBar;
     private JMenu fileMenu;
     private JMenuItem applyModsMenuItem;
@@ -121,59 +121,59 @@ public class ModScene extends JPanel {
 
         darkThemeRadioButton = new JRadioButtonMenuItem("Enable Dark Theme", Settings.darkTheme);
 
-        installedModsJList = new JList(ModStore.MODS.toArray());
+        installedModsJList = new JList<>(ModStore.MODS.toArray());
 
         installedModsJList.setCellRenderer(new ListRenderer());
         installedModsJList.setFont(Resources.fantasque.deriveFont(24f));
         installedModsJList.setDragEnabled(true);
         installedModsJList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-//        installedModsJList.setSelectionModel(new DefaultListSelectionModel() {
-//
-//            private static final long serialVersionUID = 1L;
-//
-//            boolean gestureStarted = false;
-//
-//            @Override
-//            public void setSelectionInterval(int index0, int index1) {
-//
-//                if(!gestureStarted) {
-//
-//                    if (index0 == index1) {
-//
-//                        if (isSelectedIndex(index0)) {
-//
-//                            removeSelectionInterval(index0, index0);
-//                            return;
-//                        }
-//                    }
-//                    super.setSelectionInterval(index0, index1);
-//                }
-//                gestureStarted = true;
-//            }
-//
-//            @Override
-//            public void addSelectionInterval(int index0, int index1) {
-//
-//                if (index0==index1) {
-//
-//                    if (isSelectedIndex(index0)) {
-//
-//                        removeSelectionInterval(index0, index0);
-//                        return;
-//                    }
-//                    super.addSelectionInterval(index0, index1);
-//                }
-//            }
-//
-//            @Override
-//            public void setValueIsAdjusting(boolean isAdjusting) {
-//
-//                if (!isAdjusting) {
-//
-//                    gestureStarted = false;
-//                }
-//            }
-//        });
+        installedModsJList.setSelectionModel(new DefaultListSelectionModel() {
+
+            private static final long serialVersionUID = 1L;
+
+            boolean gestureStarted = false;
+
+            @Override
+            public void setSelectionInterval(int index0, int index1) {
+
+                if(!gestureStarted) {
+
+                    if (index0 == index1) {
+
+                        if (isSelectedIndex(index0)) {
+
+                            removeSelectionInterval(index0, index0);
+                            return;
+                        }
+                    }
+                    super.setSelectionInterval(index0, index1);
+                }
+                gestureStarted = true;
+            }
+
+            @Override
+            public void addSelectionInterval(int index0, int index1) {
+
+                if (index0==index1) {
+
+                    if (isSelectedIndex(index0)) {
+
+                        removeSelectionInterval(index0, index0);
+                        return;
+                    }
+                    super.addSelectionInterval(index0, index1);
+                }
+            }
+
+            @Override
+            public void setValueIsAdjusting(boolean isAdjusting) {
+
+                if (!isAdjusting) {
+
+                    gestureStarted = false;
+                }
+            }
+        });
         installedModsJList.addMouseListener(new ModSceneMouseAdapter(this));
     }
 
@@ -219,7 +219,7 @@ public class ModScene extends JPanel {
 
                 try {
 
-                    ModStore.removeModFile((Mod) o, true);
+                    ModStore.removeModFile((Mod)o, true);
                 } catch(IOException exception) {
 
                     exception.printStackTrace();
@@ -231,7 +231,7 @@ public class ModScene extends JPanel {
     private void installModsClicked(ActionEvent e) {
 
         if(installedModsJList.getSelectedValue() != null)
-            doInstallMod(Lists.newArrayList((Mod) installedModsJList.getSelectedValue()));
+            doInstallMod(Lists.newArrayList(installedModsJList.getSelectedValue()));
         else
             NativeDialogs.showInfoDialog("Candor Mod Manager",
                     "You have not selected any mods to install.",
@@ -277,10 +277,9 @@ public class ModScene extends JPanel {
                         false);
             }
             ArrayList<Mod> toInstall = new ArrayList<>();
-            installedModsJList.getSelectedValuesList().forEach(o -> {
+            installedModsJList.getSelectedValuesList().forEach(mod -> {
 
-                Mod mod = (Mod) o;
-
+                // Check if we should uninstall
                 if(mod.getState() == Mod.State.ENABLED && ModuleSelector.currentModule.getModInstaller().uninstall(mod)) {
 
                     mod.setState(Mod.State.DISABLED);
@@ -288,8 +287,10 @@ public class ModScene extends JPanel {
                     ModStore.MODS.fireChangeToListeners("uninstall", mod, true);
                 } else {
 
+                    // Else add to mod install queue
                     toInstall.add(mod);
                 }
+                // Attempt to install any mods we toggled
                 if(toInstall.size() > 0) doInstallMod(toInstall);
 //                try {
 //
@@ -317,6 +318,7 @@ public class ModScene extends JPanel {
                 badMods.add(mod);
             } else {
 
+                // TODO: Swap to new ModInstallerHandler
                 ThreadModInstaller thread = new ThreadModInstaller(mod);
 
                 queuedMods.add(thread);

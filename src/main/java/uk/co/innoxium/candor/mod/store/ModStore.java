@@ -25,7 +25,7 @@ import java.io.IOException;
 public class ModStore {
 
     // Our ModsList instance
-    public static final ModList<Mod> MODS = new ModList<>();
+    public static final ModList MODS = new ModList();
     // is the mod store already initialised?
     private static boolean initialised = false;
     // The folder to store the mod files

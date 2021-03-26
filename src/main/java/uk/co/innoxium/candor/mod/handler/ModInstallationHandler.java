@@ -1,5 +1,6 @@
-package uk.co.innoxium.candor.mod;
+package uk.co.innoxium.candor.mod.handler;
 
+import uk.co.innoxium.candor.mod.Mod;
 import uk.co.innoxium.candor.mod.store.ModStore;
 import uk.co.innoxium.candor.module.AbstractModInstaller;
 import uk.co.innoxium.candor.module.ModuleSelector;

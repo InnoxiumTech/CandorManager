@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 /**
  * A Class that handles all the Mods list.
  */
-public class ModList<Mod> {
+public class ModList {
 
     // Our Mods ArrayList
     private final ArrayList<Mod> MODS_LIST = new ArrayList<>();
@@ -91,7 +91,7 @@ public class ModList<Mod> {
      */
     public Mod[] toArray() {
 
-        return (Mod[]) MODS_LIST.toArray();
+        return MODS_LIST.toArray(new Mod[] {});
     }
 
     /**
