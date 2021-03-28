@@ -1,6 +1,7 @@
 package uk.co.innoxium.candor.window;
 
 import net.miginfocom.swing.MigLayout;
+import uk.co.innoxium.candor.CandorLauncher;
 import uk.co.innoxium.candor.Settings;
 import uk.co.innoxium.candor.game.Game;
 import uk.co.innoxium.candor.game.GamesList;
@@ -100,7 +101,7 @@ public class GameSelectScene extends JPanel {
                 "yesno",
                 "question",
                 false);
-        if(result) System.exit(0);
+        if(result) CandorLauncher.safeExit(0);
     }
 
     private void onButtonClicked(ActionEvent e) {

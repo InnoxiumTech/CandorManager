@@ -1,6 +1,7 @@
 package uk.co.innoxium.candor.util;
 
 import com.github.f4b6a3.uuid.util.UuidConverter;
+import uk.co.innoxium.candor.CandorLauncher;
 import uk.co.innoxium.candor.Settings;
 import uk.co.innoxium.candor.game.Game;
 import uk.co.innoxium.candor.game.GamesList;
@@ -44,14 +45,14 @@ public class WindowUtils {
                         "yesno",
                         "question",
                         false);
-                if(result) System.exit(0);
+                if(result) CandorLauncher.safeExit(0);
             }
         });
-        mainFrame.setResizable(false);
         mainFrame.setTitle("Candor Mod Manager");
         mainFrame.setIconImage(new ImageIcon(ClassLoadUtil.getCL().getResource("logo.png")).getImage());
         // This check sets which scene would be loaded
         boolean showIntro = showIntroCheck();
+        mainFrame.setResizable(!showIntro);
         JPanel scene = showIntro ? new EntryScene() : new ModScene(Settings.defaultGameUuid);
         Resources.currentScene = scene;
         if(!showIntro)

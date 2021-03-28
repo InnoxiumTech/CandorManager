@@ -1,7 +1,9 @@
 package uk.co.innoxium.candor.game;
 
+import com.github.f4b6a3.uuid.util.UuidConverter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import uk.co.innoxium.candor.Settings;
 import uk.co.innoxium.candor.util.Logger;
 import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.cybernize.json.JsonUtil;
@@ -54,6 +56,28 @@ public class GamesList {
             }
         });
         return ret.get();
+    }
+
+    /**
+     * Gets a game instance from a UUID
+     *
+     * @param uuid - The UUID of the game to get.
+     * @return - A game instance if the games list contains it, else null.
+     */
+    public static Game getGameFromUUID(String uuid) {
+
+        return getGameFromUUID(UuidConverter.fromString(uuid));
+    }
+
+    /**
+     *
+     * Gets the current game in use.
+     *
+     * @return - A Game instance, null if not yet selected
+     */
+    public static Game getCurrentGame() {
+
+        return getGameFromUUID(Settings.lastGameUuid);
     }
 
     /*

@@ -21,6 +21,8 @@ import java.io.IOException;
  */
 public class CandorLauncher {
 
+    private static boolean safeExit = false;
+
     public static void main(String[] args) {
 
         // Initialise our Logger
@@ -96,6 +98,30 @@ public class CandorLauncher {
         WindowUtils.initialiseFrame();
     }
 
+    public static void safeExit() {
+
+        safeExit(0);
+    }
+
+    public static void safeExit(int status) {
+
+        safeExit = true;
+
+        try {
+
+            // Write the games and tools list to file
+            GamesList.writeToFile();
+            ToolsList.writeToJson();
+        } catch(IOException e) {
+
+            e.printStackTrace();
+        }
+        Logger.info("Candor shutting down.");
+
+
+        System.exit(status);
+    }
+
     private static void setThemeCustomizations() {
 
         // The following only works on Windows 10 currently, due it only being implemented on that platform
@@ -112,17 +138,21 @@ public class CandorLauncher {
         @Override
         public void run() {
 
-            try {
+            if(!safeExit) {
 
-                // TODO: move to a new safeExit method which is called before a System.exit call
-                // Write the games and tools list to file
-                GamesList.writeToFile();
-                ToolsList.writeToJson();
-            } catch(IOException e) {
+                Logger.warn("Candor was not shut down using CandorLauncher.safeExit, thankfully we will handle this to ensure we are shut down correctly");
 
-                e.printStackTrace();
+                try {
+
+                    // Write the games and tools list to file
+                    GamesList.writeToFile();
+                    ToolsList.writeToJson();
+                } catch(IOException e) {
+
+                    e.printStackTrace();
+                }
+                Logger.info("Candor shutting down.");
             }
-            Logger.info("Candor shutting down.");
         }
     }
 }

@@ -12,6 +12,7 @@ import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 import com.github.f4b6a3.uuid.util.UuidConverter;
 import com.google.common.collect.Lists;
 import net.miginfocom.swing.MigLayout;
+import uk.co.innoxium.candor.CandorLauncher;
 import uk.co.innoxium.candor.Settings;
 import uk.co.innoxium.candor.game.Game;
 import uk.co.innoxium.candor.game.GamesList;
@@ -22,8 +23,12 @@ import uk.co.innoxium.candor.module.AbstractModule;
 import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.module.RunConfig;
 import uk.co.innoxium.candor.thread.ThreadModInstaller;
-import uk.co.innoxium.candor.util.*;
+import uk.co.innoxium.candor.util.Logger;
+import uk.co.innoxium.candor.util.NativeDialogs;
+import uk.co.innoxium.candor.util.Resources;
+import uk.co.innoxium.candor.util.WindowUtils;
 import uk.co.innoxium.candor.window.AboutDialog;
+import uk.co.innoxium.candor.window.RunConfigDialog;
 import uk.co.innoxium.candor.window.dnd.mod.ModListFileTransferHandler;
 import uk.co.innoxium.candor.window.tool.ToolAddWindow;
 import uk.co.innoxium.swing.util.DesktopUtil;
@@ -58,7 +63,9 @@ public class ModScene extends JPanel {
     private JMenu gameMenu;
     private JMenuItem openGameFolderMenuItem;
     private JMenuItem opemModsFolderMenuItem;
+    private JMenu launchMenu;
     private JMenuItem launchGameMenuItem;
+    private JMenuItem addLaunchConfigMenuItem;
     private JMenuItem runConfigsMenuItem;
     private JMenu aboutMenu;
     private JMenuItem aboutMenuItem;
@@ -86,7 +93,7 @@ public class ModScene extends JPanel {
 
             Logger.info("This shouldn't happen, likely a corrupt mods.json :(");
             e.printStackTrace();
-            System.exit(-1);
+            CandorLauncher.safeExit(-1);
         }
         initComponents();
         WindowUtils.mainFrame.setJMenuBar(menuBar);
@@ -127,53 +134,53 @@ public class ModScene extends JPanel {
         installedModsJList.setFont(Resources.fantasque.deriveFont(24f));
         installedModsJList.setDragEnabled(true);
         installedModsJList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        installedModsJList.setSelectionModel(new DefaultListSelectionModel() {
-
-            private static final long serialVersionUID = 1L;
-
-            boolean gestureStarted = false;
-
-            @Override
-            public void setSelectionInterval(int index0, int index1) {
-
-                if(!gestureStarted) {
-
-                    if (index0 == index1) {
-
-                        if (isSelectedIndex(index0)) {
-
-                            removeSelectionInterval(index0, index0);
-                            return;
-                        }
-                    }
-                    super.setSelectionInterval(index0, index1);
-                }
-                gestureStarted = true;
-            }
-
-            @Override
-            public void addSelectionInterval(int index0, int index1) {
-
-                if (index0==index1) {
-
-                    if (isSelectedIndex(index0)) {
-
-                        removeSelectionInterval(index0, index0);
-                        return;
-                    }
-                    super.addSelectionInterval(index0, index1);
-                }
-            }
-
-            @Override
-            public void setValueIsAdjusting(boolean isAdjusting) {
-
-                if (!isAdjusting) {
-
-                    gestureStarted = false;
-                }
-            }
-        });
+//        installedModsJList.setSelectionModel(new DefaultListSelectionModel() {
+//
+//            private static final long serialVersionUID = 1L;
+//
+//            boolean gestureStarted = false;
+//
+//            @Override
+//            public void setSelectionInterval(int index0, int index1) {
+//
+//                if(!gestureStarted) {
+//
+//                    if (index0 == index1) {
+//
+//                        if (isSelectedIndex(index0)) {
+//
+//                            removeSelectionInterval(index0, index0);
+//                            return;
+//                        }
+//                    }
+//                    super.setSelectionInterval(index0, index1);
+//                }
+//                gestureStarted = true;
+//            }
+//
+//            @Override
+//            public void addSelectionInterval(int index0, int index1) {
+//
+//                if (index0==index1) {
+//
+//                    if (isSelectedIndex(index0)) {
+//
+//                        removeSelectionInterval(index0, index0);
+//                        return;
+//                    }
+//                    super.addSelectionInterval(index0, index1);
+//                }
+//            }
+//
+//            @Override
+//            public void setValueIsAdjusting(boolean isAdjusting) {
+//
+//                if (!isAdjusting) {
+//
+//                    gestureStarted = false;
+//                }
+//            }
+//        });
         installedModsJList.addMouseListener(new ModSceneMouseAdapter(this));
     }
 
@@ -411,6 +418,12 @@ public class ModScene extends JPanel {
         window.setVisible(true);
     }
 
+    private void addLaunchConfig(ActionEvent e) {
+
+        RunConfigDialog dialog = new RunConfigDialog(WindowUtils.mainFrame);
+        dialog.setVisible(true);
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         createUIComponents();
@@ -431,7 +444,9 @@ public class ModScene extends JPanel {
         gameMenu = new JMenu();
         openGameFolderMenuItem = new JMenuItem();
         opemModsFolderMenuItem = new JMenuItem();
+        launchMenu = new JMenu();
         launchGameMenuItem = new JMenuItem();
+        addLaunchConfigMenuItem = new JMenuItem();
         runConfigsMenuItem = new JMenuItem();
         aboutMenu = new JMenu();
         aboutMenuItem = new JMenuItem();
@@ -544,20 +559,31 @@ public class ModScene extends JPanel {
                 opemModsFolderMenuItem.setActionCommand("mods");
                 opemModsFolderMenuItem.addActionListener(e -> openFolder(e));
                 gameMenu.add(opemModsFolderMenuItem);
+            }
+            menuBar.add(gameMenu);
+
+            //======== launchMenu ========
+            {
+                launchMenu.setText("Launch");
 
                 //---- launchGameMenuItem ----
                 launchGameMenuItem.setText("Launch Game");
                 launchGameMenuItem.addActionListener(e -> runGameClicked(e));
-                gameMenu.add(launchGameMenuItem);
-                gameMenu.addSeparator();
+                launchMenu.add(launchGameMenuItem);
+
+                //---- addLaunchConfigMenuItem ----
+                addLaunchConfigMenuItem.setText("Add Launch Config");
+                addLaunchConfigMenuItem.addActionListener(e -> addLaunchConfig(e));
+                launchMenu.add(addLaunchConfigMenuItem);
+                launchMenu.addSeparator();
 
                 //---- runConfigsMenuItem ----
                 runConfigsMenuItem.setText("Custom Run Config(s)");
                 runConfigsMenuItem.setEnabled(false);
                 runConfigsMenuItem.setToolTipText("Feature disabled currently, unfinished");
-                gameMenu.add(runConfigsMenuItem);
+                launchMenu.add(runConfigsMenuItem);
             }
-            menuBar.add(gameMenu);
+            menuBar.add(launchMenu);
 
             //======== aboutMenu ========
             {

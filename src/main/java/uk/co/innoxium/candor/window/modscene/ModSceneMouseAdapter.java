@@ -21,6 +21,8 @@ public class ModSceneMouseAdapter extends MouseAdapter {
     @Override
     public void mouseClicked(MouseEvent e) {
 
+        JList<Mod> list = (JList<Mod>) e.getSource();
+
         // Handle double click
         if(SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2 && !e.isConsumed()) {
 
@@ -31,9 +33,8 @@ public class ModSceneMouseAdapter extends MouseAdapter {
         }
 
         // Handle single click
-        if(SwingUtilities.isLeftMouseButton(e) && ((JList<?>) e.getSource()).getModel().getSize() != 0) {
+        if(SwingUtilities.isLeftMouseButton(e) && list.getModel().getSize() != 0) {
 
-            JList<?> list = (JList<?>) e.getSource();
             int index = list.locationToIndex(e.getPoint());
 
             // If ctrl is down, we can select or deselect the clicked item
@@ -52,15 +53,14 @@ public class ModSceneMouseAdapter extends MouseAdapter {
             list.repaint(list.getCellBounds(index, index));
         }
         // Handle right click to show menu
-        if(SwingUtilities.isRightMouseButton(e) && ((JList<?>) e.getSource()).getModel().getSize() != 0) {
+        if(SwingUtilities.isRightMouseButton(e) && list.getModel().getSize() != 0) {
 
-            JList<?> list = (JList<?>) e.getSource();
             int index = list.locationToIndex(e.getPoint());
             JPopupMenu menu = new JPopupMenu("Options");
             JMenuItem renameOption = new JMenuItem("Rename Mod");
             renameOption.addActionListener(event -> {
 
-                Mod mod = (Mod) list.getModel().getElementAt(index);
+                Mod mod = list.getModel().getElementAt(index);
                 System.out.println("Rename clicked on mod: " + mod.getName());
                 String newName = (String) JOptionPane.showInputDialog(WindowUtils.mainFrame,
                         "Please input the new name for the Mod " + mod.getReadableName(),

@@ -5,6 +5,7 @@ import org.lwjgl.PointerBuffer;
 import org.lwjgl.system.MemoryUtil;
 import org.lwjgl.util.nfd.NFDPathSet;
 import org.lwjgl.util.tinyfd.TinyFileDialogs;
+import uk.co.innoxium.candor.CandorLauncher;
 import uk.co.innoxium.cybernize.net.Hastebin;
 import uk.co.innoxium.swing.util.DesktopUtil;
 
@@ -35,15 +36,31 @@ public class NativeDialogs {
      */
     public static File showSingleFileDialog(String filterList) {
 
+        return showSingleFileDialog(filterList, null);
+    }
+
+    public static File showSingleFileDialog(String filterList, File defaultPath) {
+
         // Initialize the value we will return
         File ret = null;
 
         // Start to open the file dialog
         PointerBuffer path = memAllocPointer(1);
 
+        // Open the pick folder dialog
+        PointerBuffer defPath = memAllocPointer(1);
+        ByteBuffer defaultPathBuffer = null;
+        String defPathString = null;
+        if(defaultPath != null) {
+
+            String absolute = defaultPath.getAbsolutePath().replace("\\.", "");
+            defaultPathBuffer = MemoryUtil.memUTF8Safe(absolute);
+            defPathString = absolute;
+        }
+
         try {
 
-            int result = checkResult(NFD_OpenDialog(filterList, null, path), path);
+            int result = checkResult(NFD_OpenDialog(filterList, defPathString, path), path);
             if(result == NFD_OKAY) ret = new File(path.getStringUTF8(0));
         } catch(Exception e) {
 
@@ -55,7 +72,7 @@ public class NativeDialogs {
                     "error",
                     true);
             memFree(path);
-            System.exit(1);
+            CandorLauncher.safeExit(1);
         } finally {
 
             memFree(path);
@@ -247,11 +264,11 @@ public class NativeDialogs {
             showErrorMessage(
                     message
             );
-            System.exit(2);
+            CandorLauncher.safeExit(2);
         } catch(IOException | URISyntaxException e) {
 
             e.printStackTrace();
-            System.exit(2);
+            CandorLauncher.safeExit(2);
         }
     }
 

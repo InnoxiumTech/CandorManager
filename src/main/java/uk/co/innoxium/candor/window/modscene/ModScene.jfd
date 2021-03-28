@@ -111,10 +111,19 @@ new FormModel {
 						"actionCommand": "mods"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "openFolder", true ) )
 					} )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "launchMenu"
+					"text": "Launch"
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "launchGameMenuItem"
 						"text": "Launch Game"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "runGameClicked", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "addLaunchConfigMenuItem"
+						"text": "Add Launch Config"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "addLaunchConfig", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
 						name: "separator"
