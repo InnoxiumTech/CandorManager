@@ -29,6 +29,7 @@ import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.candor.util.WindowUtils;
 import uk.co.innoxium.candor.window.AboutDialog;
 import uk.co.innoxium.candor.window.RunConfigDialog;
+import uk.co.innoxium.candor.window.component.RunConfigMenuItem;
 import uk.co.innoxium.candor.window.dnd.mod.ModListFileTransferHandler;
 import uk.co.innoxium.candor.window.tool.ToolAddWindow;
 import uk.co.innoxium.swing.util.DesktopUtil;
@@ -626,13 +627,23 @@ public class ModScene extends JPanel {
 
     private void postCreate() {
 
+        // Set the label text
         gameLabel.setText(ModuleSelector.currentModule.getReadableGameName(GamesList.getGameFromUUID(UuidConverter.fromString(Settings.lastGameUuid))).toUpperCase(Locale.ROOT));
+        // Add the Drag'n'Drop handler
         installedModsJList.setTransferHandler(new ModListFileTransferHandler());
+        // Add the run configs to a menu item
+        Game game = GamesList.getCurrentGame();
+        game.customLaunchConfigs.forEach(this::addNewRunConf);
     }
 
     public JMenu getToolsMenu() {
 
         return toolsMenu;
+    }
+
+    public void addNewRunConf(RunConfig conf) {
+
+        launchMenu.add(new RunConfigMenuItem(conf));
     }
 
     static class ListRenderer extends JCheckBox implements ListCellRenderer<Mod> {

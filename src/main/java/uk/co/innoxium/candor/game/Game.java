@@ -2,10 +2,12 @@ package uk.co.innoxium.candor.game;
 
 import com.github.f4b6a3.uuid.UuidCreator;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import uk.co.innoxium.candor.module.AbstractModule;
 import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.module.RunConfig;
 import uk.co.innoxium.candor.module.generic.GenericModule;
+import uk.co.innoxium.cybernize.json.JsonUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import java.util.UUID;
 public class Game {
 
     // A list of Run Configs
-    public ArrayList<RunConfig> runConfigs = new ArrayList<>();
+    public ArrayList<RunConfig> customLaunchConfigs = new ArrayList<>();
     // The UUID of the game
     private UUID uuid;
     // The path to the executable of the game
@@ -83,6 +85,7 @@ public class Game {
         ret.addProperty("gameExe", gameExe);
         ret.addProperty("modsFolder", modsFolder);
         ret.addProperty("moduleClass", moduleClass);
+        ret.add("customLaunchConfigs", JsonUtil.getGson().toJsonTree(customLaunchConfigs, new TypeToken<ArrayList<RunConfig>>(){}.getType()));
 
         return ret;
     }
@@ -132,6 +135,14 @@ public class Game {
     public UUID getUUID() {
 
         return uuid;
+    }
+
+    /**
+     * Adds a RunConfig to the current game.
+     */
+    public boolean addRunConfig(RunConfig conf) {
+
+        return customLaunchConfigs.add(conf);
     }
 
     // A toString instance used for debugging, will stay for the time being.

@@ -1,5 +1,6 @@
 package uk.co.innoxium.candor.module;
 
+
 // TODO: Migrate to Record once it is a release feature
 public class RunConfig {
 
@@ -37,4 +38,25 @@ public class RunConfig {
 
         return workingDir;
     }
+
+    public String getRunConfigName() {
+
+        return runConfigName;
+    }
+
+    public void setStartCommand(String startCommand) {
+
+        this.startCommand = startCommand;
+    }
+
+    public void setProgramArgs(String programArgs) {
+
+        this.programArgs = programArgs;
+    }
+
+    public void setWorkingDir(String workingDir) {
+
+        this.workingDir = workingDir;
+    }
+
 }

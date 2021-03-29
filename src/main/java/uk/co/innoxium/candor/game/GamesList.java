@@ -80,8 +80,8 @@ public class GamesList {
         return getGameFromUUID(Settings.lastGameUuid);
     }
 
-    /*
-        Returns the games list object
+    /**
+     * Returns the games list object
      */
     public static ArrayList<Game> getGamesList() {
 
@@ -118,6 +118,10 @@ public class GamesList {
                 JsonObject obj = (JsonObject) e;
 
                 Game g = JsonUtil.getGson().fromJson(obj, Game.class);
+                if(g.customLaunchConfigs == null) {
+
+                    g.customLaunchConfigs = new ArrayList<>();
+                }
                 GAMES_LIST.add(g);
             });
         }
@@ -133,14 +137,18 @@ public class GamesList {
         Logger.info("Writing Games List to file");
         // Get the contents of the current file.
         JsonObject contents = JsonUtil.getObjectFromPath(GAMES_FILE.toPath());
-        // Get the current "games" array of the file
-        JsonArray gamesArray = JsonUtil.getArray(contents, "games");
+        // Create a new JsonArray
+        JsonArray gamesArray = new JsonArray();
+        // Clear the gamesArray to stop duplications in certain events
+        contents.remove("games");
         // For each game in the Games List, add to the array if not already there.
         GAMES_LIST.forEach(game -> {
 
             JsonObject obj = game.toJson();
             if(!gamesArray.contains(obj)) gamesArray.add(obj);
         });
+        // Add the new array to the object
+        contents.add("games", gamesArray);
         // Create a file writer and ask Gson to write to file.
         FileWriter writer = JsonUtil.getFileWriter(GAMES_FILE);
         JsonUtil.getGson().toJson(contents, writer);
