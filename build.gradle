@@ -82,7 +82,7 @@ dependencies {
     implementation "org.asynchttpclient:async-http-client"
 
     // Flat LAF
-    implementation 'com.formdev:flatlaf:1.1'
+    implementation 'com.formdev:flatlaf:1.1.1'
     implementation 'com.formdev:flatlaf-extras:1.1'
     implementation 'com.formdev:svgSalamander:1.1.2.4'
 
