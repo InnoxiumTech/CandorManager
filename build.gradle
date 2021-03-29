@@ -78,7 +78,7 @@ dependencies {
     implementation "net.harawata:appdirs:1.2.1"
 
     // Async http client
-    implementation platform("org.asynchttpclient:async-http-client-bom:2.12.2")
+    implementation platform("org.asynchttpclient:async-http-client-bom:2.12.3")
     implementation "org.asynchttpclient:async-http-client"
 
     // Flat LAF
