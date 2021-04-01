@@ -21,44 +21,19 @@ public class RunConfigMenuItem extends JMenuItem {
 
         super("Launch: " + runConfig.getRunConfigName());
         this.runConfig = runConfig;
-//        this.addMouseListener(new RunConfigMouseHandler());
-//        this.addActionListener(this::onClicked);
+
+        this.addMouseListener(new RunConfigMouseHandler());
     }
 
-    private void onClicked(ActionEvent e) {
+    private JPopupMenu buildPopupMenu() {
 
-        System.out.println(e.getActionCommand());
-        System.out.println(e.getModifiers());
-        boolean rightClick = e.getModifiers() == 4; // This is super hacky.
-        System.out.println(rightClick);
+        JPopupMenu menu = new JPopupMenu();
 
-        if(rightClick) {
+        JMenuItem delete = new JMenuItem();
+//                delete.addActionListener(a -> delete(a, (RunConfigMenuItem)e.getComponent()));
+        menu.add(delete);
 
-            JPopupMenu menu = new JPopupMenu();
-
-            JMenuItem delete = new JMenuItem();
-            delete.addActionListener(this::delete);
-            menu.add(delete);
-
-            menu.show(this, this.getX(), this.getY());
-        } else {
-
-            ProcessBuilder builder = new ProcessBuilder();
-            builder.command(runConfig.getStartCommand(), runConfig.getProgramArgs());
-            String workingDir = runConfig.getWorkingDir();
-            if(workingDir != null && !workingDir.isEmpty()) {
-
-                builder.directory(new File(workingDir));
-            }
-            try {
-
-                Logger.info(builder.command().toString());
-                Process process = builder.start();
-            } catch(IOException ioException) {
-
-                ioException.printStackTrace();
-            }
-        }
+        return menu;
     }
 
     private void delete(ActionEvent actionEvent) {
@@ -86,6 +61,7 @@ public class RunConfigMenuItem extends JMenuItem {
         @Override
         public void mouseClicked(MouseEvent e) {
 
+            // Ensure we are only running on a left click
             if(SwingUtilities.isLeftMouseButton(e)) {
 
                 ProcessBuilder builder = new ProcessBuilder();
@@ -103,18 +79,7 @@ public class RunConfigMenuItem extends JMenuItem {
 
                     ioException.printStackTrace();
                 }
-            } else if(SwingUtilities.isRightMouseButton(e)) {
-
-                JPopupMenu menu = new JPopupMenu();
-
-                JMenuItem delete = new JMenuItem();
-//                delete.addActionListener(a -> delete(a, (RunConfigMenuItem)e.getComponent()));
-                menu.add(delete);
-
-                menu.show(e.getComponent(), e.getX(), e.getY());
             }
         }
-
-
     }
 }
