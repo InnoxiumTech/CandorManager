@@ -56,7 +56,6 @@ public class RunConfigDialog extends JDialog {
 
             SwingDialogs.showInfoMessage("Candor Mod Manager", "You have not selected a game.", JOptionPane.WARNING_MESSAGE);
         }
-        // TODO: Add verification and make do stuff
         this.dispose();
     }
 

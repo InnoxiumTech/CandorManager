@@ -9,7 +9,6 @@ import uk.co.innoxium.candor.tool.ToolsList;
 import uk.co.innoxium.candor.window.EntryScene;
 import uk.co.innoxium.candor.window.GameSelectScene;
 import uk.co.innoxium.candor.window.modscene.ModScene;
-import uk.co.innoxium.cybernize.util.ClassLoadUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,7 +48,7 @@ public class WindowUtils {
             }
         });
         mainFrame.setTitle("Candor Mod Manager");
-        mainFrame.setIconImage(new ImageIcon(ClassLoadUtil.getCL().getResource("logo.png")).getImage());
+        mainFrame.setIconImage(Resources.CANDOR_LOGO.getImage());
         // This check sets which scene would be loaded
         boolean showIntro = showIntroCheck();
         mainFrame.setResizable(!showIntro);

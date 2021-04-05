@@ -1,0 +1,13 @@
+task publishToLatest {
+
+//    println(incremental)
+    // Steps:
+    // First read the current version from version.info
+    // Next package up candor and publish to server
+    // Generate update notification for twitter/discord
+    // Update version info to next version
+}
+
+task generateVersionInfo {
+
+}

@@ -103,26 +103,31 @@ new FormModel {
 						name: "openGameFolderMenuItem"
 						"text": "Open Game Folder"
 						"actionCommand": "game"
+						"mnemonic": 71
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "openFolder", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "opemModsFolderMenuItem"
 						"text": "Open Mods Folder"
 						"actionCommand": "mods"
+						"mnemonic": 77
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "openFolder", true ) )
 					} )
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "launchMenu"
 					"text": "Launch"
+					"mnemonic": 76
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "launchGameMenuItem"
 						"text": "Launch Game"
+						"mnemonic": 76
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "runGameClicked", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "addLaunchConfigMenuItem"
 						"text": "Add Launch Config"
+						"mnemonic": 65
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "addLaunchConfig", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
@@ -130,9 +135,9 @@ new FormModel {
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "runConfigsMenuItem"
-						"text": "Custom Run Config(s)"
-						"enabled": false
-						"toolTipText": "Feature disabled currently, unfinished"
+						"text": "Manage Run Config(s)"
+						"mnemonic": 77
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "manageRunConfigsClicked", true ) )
 					} )
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
@@ -156,6 +161,7 @@ new FormModel {
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "toolsMenu"
 					"text": "Tools"
+					"mnemonic": 84
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "addToolItem"
 						"text": "Add Tool"

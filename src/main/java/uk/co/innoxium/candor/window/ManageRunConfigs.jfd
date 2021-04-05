@@ -5,6 +5,8 @@ new FormModel {
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 			name: "this"
+			"title": "Manage Run Configs"
+			"defaultCloseOperation": 2
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 				name: "dialogPane"
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
@@ -29,6 +31,10 @@ new FormModel {
 						name: "currentScrollPane"
 						add( new FormComponent( "javax.swing.JList" ) {
 							name: "currentList"
+							auxiliary() {
+								"JavaCodeGenerator.customCreate": true
+								"JavaCodeGenerator.typeParameters": "RunConfig"
+							}
 						} )
 					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 						"value": "cell 0 1"
@@ -40,16 +46,18 @@ new FormModel {
 					} ) {
 						name: "transferButtonPanel"
 						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "button1"
+							name: "moveLeftButton"
 							"text": "<"
-						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-							"value": "cell 0 0"
-						} )
-						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "button2"
-							"text": ">"
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "moveLeftClicked", true ) )
 						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 							"value": "cell 0 1"
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "moveRightButton"
+							"text": ">"
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "moveRightClicked", true ) )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 0"
 						} )
 					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 						"value": "cell 1 1"
@@ -58,6 +66,10 @@ new FormModel {
 						name: "removeScrollPane"
 						add( new FormComponent( "javax.swing.JList" ) {
 							name: "removeList"
+							auxiliary() {
+								"JavaCodeGenerator.customCreate": true
+								"JavaCodeGenerator.typeParameters": "RunConfig"
+							}
 						} )
 					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 						"value": "cell 2 1"
@@ -74,12 +86,14 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "saveButton"
 						"text": "Save"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "saveClicked", true ) )
 					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 						"value": "cell 0 0"
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "cancelButton"
 						"text": "Cancel"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cancelClicked", true ) )
 					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 						"value": "cell 1 0"
 					} )

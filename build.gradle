@@ -27,6 +27,7 @@ version 'snapshot'
 //apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'java'
+apply from: 'publish.gradle'
 
 mainClassName = 'uk.co.innoxium.candor.CandorLauncher'
 
@@ -184,7 +185,7 @@ publishing {
             artifact javadocJar
             groupId 'uk.co.innoxium.candor'
             artifactId 'candor-api'
-            version '0.2.20'
+            version '0.3.0.0'
         }
     }
     repositories {

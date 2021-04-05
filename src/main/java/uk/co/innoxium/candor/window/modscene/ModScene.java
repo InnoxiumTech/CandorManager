@@ -28,6 +28,7 @@ import uk.co.innoxium.candor.util.NativeDialogs;
 import uk.co.innoxium.candor.util.Resources;
 import uk.co.innoxium.candor.util.WindowUtils;
 import uk.co.innoxium.candor.window.AboutDialog;
+import uk.co.innoxium.candor.window.ManageRunConfigs;
 import uk.co.innoxium.candor.window.RunConfigDialog;
 import uk.co.innoxium.candor.window.component.RunConfigMenuItem;
 import uk.co.innoxium.candor.window.dnd.mod.ModListFileTransferHandler;
@@ -425,6 +426,12 @@ public class ModScene extends JPanel {
         dialog.setVisible(true);
     }
 
+    private void manageRunConfigsClicked(ActionEvent e) {
+
+        ManageRunConfigs manageDialog = new ManageRunConfigs(this, WindowUtils.mainFrame);
+        manageDialog.setVisible(true);
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         createUIComponents();
@@ -552,12 +559,14 @@ public class ModScene extends JPanel {
                 //---- openGameFolderMenuItem ----
                 openGameFolderMenuItem.setText("Open Game Folder");
                 openGameFolderMenuItem.setActionCommand("game");
+                openGameFolderMenuItem.setMnemonic('G');
                 openGameFolderMenuItem.addActionListener(e -> openFolder(e));
                 gameMenu.add(openGameFolderMenuItem);
 
                 //---- opemModsFolderMenuItem ----
                 opemModsFolderMenuItem.setText("Open Mods Folder");
                 opemModsFolderMenuItem.setActionCommand("mods");
+                opemModsFolderMenuItem.setMnemonic('M');
                 opemModsFolderMenuItem.addActionListener(e -> openFolder(e));
                 gameMenu.add(opemModsFolderMenuItem);
             }
@@ -566,22 +575,25 @@ public class ModScene extends JPanel {
             //======== launchMenu ========
             {
                 launchMenu.setText("Launch");
+                launchMenu.setMnemonic('L');
 
                 //---- launchGameMenuItem ----
                 launchGameMenuItem.setText("Launch Game");
+                launchGameMenuItem.setMnemonic('L');
                 launchGameMenuItem.addActionListener(e -> runGameClicked(e));
                 launchMenu.add(launchGameMenuItem);
 
                 //---- addLaunchConfigMenuItem ----
                 addLaunchConfigMenuItem.setText("Add Launch Config");
+                addLaunchConfigMenuItem.setMnemonic('A');
                 addLaunchConfigMenuItem.addActionListener(e -> addLaunchConfig(e));
                 launchMenu.add(addLaunchConfigMenuItem);
                 launchMenu.addSeparator();
 
                 //---- runConfigsMenuItem ----
-                runConfigsMenuItem.setText("Custom Run Config(s)");
-                runConfigsMenuItem.setEnabled(false);
-                runConfigsMenuItem.setToolTipText("Feature disabled currently, unfinished");
+                runConfigsMenuItem.setText("Manage Run Config(s)");
+                runConfigsMenuItem.setMnemonic('M');
+                runConfigsMenuItem.addActionListener(e -> manageRunConfigsClicked(e));
                 launchMenu.add(runConfigsMenuItem);
             }
             menuBar.add(launchMenu);
@@ -609,6 +621,7 @@ public class ModScene extends JPanel {
             //======== toolsMenu ========
             {
                 toolsMenu.setText("Tools");
+                toolsMenu.setMnemonic('T');
 
                 //---- addToolItem ----
                 addToolItem.setText("Add Tool");
@@ -644,6 +657,20 @@ public class ModScene extends JPanel {
     public void addNewRunConf(RunConfig conf) {
 
         launchMenu.add(new RunConfigMenuItem(conf));
+    }
+
+    public void refreshRunConfigs() {
+
+        for(Component menuItem : launchMenu.getMenuComponents()) {
+
+            if(menuItem instanceof RunConfigMenuItem) {
+
+                Logger.info("Removing menu item: " + ((RunConfigMenuItem) menuItem).getRunConfig().getRunConfigName());
+                launchMenu.remove(menuItem);
+            }
+        }
+        Game game = GamesList.getCurrentGame();
+        game.customLaunchConfigs.forEach(this::addNewRunConf);
     }
 
     static class ListRenderer extends JCheckBox implements ListCellRenderer<Mod> {
