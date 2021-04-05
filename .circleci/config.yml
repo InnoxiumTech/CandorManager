@@ -60,9 +60,9 @@ jobs:
           
       # As the JAR was only assembled in the first build container, build/libs will be empty in all the other build containers.
       - store_artifacts:
-          path: build/packaged/CandorModManager.zip
+          path: build/package/CandorModManager.zip
 
       # run tests!
       # - run: ./gradlew test
       - slack/status:
-          mentions: "ShadowChild"
+          mentions: "@ShadowChild"
