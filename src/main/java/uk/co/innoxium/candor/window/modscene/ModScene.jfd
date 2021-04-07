@@ -170,6 +170,26 @@ new FormModel {
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "addToolClicked", true ) )
 					} )
 				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "helpMenu"
+					"text": "Help"
+					"mnemonic": 72
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "reloadModsMenuItem"
+						"text": "Reload Mods from Disk"
+						"enabled": false
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "reloadModulesMenuItem"
+						"text": "Reload Modules"
+						"enabled": false
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "reinstallMenuItem"
+						"text": "Re-install mods"
+						"enabled": false
+					} )
+				} )
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "North"
 			} )

@@ -74,6 +74,10 @@ public class ModScene extends JPanel {
     private JMenuItem candorSettingButton;
     private JMenu toolsMenu;
     private JMenuItem addToolItem;
+    private JMenu helpMenu;
+    private JMenuItem reloadModsMenuItem;
+    private JMenuItem reloadModulesMenuItem;
+    private JMenuItem reinstallMenuItem;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
     public ModScene(String gameUuid) {
@@ -228,7 +232,7 @@ public class ModScene extends JPanel {
 
                 try {
 
-                    ModStore.removeModFile((Mod)o, true);
+                    ModStore.removeModFile(o, true);
                 } catch(IOException exception) {
 
                     exception.printStackTrace();
@@ -461,6 +465,10 @@ public class ModScene extends JPanel {
         candorSettingButton = new JMenuItem();
         toolsMenu = new JMenu();
         addToolItem = new JMenuItem();
+        helpMenu = new JMenu();
+        reloadModsMenuItem = new JMenuItem();
+        reloadModulesMenuItem = new JMenuItem();
+        reinstallMenuItem = new JMenuItem();
 
         //======== this ========
         setLayout(new BorderLayout());
@@ -631,6 +639,28 @@ public class ModScene extends JPanel {
                 toolsMenu.add(addToolItem);
             }
             menuBar.add(toolsMenu);
+
+            //======== helpMenu ========
+            {
+                helpMenu.setText("Help");
+                helpMenu.setMnemonic('H');
+
+                //---- reloadModsMenuItem ----
+                reloadModsMenuItem.setText("Reload Mods from Disk");
+                reloadModsMenuItem.setEnabled(false);
+                helpMenu.add(reloadModsMenuItem);
+
+                //---- reloadModulesMenuItem ----
+                reloadModulesMenuItem.setText("Reload Modules");
+                reloadModulesMenuItem.setEnabled(false);
+                helpMenu.add(reloadModulesMenuItem);
+
+                //---- reinstallMenuItem ----
+                reinstallMenuItem.setText("Re-install mods");
+                reinstallMenuItem.setEnabled(false);
+                helpMenu.add(reinstallMenuItem);
+            }
+            menuBar.add(helpMenu);
         }
         add(menuBar, BorderLayout.NORTH);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents

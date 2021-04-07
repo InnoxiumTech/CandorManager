@@ -39,7 +39,7 @@ java {
 
     toolchain {
 
-        languageVersion = JavaLanguageVersion.of(14)
+        languageVersion = JavaLanguageVersion.of(16)
         vendor = JvmVendorSpec.ADOPTOPENJDK
     }
 }
