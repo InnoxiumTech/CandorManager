@@ -4,6 +4,7 @@ plugins {
     id 'application'
 //    id 'com.github.johnrengelman.shadow' version '6.1.0'
     id 'org.beryx.runtime' version '1.12.2'
+    id 'com.sherepenko.gradle.plugin-build-version' version '0.2.3'
 }
 
 switch (org.gradle.internal.os.OperatingSystem.current()) {
@@ -107,6 +108,10 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-tinyfd::natives-windows"
     runtimeOnly "org.lwjgl:lwjgl-tinyfd::natives-macos"
     runtimeOnly "org.lwjgl:lwjgl-tinyfd::natives-linux"
+
+    // Record builder
+    annotationProcessor 'io.soabase.record-builder:record-builder-processor:1.19'
+    compileOnly 'io.soabase.record-builder:record-builder-core:1.19'
 }
 
 jar {
@@ -185,7 +190,7 @@ publishing {
             artifact javadocJar
             groupId 'uk.co.innoxium.candor'
             artifactId 'candor-api'
-            version '0.3.0.0'
+            version '0.3.0-pre'
         }
     }
     repositories {

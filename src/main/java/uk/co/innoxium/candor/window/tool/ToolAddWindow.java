@@ -1,9 +1,7 @@
 package uk.co.innoxium.candor.window.tool;
 
 import net.miginfocom.swing.MigLayout;
-import uk.co.innoxium.candor.module.RunConfig;
 import uk.co.innoxium.candor.tool.Tool;
-import uk.co.innoxium.candor.tool.ToolsList;
 import uk.co.innoxium.candor.util.NativeDialogs;
 import uk.co.innoxium.candor.util.WindowUtils;
 
@@ -89,12 +87,12 @@ public class ToolAddWindow extends JDialog {
 
             Tool tool = new Tool();
             tool.name = nameField.getText();
-            RunConfig runConfig = new RunConfig(tool.name);
-            runConfig.startCommand = toolExeField.getText();
-            runConfig.programArgs = argsField.getText();
-            runConfig.workingDir = workingDirField.getText();
-            tool.runConfig = runConfig;
-            ToolsList.addTool(tool);
+//            RunConfig runConfig = new RunConfig(tool.name);
+//            runConfig.startCommand = toolExeField.getText();
+//            runConfig.programArgs = argsField.getText();
+//            runConfig.workingDir = workingDirField.getText();
+//            tool.runConfig = runConfig;
+//            ToolsList.addTool(tool);
             this.dispose();
         }
     }

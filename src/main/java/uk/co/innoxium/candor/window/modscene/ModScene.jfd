@@ -165,7 +165,6 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "addToolItem"
 						"text": "Add Tool"
-						"enabled": false
 						"toolTipText": "Disabled for now, feature unfinished"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "addToolClicked", true ) )
 					} )

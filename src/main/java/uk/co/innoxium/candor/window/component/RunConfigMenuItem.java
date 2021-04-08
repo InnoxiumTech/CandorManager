@@ -22,7 +22,24 @@ public class RunConfigMenuItem extends JMenuItem {
         super("Launch: " + runConfig.getRunConfigName());
         this.runConfig = runConfig;
 
-        this.addMouseListener(new RunConfigMouseHandler());
+        this.addActionListener(e -> {
+
+            ProcessBuilder builder = new ProcessBuilder();
+            builder.command(runConfig.getStartCommand(), runConfig.getProgramArgs());
+            String workingDir = runConfig.getWorkingDir();
+            if(workingDir != null && !workingDir.isEmpty()) {
+
+                builder.directory(new File(workingDir));
+            }
+            try {
+
+                Logger.info(builder.command().toString());
+                Process process = builder.start();
+            } catch(IOException ioException) {
+
+                ioException.printStackTrace();
+            }
+        });
     }
 
     private JPopupMenu buildPopupMenu() {
@@ -56,7 +73,7 @@ public class RunConfigMenuItem extends JMenuItem {
         return runConfig;
     }
 
-    private class RunConfigMouseHandler extends MouseAdapter {
+    public class RunConfigMouseHandler extends MouseAdapter {
 
         @Override
         public void mouseClicked(MouseEvent e) {

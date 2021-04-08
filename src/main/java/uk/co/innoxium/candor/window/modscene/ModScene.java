@@ -633,7 +633,6 @@ public class ModScene extends JPanel {
 
                 //---- addToolItem ----
                 addToolItem.setText("Add Tool");
-                addToolItem.setEnabled(false);
                 addToolItem.setToolTipText("Disabled for now, feature unfinished");
                 addToolItem.addActionListener(e -> addToolClicked(e));
                 toolsMenu.add(addToolItem);
