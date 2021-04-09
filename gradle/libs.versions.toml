@@ -1,0 +1,51 @@
+[versions]
+log4j = "3.0.0-SNAPSHOT"
+cybernize = "1.1.6"
+night_config = "3.6.3"
+flatlaf = "1.1.2"
+
+[libraries]
+
+# There are a range of variations on the declaration of libraries in this file.
+# This is to show the different ways of declaring a library
+# We may consolidate this to a single declaration type in the future.
+
+# Log4j - wrapped under the log4j bundle
+log4j-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j" }
+log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
+log4j-slf4j-impl = { module = "org.apache.logging.log4j:log4j-slf4j-impl", version.ref = "log4j" }
+disruptor = { module = "com.lmax:disruptor", version = "3.4.2" }
+
+# Innoxium deps - wrapped under the innoxium bundle
+cybernize = { module = "uk.co.innoxium.cybernize:cybernize", version.ref = "cybernize" }
+swingext = { module = "uk.co.innoxium.swing:swingext", version = "0.1" }
+
+# An example of the standard gradle way
+miglayout = 'com.miglayout:miglayout-swing:5.2'
+
+# Google deps - wrapped under the google bundle
+gson = { module = "com.google.code.gson:gson", version = "2.8.6" }
+guava = { module = "com.google.guava:guava", version = "30.1.1-jre" }
+
+# Apache libraries - wrapped under the apache bundle
+commons-lang3 = { module = "org.apache.commons:commons-lang3", version = "3.12.0" }
+commons-io = { module = "commons-io:commons-io", version = "2.8.0" }
+commons-math3 = { module = "org.apache.commons:commons-math3", version = "3.6.1" }
+
+# FlatLAF - wrapped under the flatlaf bundle
+flatlaf-core = { module = "com.formdev:flatlaf", version.ref = "flatlaf" }
+flatlaf-extras = { module = "com.formdev:flatlaf-extras", version.ref = "flatlaf" }
+svgSalamander = { module = "com.formdev:svgSalamander", version = "1.1.2.4" }
+
+#Misc
+nightconfig = { group = "com.electronwill.night-config", name = "toml", version.ref = "night_config" }
+uuidcreator = "com.github.f4b6a3:uuid-creator:2.7.8"
+appdirs = "net.harawata:appdirs:1.2.1"
+eaasync = "com.ea.async:ea-async:1.2.3"
+
+[bundles]
+log4j = ["log4j-api", "log4j-core", "log4j-slf4j-impl", "disruptor"]
+innoxium = ["cybernize", "swingext"]
+google = ["gson", "guava"]
+apache = ["commons-lang3", "commons-io", "commons-math3"]
+flatlaf = ["flatlaf-core", "flatlaf-extras", "svgSalamander"]

@@ -4,7 +4,6 @@ plugins {
     id 'application'
 //    id 'com.github.johnrengelman.shadow' version '6.1.0'
     id 'org.beryx.runtime' version '1.12.2'
-    id 'com.sherepenko.gradle.plugin-build-version' version '0.2.3'
 }
 
 switch (org.gradle.internal.os.OperatingSystem.current()) {
@@ -61,40 +60,34 @@ repositories {
 
 dependencies {
 
-    implementation 'uk.co.innoxium.cybernize:cybernize:1.1.6'
-    implementation 'uk.co.innoxium.swing:swingext:0.1'
-    implementation 'com.electronwill.night-config:toml:3.6.3'
-    implementation 'com.miglayout:miglayout-swing:5.2'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.google.guava:guava:30.1.1-jre'
-    implementation "org.apache.commons:commons-lang3:3.12.0"
-    implementation "commons-io:commons-io:2.8.0"
-    implementation "org.apache.commons:commons-math3:3.6.1"
-    implementation 'com.github.f4b6a3:uuid-creator:2.7.8'
-    implementation 'org.apache.logging.log4j:log4j-api:3.0.0-SNAPSHOT'
-    implementation 'org.apache.logging.log4j:log4j-core:3.0.0-SNAPSHOT'
-    implementation "org.apache.logging.log4j:log4j-slf4j-impl:3.0.0-SNAPSHOT"
+    // Anything accessed by using libs.something can be found in /gradle/libs.version.toml - a gradle 7 feature preview
+    implementation libs.bundles.innoxium
 
-    // required for async log4j
-    implementation "com.lmax:disruptor:3.4.2"
+    implementation libs.nightconfig
+    implementation libs.miglayout
 
-    implementation "net.harawata:appdirs:1.2.1"
+    implementation libs.bundles.google
+    implementation libs.bundles.apache
 
-    // Async http client
+    implementation libs.uuidcreator
+
+    // Includes disruptor for async logging
+    implementation libs.bundles.log4j
+
+    implementation libs.appdirs
+
+    // Async http client - BOM's should not go in version catalog, maybe in the future?
     implementation platform("org.asynchttpclient:async-http-client-bom:2.12.3")
     implementation "org.asynchttpclient:async-http-client"
 
     // Flat LAF
-    implementation 'com.formdev:flatlaf:1.1.2'
-    implementation 'com.formdev:flatlaf-extras:1.1.2'
-    implementation 'com.formdev:svgSalamander:1.1.2.4'
-
-    implementation platform("org.lwjgl:lwjgl-bom:3.3.0-SNAPSHOT")
+    implementation libs.bundles.flatlaf
 
     // EA Async, adds async/await like .NET has
-    implementation 'com.ea.async:ea-async:1.2.3'
+    implementation libs.eaasync
 
     // We want native file dialogs, lets use LWJGL for that
+    implementation platform("org.lwjgl:lwjgl-bom:3.3.0-SNAPSHOT")
     implementation "org.lwjgl:lwjgl"
     implementation "org.lwjgl:lwjgl-nfd"
     implementation "org.lwjgl:lwjgl-tinyfd"
