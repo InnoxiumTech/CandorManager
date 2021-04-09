@@ -22,6 +22,7 @@ import uk.co.innoxium.candor.mod.store.ModStore;
 import uk.co.innoxium.candor.module.AbstractModule;
 import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.module.RunConfig;
+import uk.co.innoxium.candor.process.ProcessLauncher;
 import uk.co.innoxium.candor.thread.ThreadModInstaller;
 import uk.co.innoxium.candor.util.Logger;
 import uk.co.innoxium.candor.util.NativeDialogs;
@@ -255,20 +256,12 @@ public class ModScene extends JPanel {
 
     private void runGameClicked(ActionEvent e) {
 
-        // Todo: Move in to run config
+        // TODO: this has been updated, baby steps towards decoupling code from the UI
         RunConfig runConfig = ModuleSelector.currentModule.getDefaultRunConfig();
 
-        ProcessBuilder builder = new ProcessBuilder();
-        builder.command(runConfig.getStartCommand(), runConfig.getProgramArgs());
-        String workingDir = runConfig.getWorkingDir();
-        if(workingDir != null && !workingDir.isEmpty()) {
-
-            builder.directory(new File(workingDir));
-        }
         try {
 
-            Logger.info(builder.command().toString());
-            Process process = builder.start();
+            Process process = ProcessLauncher.startProcess(runConfig);
         } catch(IOException ioException) {
 
             ioException.printStackTrace();
