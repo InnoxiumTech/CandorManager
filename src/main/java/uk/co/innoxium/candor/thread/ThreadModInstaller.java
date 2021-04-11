@@ -58,7 +58,7 @@ public class ThreadModInstaller extends Thread {
             if(modInstaller.canInstall(mod)) {
 
                 // Send the mod to the module installer to be installed
-                installed = modInstaller.install(mod);
+//                installed = modInstaller.install(mod);
             }
             // If it was successfully installed, update the state of the mod and fire a change to all listeners
             if(installed) {

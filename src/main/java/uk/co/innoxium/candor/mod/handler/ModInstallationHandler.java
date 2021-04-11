@@ -5,6 +5,7 @@ import uk.co.innoxium.candor.mod.store.ModStore;
 import uk.co.innoxium.candor.module.AbstractModInstaller;
 import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.util.Logger;
+import uk.co.innoxium.candor.window.dialog.SwingDialogs;
 
 import javax.swing.*;
 import java.util.LinkedList;
@@ -14,15 +15,13 @@ import java.util.concurrent.CompletableFuture;
 public class ModInstallationHandler {
 
     final LinkedList<Mod> queuedMods;
-    final JList<Mod> modsList;
 
-    public ModInstallationHandler(LinkedList<Mod> queuedMods, JList<Mod> modsList) {
+    public ModInstallationHandler(LinkedList<Mod> queuedMods) {
 
         this.queuedMods = queuedMods;
-        this.modsList = modsList;
     }
 
-    public CompletableFuture installMods() {
+    public CompletableFuture<Boolean> installMods() {
 
         // TODO: Wrap this in a future so await can be called on it
 
@@ -38,11 +37,12 @@ public class ModInstallationHandler {
             // Check if we can install this mod
             if(modInstaller.canInstall(mod)) {
 
-                // This will be set by the result of the await call
-                boolean installed = false;
                 // We now try to install the mod, asynchronously.
                 // TODO: migrate modInstallers to futures
-//                com.ea.async.Async.await(modInstaller.install(mod));
+                Logger.info("Attempting to install mod " + mod.getReadableName());
+                Boolean installed = modInstaller.install(mod).join();
+
+                Logger.info("Installation returned " + installed);
 
                 if(installed) {
 
@@ -50,13 +50,19 @@ public class ModInstallationHandler {
                     ModStore.updateModState(mod, Mod.State.ENABLED);
                     // TODO: make this better, update the jlist directly
                     ModStore.MODS.fireChangeToListeners("install", mod, true);
+                } else {
+
+                    Logger.info("Mod " + mod.getReadableName() + " was not installed.");
+                    SwingDialogs.showInfoMessage("Install Warning", "The Mod " + mod.getReadableName() + " was not installed.", JOptionPane.WARNING_MESSAGE);
                 }
+            } else {
+
+                // We cannot install this mod, report to use and skip
+                Logger.info("Module reported that mod '" + mod.getName() + "' cannot be installed, skipping");
             }
-            // We cannot install this mod, report to use and skip
-            Logger.info("Module reported that mod '" + mod.getName() + "' cannot be installed, skipping");
         }
 
-        return null;
+        return CompletableFuture.completedFuture(true);
     }
 
     public CompletableFuture uninstallMods() {

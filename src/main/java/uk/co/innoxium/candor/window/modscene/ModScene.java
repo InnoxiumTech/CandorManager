@@ -17,12 +17,12 @@ import uk.co.innoxium.candor.game.Game;
 import uk.co.innoxium.candor.game.GamesList;
 import uk.co.innoxium.candor.mod.Mod;
 import uk.co.innoxium.candor.mod.ModList;
+import uk.co.innoxium.candor.mod.handler.ModInstallationHandler;
 import uk.co.innoxium.candor.mod.store.ModStore;
 import uk.co.innoxium.candor.module.AbstractModule;
 import uk.co.innoxium.candor.module.ModuleSelector;
 import uk.co.innoxium.candor.module.RunConfig;
 import uk.co.innoxium.candor.process.ProcessLauncher;
-import uk.co.innoxium.candor.thread.ThreadModInstaller;
 import uk.co.innoxium.candor.util.Logger;
 import uk.co.innoxium.candor.util.NativeDialogs;
 import uk.co.innoxium.candor.util.Resources;
@@ -46,7 +46,7 @@ import java.util.*;
 
 public class ModScene extends JPanel {
 
-    private final LinkedList<ThreadModInstaller> queuedMods = new LinkedList<>();
+    private final LinkedList<Mod> queuedMods = new LinkedList<>();
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     private JPanel managerPanel;
     private JPanel managerPaneMenu;
@@ -116,17 +116,17 @@ public class ModScene extends JPanel {
             public void handleChange(String identifier, Collection<? extends Mod> c, boolean result) {
 
                 ((AbstractTableModel)modsTable.getModel()).fireTableDataChanged();
-                c.forEach(mod -> {
-
-                    if(identifier.equals("install")) {
-
-                        queuedMods.removeFirst();
-                        if(queuedMods.size() > 0) {
-
-                            queuedMods.getFirst().start();
-                        }
-                    }
-                });
+//                c.forEach(mod -> {
+//
+//                    if(identifier.equals("install")) {
+//
+//                        queuedMods.removeFirst();
+//                        if(queuedMods.size() > 0) {
+//
+//                            queuedMods.getFirst().start();
+//                        }
+//                    }
+//                });
             }
         });
     }
@@ -202,11 +202,22 @@ public class ModScene extends JPanel {
 
     private void installModsClicked(ActionEvent e) {
 
-        NativeDialogs.showInfoDialog("Candor Mod Manager",
-                "You have not selected any mods to install.",
-                "ok",
-                "info",
-                true);
+        if(modsTable.getSelectedRows().length > 0) {
+
+            ArrayList<Mod> mods = new ArrayList<>();
+            for(int i : modsTable.getSelectedRows()) {
+
+                mods.add(ModStore.MODS.getAtIndex(i));
+            }
+            doInstallMod(mods);
+        } else {
+
+            NativeDialogs.showInfoDialog("Candor Mod Manager",
+                    "You have not selected any mods to install.",
+                    "ok",
+                    "info",
+                    true);
+        }
     }
 
     private void runGameClicked(ActionEvent e) {
@@ -264,7 +275,6 @@ public class ModScene extends JPanel {
 
     public void doInstallMod(ArrayList<Mod> mods) {
 
-        queuedMods.clear();
         // Any mods in here will enable the message box saying it was installed
         ArrayList<Mod> badMods = new ArrayList<>();
 
@@ -274,12 +284,7 @@ public class ModScene extends JPanel {
             if(mod.getState() == Mod.State.ENABLED) {
 
                 badMods.add(mod);
-            } else {
-
-                // TODO: Swap to new ModInstallerHandler
-                ThreadModInstaller thread = new ThreadModInstaller(mod);
-
-                queuedMods.add(thread);
+                mods.remove(mod);
             }
         });
 
@@ -301,8 +306,8 @@ public class ModScene extends JPanel {
         }
 
         // install the mods one by one
-        if(queuedMods.size() > 0)
-            queuedMods.getFirst().start();
+        if(mods.size() > 0)
+            new ModInstallationHandler(new LinkedList<>(mods)).installMods().join();
     }
 
     private void doUninstallMods(ArrayList<Mod> toUninstall) {

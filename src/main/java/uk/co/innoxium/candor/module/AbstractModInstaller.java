@@ -3,6 +3,8 @@ package uk.co.innoxium.candor.module;
 import uk.co.innoxium.candor.implement.FileMerger;
 import uk.co.innoxium.candor.mod.Mod;
 
+import java.util.concurrent.CompletableFuture;
+
 
 public abstract class AbstractModInstaller {
 
@@ -15,7 +17,7 @@ public abstract class AbstractModInstaller {
 
     public abstract boolean canInstall(Mod mod);
 
-    public abstract boolean install(Mod mod);
+    public abstract CompletableFuture<Boolean> install(Mod mod);
 
     public abstract boolean uninstall(Mod mod);
 

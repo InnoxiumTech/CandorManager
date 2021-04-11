@@ -11,6 +11,7 @@ import uk.co.innoxium.cybernize.archive.ArchiveBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 
 
 public class GenericModInstaller extends AbstractModInstaller {
@@ -27,7 +28,7 @@ public class GenericModInstaller extends AbstractModInstaller {
 
     // Returns whether the mod was installed or not
     @Override
-    public boolean install(Mod mod) {
+    public CompletableFuture<Boolean> install(Mod mod) {
 
         File modDir = this.module.getModsFolder();
         if(!modDir.exists()) modDir.mkdirs();
@@ -37,12 +38,13 @@ public class GenericModInstaller extends AbstractModInstaller {
             try {
 
                 Archive archive = new ArchiveBuilder(mod.getFile()).outputDirectory(modDir).build();
-                return archive.extract();
+                if(archive.extract())
+                    return CompletableFuture.completedFuture(true);
 //                ZipUtils.unZipIt(mod.getFile().getCanonicalPath(), modDir.getCanonicalPath());
             } catch (IOException exception) {
 
                 exception.printStackTrace();
-                return false;
+                return CompletableFuture.failedFuture(exception);
             }
         } else {
 
@@ -51,16 +53,16 @@ public class GenericModInstaller extends AbstractModInstaller {
                 if (!FileUtils.directoryContains(modDir, mod.getFile())) {
 
                     FileUtils.copyFileToDirectory(mod.getFile(), modDir);
-                    return true;
+                    return CompletableFuture.completedFuture(true);
                 }
             } catch (IOException exception) {
 
                 exception.printStackTrace();
-                return false;
+                return CompletableFuture.completedFuture(true);
             }
         }
 
-        return false;
+        return CompletableFuture.completedFuture(false);
     }
 
     @Override
