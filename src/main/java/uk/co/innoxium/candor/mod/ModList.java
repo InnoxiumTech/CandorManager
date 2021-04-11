@@ -123,6 +123,22 @@ public class ModList {
     }
 
     /**
+     * Gets the size of the mods list array
+     */
+    public int size() {
+
+        return MODS_LIST.size();
+    }
+
+    /**
+     * Gets the Mod instance at the given index
+     */
+    public Mod getAtIndex(int index) {
+
+        return MODS_LIST.get(index);
+    }
+
+    /**
      * An interface that allows you to act upon a change.
      */
     public interface ListChangeListener<T> {

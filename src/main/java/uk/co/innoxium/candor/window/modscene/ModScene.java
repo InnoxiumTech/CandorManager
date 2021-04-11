@@ -10,7 +10,6 @@ import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 import com.github.f4b6a3.uuid.util.UuidConverter;
-import com.google.common.collect.Lists;
 import net.miginfocom.swing.MigLayout;
 import uk.co.innoxium.candor.CandorLauncher;
 import uk.co.innoxium.candor.Settings;
@@ -37,6 +36,7 @@ import uk.co.innoxium.candor.window.tool.ToolAddWindow;
 import uk.co.innoxium.swing.util.DesktopUtil;
 
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -55,8 +55,8 @@ public class ModScene extends JPanel {
     private JButton removeModsButton;
     private JButton installModsButton;
     private JButton toggleButton;
-    private JScrollPane listScrollPane;
-    private JList<Mod> installedModsJList;
+    private JScrollPane tableScrollPane;
+    private JTable modsTable;
     private JMenuBar menuBar;
     private JMenu fileMenu;
     private JMenuItem applyModsMenuItem;
@@ -115,7 +115,7 @@ public class ModScene extends JPanel {
             @Override
             public void handleChange(String identifier, Collection<? extends Mod> c, boolean result) {
 
-                installedModsJList.setListData(ModStore.MODS.toArray());
+                ((AbstractTableModel)modsTable.getModel()).fireTableDataChanged();
                 c.forEach(mod -> {
 
                     if(identifier.equals("install")) {
@@ -135,60 +135,14 @@ public class ModScene extends JPanel {
 
         darkThemeRadioButton = new JRadioButtonMenuItem("Enable Dark Theme", Settings.darkTheme);
 
-        installedModsJList = new JList<>(ModStore.MODS.toArray());
-
-        installedModsJList.setCellRenderer(new ListRenderer());
-        installedModsJList.setFont(Resources.fantasque.deriveFont(24f));
-        installedModsJList.setDragEnabled(true);
-        installedModsJList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-//        installedModsJList.setSelectionModel(new DefaultListSelectionModel() {
-//
-//            private static final long serialVersionUID = 1L;
-//
-//            boolean gestureStarted = false;
-//
-//            @Override
-//            public void setSelectionInterval(int index0, int index1) {
-//
-//                if(!gestureStarted) {
-//
-//                    if (index0 == index1) {
-//
-//                        if (isSelectedIndex(index0)) {
-//
-//                            removeSelectionInterval(index0, index0);
-//                            return;
-//                        }
-//                    }
-//                    super.setSelectionInterval(index0, index1);
-//                }
-//                gestureStarted = true;
-//            }
-//
-//            @Override
-//            public void addSelectionInterval(int index0, int index1) {
-//
-//                if (index0==index1) {
-//
-//                    if (isSelectedIndex(index0)) {
-//
-//                        removeSelectionInterval(index0, index0);
-//                        return;
-//                    }
-//                    super.addSelectionInterval(index0, index1);
-//                }
-//            }
-//
-//            @Override
-//            public void setValueIsAdjusting(boolean isAdjusting) {
-//
-//                if (!isAdjusting) {
-//
-//                    gestureStarted = false;
-//                }
-//            }
-//        });
-        installedModsJList.addMouseListener(new ModSceneMouseAdapter(this));
+        modsTable = new JTable(new ModsTableModel());
+        modsTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        modsTable.setDragEnabled(true);
+        modsTable.setFont(Resources.getFantasque(20f));
+        modsTable.setShowGrid(true);
+        // Having autoSort messes with indices which i cba to deal with rn
+//        modsTable.setAutoCreateRowSorter(true);
+        modsTable.addMouseListener(new ModSceneMouseAdapter(this));
     }
 
     private void settingsClicked(ActionEvent e) {
@@ -221,37 +175,38 @@ public class ModScene extends JPanel {
 
         if(NativeDialogs.showConfirmDialog("Remove Selected Mods")) {
 
-            if(installedModsJList.getSelectedValuesList().isEmpty()) {
+            if(modsTable.getSelectedRows().length == 0) {
+
                 NativeDialogs.showInfoDialog(
                         "Candor Mod Manager",
                         "You have not selected any mods to remove.",
                         "ok",
                         "warning",
                         false);
-            }
-            installedModsJList.getSelectedValuesList().forEach(o -> {
+            } else {
 
-                try {
+                int[] selectedRows = modsTable.getSelectedRows();
+                for(int i : selectedRows) {
 
-                    ModStore.removeModFile(o, true);
-                } catch(IOException exception) {
+                    try {
 
-                    exception.printStackTrace();
+                        ModStore.removeModFile(ModStore.MODS.getAtIndex(i), true);
+                    } catch(IOException ioException) {
+
+                        ioException.printStackTrace();
+                    }
                 }
-            });
+            }
         }
     }
 
     private void installModsClicked(ActionEvent e) {
 
-        if(installedModsJList.getSelectedValue() != null)
-            doInstallMod(Lists.newArrayList(installedModsJList.getSelectedValue()));
-        else
-            NativeDialogs.showInfoDialog("Candor Mod Manager",
-                    "You have not selected any mods to install.",
-                    "ok",
-                    "info",
-                    true);
+        NativeDialogs.showInfoDialog("Candor Mod Manager",
+                "You have not selected any mods to install.",
+                "ok",
+                "info",
+                true);
     }
 
     private void runGameClicked(ActionEvent e) {
@@ -269,44 +224,41 @@ public class ModScene extends JPanel {
     }
 
     // TODO: Add support for modules to determine how to toggle mods, e.g. via a plugin list for GameBryo games
+    // Use toggleSelectedModsTable for the time being until table ui is finished
+    @Deprecated
     public void toggleSelectedMods(ActionEvent e) {
+
+        toggleSelectedModsTable(e);
+    }
+
+    public void toggleSelectedModsTable(ActionEvent e) {
 
         if(NativeDialogs.showConfirmDialog("Toggle Selected Mods")) {
 
-            if(installedModsJList.getSelectedValuesList().isEmpty()) {
-
-                NativeDialogs.showInfoDialog(
-                        "Candor Mod Manager",
-                        "You have not selected any mods to toggle.",
-                        "ok",
-                        "warning",
-                        false);
-            }
+            int[] selectedRows = modsTable.getSelectedRows();
+            int column = modsTable.getSelectedColumn();
             ArrayList<Mod> toInstall = new ArrayList<>();
-            installedModsJList.getSelectedValuesList().forEach(mod -> {
+            ArrayList<Mod> toUninstall = new ArrayList<>();
+            for(int i : selectedRows) {
 
-                // Check if we should uninstall
-                if(mod.getState() == Mod.State.ENABLED && ModuleSelector.currentModule.getModInstaller().uninstall(mod)) {
+                Mod mod = ModStore.MODS.getAtIndex(i);
+                if(mod != null) {
 
-                    mod.setState(Mod.State.DISABLED);
-                    ModStore.updateModState(mod, Mod.State.DISABLED);
-                    ModStore.MODS.fireChangeToListeners("uninstall", mod, true);
-                } else {
+                    // Check if we should uninstall
+                    if(mod.getState() == Mod.State.ENABLED) {
 
-                    // Else add to mod install queue
-                    toInstall.add(mod);
+                        toUninstall.add(mod);
+                    } else {
+
+                        // Else add to mod install queue
+                        toInstall.add(mod);
+                    }
                 }
                 // Attempt to install any mods we toggled
                 if(toInstall.size() > 0) doInstallMod(toInstall);
-//                try {
-//
-//                    Mod mod = (Mod)o;
-//                    ModStore.removeModFile((Mod) o, false);
-//                } catch (IOException exception) {
-//
-//                    exception.printStackTrace();
-//                }
-            });
+                // Then attempt to uninstall any selected mods
+                if(toUninstall.size() > 0) doUninstallMods(toUninstall);
+            }
         }
     }
 
@@ -351,6 +303,20 @@ public class ModScene extends JPanel {
         // install the mods one by one
         if(queuedMods.size() > 0)
             queuedMods.getFirst().start();
+    }
+
+    private void doUninstallMods(ArrayList<Mod> toUninstall) {
+
+        toUninstall.forEach(mod -> {
+
+            if(ModuleSelector.currentModule.getModInstaller().uninstall(mod)) {
+
+                ModStore.updateModState(mod, Mod.State.DISABLED);
+                ModStore.MODS.fireChangeToListeners("uninstall", mod, true);
+                mod.setState(Mod.State.DISABLED);
+                ((AbstractTableModel)modsTable.getModel()).fireTableDataChanged();
+            }
+        });
     }
 
     private void newGameClicked(ActionEvent e) {
@@ -440,7 +406,7 @@ public class ModScene extends JPanel {
         removeModsButton = new JButton();
         installModsButton = new JButton();
         toggleButton = new JButton();
-        listScrollPane = new JScrollPane();
+        tableScrollPane = new JScrollPane();
         menuBar = new JMenuBar();
         fileMenu = new JMenu();
         applyModsMenuItem = new JMenuItem();
@@ -473,8 +439,8 @@ public class ModScene extends JPanel {
                 // columns
                 "[fill]",
                 // rows
-                "[]" +
-                "[]"));
+                "[fill]" +
+                "[fill]"));
 
             //======== managerPaneMenu ========
             {
@@ -511,11 +477,11 @@ public class ModScene extends JPanel {
             }
             managerPanel.add(managerPaneMenu, "cell 0 0");
 
-            //======== listScrollPane ========
+            //======== tableScrollPane ========
             {
-                listScrollPane.setViewportView(installedModsJList);
+                tableScrollPane.setViewportView(modsTable);
             }
-            managerPanel.add(listScrollPane, "cell 0 1,dock center");
+            managerPanel.add(tableScrollPane, "cell 0 1,dock center");
         }
         add(managerPanel, BorderLayout.CENTER);
 
@@ -665,7 +631,8 @@ public class ModScene extends JPanel {
         // Set the label text
         gameLabel.setText(ModuleSelector.currentModule.getReadableGameName(GamesList.getGameFromUUID(UuidConverter.fromString(Settings.lastGameUuid))).toUpperCase(Locale.ROOT));
         // Add the Drag'n'Drop handler
-        installedModsJList.setTransferHandler(new ModListFileTransferHandler());
+        modsTable.setTransferHandler(new ModListFileTransferHandler());
+//        installedModsJList.setTransferHandler(new ModListFileTransferHandler());
         // Add the run configs to a menu item
         Game game = GamesList.getCurrentGame();
         game.customLaunchConfigs.forEach(this::addNewRunConf);
