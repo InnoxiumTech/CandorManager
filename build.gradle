@@ -183,7 +183,7 @@ publishing {
             artifact javadocJar
             groupId 'uk.co.innoxium.candor'
             artifactId 'candor-api'
-            version '0.3.0-pre2'
+            version '0.3.0-pre3'
         }
     }
     repositories {

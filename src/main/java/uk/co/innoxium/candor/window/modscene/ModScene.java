@@ -5,7 +5,6 @@
 package uk.co.innoxium.candor.window.modscene;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
-import com.formdev.flatlaf.FlatIconColors;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
@@ -75,6 +74,7 @@ public class ModScene extends JPanel {
     private JMenuItem candorSettingButton;
     private JMenu toolsMenu;
     private JMenuItem addToolItem;
+    private JMenu moduleMenu;
     private JMenu helpMenu;
     private JMenuItem reloadModsMenuItem;
     private JMenuItem reloadModulesMenuItem;
@@ -429,6 +429,7 @@ public class ModScene extends JPanel {
         candorSettingButton = new JMenuItem();
         toolsMenu = new JMenu();
         addToolItem = new JMenuItem();
+        moduleMenu = new JMenu();
         helpMenu = new JMenu();
         reloadModsMenuItem = new JMenuItem();
         reloadModulesMenuItem = new JMenuItem();
@@ -603,6 +604,12 @@ public class ModScene extends JPanel {
             }
             menuBar.add(toolsMenu);
 
+            //======== moduleMenu ========
+            {
+                moduleMenu.setText("Module");
+            }
+            menuBar.add(moduleMenu);
+
             //======== helpMenu ========
             {
                 helpMenu.setText("Help");
@@ -641,6 +648,8 @@ public class ModScene extends JPanel {
         // Add the run configs to a menu item
         Game game = GamesList.getCurrentGame();
         game.customLaunchConfigs.forEach(this::addNewRunConf);
+
+        ModuleSelector.currentModule.getMenuItems().forEach(moduleMenu::add);
     }
 
     public JMenu getToolsMenu() {
@@ -665,26 +674,5 @@ public class ModScene extends JPanel {
         }
         Game game = GamesList.getCurrentGame();
         game.customLaunchConfigs.forEach(this::addNewRunConf);
-    }
-
-    static class ListRenderer extends JCheckBox implements ListCellRenderer<Mod> {
-
-        @Override
-        public Component getListCellRendererComponent(JList<? extends Mod> list, Mod value, int index, boolean isSelected, boolean cellHasFocus) {
-
-            this.setEnabled(value.getState() == Mod.State.ENABLED);
-            this.setSelected(value.getState() == Mod.State.ENABLED);
-            this.setFont(list.getFont());
-            this.setBackground(list.getBackground());
-            this.setForeground(list.getForeground());
-
-            if(isSelected) {
-
-                this.setBackground(Color.decode(String.valueOf(FlatIconColors.OBJECTS_GREY.rgb)));
-            }
-            this.setText(value.getReadableName() + " [" + value.getState().name() + "]");
-
-            return this;
-        }
     }
 }

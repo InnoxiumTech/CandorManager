@@ -5,6 +5,7 @@ import uk.co.innoxium.candor.implement.FileMerger;
 import uk.co.innoxium.candor.tool.Tool;
 import uk.co.innoxium.cybernize.archive.ArchiveItem;
 
+import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -91,5 +92,10 @@ public abstract class AbstractModule {
 //        ret.add(tool);
 
         return ret;
+    }
+
+    public ArrayList<JMenuItem> getMenuItems() {
+
+        return new ArrayList<>();
     }
 }
