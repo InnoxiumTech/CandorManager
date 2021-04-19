@@ -28,7 +28,7 @@ public class CandorLauncher {
         // Initialise our Logger
         Logger.initialise();
 
-        Logger.info("Candor Initialising");
+        Logger.infof("Candor %s Initialising", Resources.VERSION);
         // Ensure the 7zip natives are loaded
         ZipUtils.setUpSevenZip();
 

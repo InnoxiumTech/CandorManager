@@ -5,7 +5,7 @@ A new breed of mod manager
 # Thanks
 I would like to say thank you right away to the following people:
 
-CGJennings -> https://github.com/CGJennings/jar-loader - Allowing me to load modules from external jars  
+[@CGJennings](https://github.com/CGJennings/jar-loader) - Allowing me to load modules from external jars  
 [@bl4ckscor3](https://github.com/bl4ckscor3) - Creating the amazing splash screen artwork!
 
 # What is Candor?
@@ -13,8 +13,8 @@ Candor aims to be a mod manager that will remove the need
 for a new separate manager for every game.
 
 # Mission Statement
-Candor will be able to install mods to a specified mods folder on a per game basis,
-it will also be able to uninstal them without leaving any traces 
+Candor will be able to install mods to a specified mods folder on a per-game basis,
+it will also be able to uninstall them without leaving any traces 
 (except for any files created by the mods themselves, although this may be looked in to later)
 
 Candor will achieve this by having modules that be added or removed at any time.

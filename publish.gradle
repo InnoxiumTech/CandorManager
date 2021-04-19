@@ -1,13 +1,53 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+String updatesDirectory = "H:\\CandorApps\\updates"
+
+publishing {
+
+    publications {
+
+        CandorPublication(MavenPublication) {
+            from components.java
+//            artifact sourcesJar
+//            artifact javadocJar
+            groupId "uk.co.innoxium.candor"
+            artifactId "candor-api"
+            version version
+        }
+    }
+    repositories {
+
+        maven {
+
+            url "https://repo.repsy.io/mvn/innoxium/innoxium"
+            credentials {
+
+                username repsyUser
+                password repsyPass
+            }
+        }
+    }
+}
+
 task publishToLatest {
 
 //    println(incremental)
     // Steps:
-    // First read the current version from version.info
+    // First read the current version from version field
     // Next package up candor and publish to server
     // Generate update notification for twitter/discord
     // Update version info to next version
 }
 
-task generateVersionInfo {
+task processSource(type: Sync) {
 
+    from sourceSets.main.java
+    inputs.property 'version', version
+    filter(ReplaceTokens, tokens: [VERSION: version])
+    into "$buildDir/src"
+}
+
+compileJava {
+
+    source = processSource.outputs
 }

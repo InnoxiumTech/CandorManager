@@ -31,6 +31,16 @@ public class Logger {
         LOGGER.info(message);
     }
 
+    /**
+     * A util method to enable formatting of a string before logging it.
+     * @param message
+     * @param args
+     */
+    public static void infof(String message, Object... args) {
+
+        LOGGER.info(String.format(message, args));
+    }
+
     public static void info(Object obj) {
 
         LOGGER.info(obj);

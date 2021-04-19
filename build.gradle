@@ -22,7 +22,7 @@ switch (org.gradle.internal.os.OperatingSystem.current()) {
 }
 
 group 'uk.co.innoxium.candor'
-version 'snapshot'
+version '0.3.0-Pre4'
 
 //apply plugin: 'maven'
 apply plugin: 'maven-publish'
@@ -42,6 +42,8 @@ java {
         languageVersion = JavaLanguageVersion.of(16)
         vendor = JvmVendorSpec.ADOPTOPENJDK
     }
+    withJavadocJar()
+    withSourcesJar()
 }
 
 repositories {
@@ -120,21 +122,11 @@ jar {
     }
 }
 
-task zipCandor(type: Zip) {
-
-    from "$buildDir/package"
-//    include '*'
-//    include '*/*'
-    exclude '*.zip'
-    archiveFileName = 'CandorModManager.zip'
-    destinationDirectory = file("$buildDir/package")
-}
-
 task copyBuild(type: Copy) {
 
     dependsOn 'build'
     from "$buildDir/libs"
-    include "CandorManager-snapshot.jar"
+    include String.format("CandorManager-" + String.valueOf(version) + ".jar")
     into "$buildDir/package"
 }
 
@@ -144,20 +136,33 @@ task copyLibs(type: Copy) {
     into "$buildDir/package/libs"
 }
 
+task zipCandor(type: Zip) {
+
+    dependsOn 'copyBuild', 'copyLibs'
+    from "$buildDir/package"
+//    include '*'
+//    include '*/*'
+    exclude '*.zip'
+    archiveFileName = 'CandorModManager.zip'
+    destinationDirectory = file("$buildDir/package")
+}
 task packageCandor() {
 
     dependsOn 'clean', 'copyBuild', 'copyLibs', 'zipCandor'
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
+//task sourcesJar(type: Jar, dependsOn: classes) {
+//
+//    archiveClassifier.convention("sources")
+//    archiveClassifier.set("sources")
+//    from sourceSets.main.allSource
+//}
+//
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    archiveClassifier.convention("javadoc")
+//    archiveClassifier.set("javadoc")
+//    from javadoc.destinationDir
+//}
 
 tasks.withType(Javadoc) {
 
@@ -167,35 +172,5 @@ tasks.withType(Javadoc) {
     options.addStringOption('charSet', 'UTF-8')
 }
 
-jar.finalizedBy javadocJar
-jar.finalizedBy sourcesJar
-
-//shadowJar.finalizedBy javadocJar
-//shadowJar.finalizedBy sourcesJar
-
-publishing {
-
-    publications {
-
-        CandorPublication(MavenPublication) {
-            from components.java
-            artifact sourcesJar
-            artifact javadocJar
-            groupId 'uk.co.innoxium.candor'
-            artifactId 'candor-api'
-            version '0.3.0-pre3'
-        }
-    }
-    repositories {
-
-        maven {
-
-            url "https://repo.repsy.io/mvn/innoxium/innoxium"
-            credentials {
-
-                username repsyUser
-                password repsyPass
-            }
-        }
-    }
-}
+//jar.finalizedBy javadocJar
+//jar.finalizedBy sourcesJar

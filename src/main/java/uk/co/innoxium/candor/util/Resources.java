@@ -36,6 +36,8 @@ public class Resources {
     public static Font fantasque;
     // The Orbitron font we will use
     public static Font orbitron;
+    // The Candor version we are running.
+    public static final String VERSION = "@VERSION@";
 
     /**
      * Installs all the fonts we wits to use
