@@ -93,7 +93,7 @@ dependencies {
     implementation "org.lwjgl:lwjgl"
     implementation "org.lwjgl:lwjgl-nfd"
     implementation "org.lwjgl:lwjgl-tinyfd"
-    implementation 'org.jetbrains:annotations:20.1.0'
+    implementation 'org.jetbrains:annotations:21.0.0'
     runtimeOnly "org.lwjgl:lwjgl::natives-windows"
     runtimeOnly "org.lwjgl:lwjgl::natives-macos"
     runtimeOnly "org.lwjgl:lwjgl::natives-linux"
