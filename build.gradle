@@ -105,7 +105,7 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-tinyfd::natives-linux"
 
     // Record builder
-    annotationProcessor 'io.soabase.record-builder:record-builder-processor:1.19'
+    annotationProcessor 'io.soabase.record-builder:record-builder-processor:22'
     compileOnly 'io.soabase.record-builder:record-builder-core:1.19'
 }
 
