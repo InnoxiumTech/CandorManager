@@ -106,7 +106,7 @@ dependencies {
 
     // Record builder
     annotationProcessor 'io.soabase.record-builder:record-builder-processor:1.19'
-    compileOnly 'io.soabase.record-builder:record-builder-core:1.19'
+    compileOnly 'io.soabase.record-builder:record-builder-core:22'
 }
 
 jar {
