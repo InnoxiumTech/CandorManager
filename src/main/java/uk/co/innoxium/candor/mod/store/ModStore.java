@@ -137,39 +137,51 @@ public class ModStore {
      */
     public static boolean removeModFile(Mod mod, boolean removeFromModsList) throws IOException {
 
+        Logger.info("Attempting to remove mod: " + mod.getReadableName());
         // We let the module decide how to delete the files
         if(ModuleSelector.currentModule.getModInstaller().uninstall(mod)) {
 
-            // Once the module has deleted the files, remove the mod from the mods config
-            JsonObject contents = JsonUtil.getObjectFromPath(modStoreFile.toPath());
-            JsonArray modsArray = contents.getAsJsonArray("mods");
-            JsonArray newModArray = modsArray.deepCopy();
-
-            // Attempt to remove the mod from the mods array
-            modsArray.forEach(element -> {
-
-                JsonObject obj = (JsonObject) element;
-                if(mod.getName().equals(obj.get("name").getAsString())) {
-
-                    newModArray.remove(obj);
-                }
-            });
-            contents.remove("mods");
-            contents.add("mods", newModArray);
-
-            // Write the new array to the mod store json file
-            Gson gson = JsonUtil.getGson();
-            FileWriter writer = JsonUtil.getFileWriter(modStoreFile);
-            gson.toJson(contents, writer);
-
-            // Close the writer and delete the mod in the mod store
-            writer.close();
-            FileUtils.deleteQuietly(mod.getFile());
-            // remove from mods list, only if boolean is true
-            if(removeFromModsList) MODS.remove(mod);
-            return true;
+            Logger.info("Module uninstalled successfully, removing from mods list");
+            return forceRemoveModFile(mod, removeFromModsList);
         }
         return false;
+    }
+
+    /**
+     * Forces the mod to be uninstalled, and removed from the list
+     * @param mod - The mod to uninstall
+     */
+    public static boolean forceRemoveModFile(Mod mod, boolean removeFromModsList) throws IOException {
+
+        // Once the module has deleted the files, remove the mod from the mods config
+        JsonObject contents = JsonUtil.getObjectFromPath(modStoreFile.toPath());
+        JsonArray modsArray = contents.getAsJsonArray("mods");
+        JsonArray newModArray = modsArray.deepCopy();
+
+        // Attempt to remove the mod from the mods array
+        modsArray.forEach(element -> {
+
+            JsonObject obj = (JsonObject) element;
+            if(mod.getName().equals(obj.get("name").getAsString())) {
+
+                newModArray.remove(obj);
+            }
+        });
+        contents.remove("mods");
+        contents.add("mods", newModArray);
+
+        // Write the new array to the mod store json file
+        Gson gson = JsonUtil.getGson();
+        FileWriter writer = JsonUtil.getFileWriter(modStoreFile);
+        gson.toJson(contents, writer);
+
+        // Close the writer and delete the mod in the mod store
+        writer.close();
+        Logger.info("Attempting to remove mod file from modstore");
+        FileUtils.deleteQuietly(mod.getFile());
+        // remove from mods list, only if boolean is true
+        if(removeFromModsList) MODS.remove(mod);
+        return true;
     }
 
     /**
@@ -237,6 +249,7 @@ public class ModStore {
         modStoreFolder = new File(Resources.STORE_PATH, ModuleSelector.currentModule.getExeName() + "/mods");
         modStoreFile = JsonUtil.getJsonFile(new File(Resources.STORE_PATH, ModuleSelector.currentModule.getExeName() + "/mods.json"), false);
     }
+
 
     /**
      * An enum of the result of the install

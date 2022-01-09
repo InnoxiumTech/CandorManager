@@ -7,7 +7,6 @@ plugins {
 group 'uk.co.innoxium.candor'
 version '1.0'
 
-apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'java'
 

@@ -222,6 +222,15 @@ public class ModScene extends JPanel {
                 } catch(IOException exception) {
 
                     exception.printStackTrace();
+                    Logger.info("An un-install error occurred, lets force the Generic Module to take care of this, and force remove it from the list");
+                    try {
+
+                        ModStore.forceRemoveModFile((Mod)o, true);
+                    } catch(IOException ioException) {
+
+                        ioException.printStackTrace();
+                        Logger.info("Now we really fucked");
+                    }
                 }
             });
         }

@@ -2,7 +2,7 @@ plugins {
 
     id 'java'
 //    id 'com.github.johnrengelman.shadow' version '6.1.0'
-    id 'org.beryx.runtime' version '1.12.2'
+    id 'org.beryx.runtime' version '1.12.3'
 }
 
 switch (org.gradle.internal.os.OperatingSystem.current()) {
@@ -23,7 +23,6 @@ switch (org.gradle.internal.os.OperatingSystem.current()) {
 group 'uk.co.innoxium.candor'
 version 'snapshot'
 
-apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'java'
 
@@ -239,7 +238,7 @@ publishing {
             artifact javadocJar
             groupId 'uk.co.innoxium.candor'
             artifactId 'candor-api'
-            version '0.2.20'
+            version '0.2.21'
         }
     }
     repositories {
